@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="lib/preloadjs-0.4.1.min.js"></script>
+		<script src="lib/tweenjs-0.5.1.min.js"></script>
+    <script src="lib/easeljs-0.7.1.min.js"></script>
+    <script src="js/spriteSheets/zombie.js"></script>
+    <script src="js/sprites/zombie.js"></script>
+    <script src="js/entities/zombie.js"></script>
+    <script>
+      var width = 750;
+      var height = 400;
+      var entities = [];
+
+      var zombie = new Image();
+  		var stage;
+      function init() {
+      	stage = new createjs.Stage("demoCanvas");
+      	zombie.onload = handleImageLoad;
+        zombie.onerror = handleImageError;
+        zombie.src = "assets/zombie.png";
+      	
+        // create spritesheet and assign the associated data.
+        var spriteSheet = createZombieSpriteSheet(zombie);
+        var zombieSprite = createZombieSprite(spriteSheet);
+        stage.addChild(zombieSprite);
+        
+        // Create an entity and add to the entities array
+        var entity = createZombieEntity(zombieSprite);
+        entities.push(entity);
+
+        createjs.Ticker.addEventListener("tick", onTick);
+      }
+
+      function handleImageLoad(event) {
+
+      }
+
+      function handleImageError(event) {
+        
+      }
+
+      function onTick(event) {
+        for(var i = 0; i < entities.length; i++) {
+          var entity = entities[i];
+          entity.update(event);
+        }
+      	stage.update();
+      }
+      //#31FFFE
+    </script>
+	</head>
+	<body onLoad="init();">
+		<center>
+	    <canvas id="demoCanvas" width="750" height="400" style="background-color: #31FFFE;">
+	    	alternate content
+	    </canvas>
+	  </center>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="lib/preloadjs-0.4.1.min.js"></script>
+		<script src="lib/tweenjs-0.5.1.min.js"></script>
+    <script src="lib/easeljs-0.7.1.min.js"></script>
+    <script>
+
+        var imgMonsterARun = new Image();
+    		var stage;
+        function init() {
+        	stage = new createjs.Stage("demoCanvas");
+        	imgMonsterARun.onload = handleImageLoad;
+          imgMonsterARun.onerror = handleImageError;
+          imgMonsterARun.src = "assets/MonsterARun.png";
+        	
+          // create spritesheet and assign the associated data.
+          var spriteSheet = new createjs.SpriteSheet({
+              // image to use
+              images: [imgMonsterARun], 
+              // width, height & registration point of each sprite
+              frames: {width: 64, height: 64, regX: 32, regY: 32}, 
+              animations: {    
+                  walk: [0, 9, "walk"]
+              }
+          });
+
+          // create a BitmapAnimation instance to display and play back the sprite sheet:
+          bmpAnimation = new createjs.BitmapAnimation(spriteSheet);
+          // start playing the first sequence:
+          bmpAnimation.gotoAndPlay("walk");     //animate
+              
+          // set up a shadow. Note that shadows are ridiculously expensive. You could display hundreds
+          // of animated rats if you disabled the shadow.
+          bmpAnimation.shadow = new createjs.Shadow("#454", 0, 5, 4);
+
+          bmpAnimation.name = "monster1";
+          bmpAnimation.direction = 90;
+          bmpAnimation.vX = 4;
+          bmpAnimation.x = 16;
+          bmpAnimation.y = 32;
+                  
+          // have each monster start at a specific frame
+          bmpAnimation.currentFrame = 0;
+          stage.addChild(bmpAnimation);
+
+          createjs.Ticker.addEventListener("tick", onTick);
+          //createjs.Ticker.addListener(window);
+          //createjs.Ticker.useRAF = true;
+          // Best Framerate targeted (60 FPS)
+          //createjs.Ticker.setFPS(60);
+        }
+
+        function handleImageLoad(event) {
+
+        }
+
+        function handleImageError(event) {
+          
+        }
+
+        function onTick(event) {
+          // Hit testing the screen width, otherwise our sprite would disappear
+          if (bmpAnimation.x >= 500 - 16) {
+              // We've reached the right side of our screen
+              // We need to walk left now to go back to our initial position
+              bmpAnimation.direction = -90;
+          }
+
+          if (bmpAnimation.x < 16) {
+              // We've reached the left side of our screen
+              // We need to walk right now
+              bmpAnimation.direction = 90;
+          }
+
+          // Moving the sprite based on the direction & the speed
+          if (bmpAnimation.direction == 90) {
+              bmpAnimation.x += bmpAnimation.vX;
+          }
+          else {
+              bmpAnimation.x -= bmpAnimation.vX;
+          }
+
+          // update the stage:
+        	stage.update();
+        }
+
+    </script>
+	</head>
+	<body onLoad="init();">
+		<center>
+	    <canvas id="demoCanvas" width="500" height="500">
+	    	alternate content
+	    </canvas>
+	  </center>
+</body>
+</html>
