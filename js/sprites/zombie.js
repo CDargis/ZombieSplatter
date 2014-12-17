@@ -1,3 +1,11 @@
+function handleImageLoad(event) {
+
+}
+
+function handleImageError(event) {
+  
+}
+
 function createZombieSpriteSheet(image) {
   var spriteSheet = new createjs.SpriteSheet({
     // image to use
@@ -44,13 +52,19 @@ function createZombieSpriteSheet(image) {
   return spriteSheet;
 }
 
-function createZombieSprite(spriteSheet) {
+function createZombieSprite(data) {
+  var zombie = new Image();
+  zombie.onload = handleImageLoad;
+  zombie.onerror = handleImageError;
+  zombie.src = "assets/zombie.png";
+  
+  var spriteSheet = createZombieSpriteSheet(zombie);
 	var zombieSprite = new createjs.Sprite(spriteSheet);
   zombieSprite.name = "zombie1";
-  zombieSprite.direction = 90;
-  zombieSprite.vX = 3;
-  zombieSprite.x = 16;
-  zombieSprite.y = 250;
+  zombieSprite.direction = data.direction;
+  zombieSprite.vX =data.vX;
+  zombieSprite.x = data.x;
+  zombieSprite.y = data.y;
 
   // have each monster start at a specific frame
   zombieSprite.currentFrame = 0;

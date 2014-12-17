@@ -1,33 +1,48 @@
-var width = 750;
-var height = 400;
-var entities = [];
+var createEntities = function(gameEngine) {
+  var zombieEntity = createZombieEntity({ direction: 90, vX: 3, x: 16, y: 250 });
+  gameEngine.addEntity(zombieEntity);
+}
 
-var stage;
+var createGameEngine = function(stage) {
+  var engine = {
+    width: 750,
+    height: 400,
+    entities: [],
+    stage: stage
+  };
+  engine.addEntity = function(entity) {
+    engine.entities.push(entity);
+  };
+  engine.removeEntity = function(entity) {
+    var index = engine.entities.indexOf(entity);
+    if(index !== -1) {
+      engine.entities.splice(index, 1);
+    }
+    engine.stage.removeChild(entity.sprite);
+  }
+  engine.onTick = function(event) {
+    for(var i = 0; i < engine.entities.length; i++) {
+      var entity = engine.entities[i];
+      entity.update(event, { width: engine.width, height: engine.height });
+    }
+    engine.stage.update();
+  };
+  engine.init = function() {
+    for(var i = 0; i < engine.entities.length; i++) {
+      var entity = engine.entities[i];
+      entity.init();
+      engine.stage.addChild(entity.sprite);
+    }
+  }
+  createjs.Ticker.addEventListener("tick", engine.onTick);
+  return engine;
+}
+
 function initGame() {
-	stage = new createjs.Stage("demoCanvas");
-  
-  // Create an entity and add to the entities array
-  var entity = createZombieEntity();
-  entities.push(entity);
+  var stage = new createjs.Stage("demoCanvas");
+  var gameEngine = createGameEngine(stage);
 
-  for(var i = 0; i < entities.length; i++) {
-    entities[i].init(stage);
-  }
-  createjs.Ticker.addEventListener("tick", onTick);
-}
+  createEntities(gameEngine);
 
-function onTick(event) {
-  for(var i = 0; i < entities.length; i++) {
-    var entity = entities[i];
-    entity.update(event);
-  }
-	stage.update();
-}
-
-function removeEntity(entity) {
-  var index = entities.indexOf(entity);
-  if(index !== -1) {
-    entities.splice(index, 1);
-  }
-  stage.removeChild(entity.sprite);
+  gameEngine.init();
 }
