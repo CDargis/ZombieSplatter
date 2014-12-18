@@ -1,57 +1,50 @@
-define(['engine/gameEngine', 'sprites/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(gEngine, zombieSprite) {
-	function createEntity(data) {
-	  var sprite = zombieSprite.createSprite(data);
+define(['sprites/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieSprite) {
+	function decorate(entity, spriteData) {
+	  var sprite = zombieSprite.createSprite(spriteData);
+	  entity.sprite = sprite;
+	  entity.update = function(event, data) {
+    	if(sprite.currentAnimation === "walk") {
+		    if (sprite.x >= data.width - 50) {
+		      sprite.direction = -90;
+		      sprite.scaleX = -1;
+		    }
 
-	  var createModel = function(sprite) {
-	  	var model = {
-		    sprite: sprite
-		  };
-		  model.update = function(event, data) {
-	    	if(sprite.currentAnimation === "walk") {
-			    if (sprite.x >= data.width - 50) {
-			      sprite.direction = -90;
-			      sprite.scaleX = -1;
-			    }
+		    if (sprite.x < 50) {
+		      sprite.direction = 90;
+		      sprite.scaleX = 1;
+		    }
 
-			    if (sprite.x < 50) {
-			      sprite.direction = 90;
-			      sprite.scaleX = 1;
-			    }
-
-			    // Moving the sprite based on the direction & the speed
-			    if (sprite.direction == 90) {
-			      sprite.x += sprite.vX;
-			    }
-			    else {
-			      sprite.x -= sprite.vX;
-			    }
-			  }
+		    // Moving the sprite based on the direction & the speed
+		    if (sprite.direction == 90) {
+		      sprite.x += sprite.vX;
+		    }
+		    else {
+		      sprite.x -= sprite.vX;
+		    }
+		  }
+    }
+	  entity.sprite.addEventListener("click", function(event) {
+			if(entity.sprite.currentAnimation === "walk") {
+	      entity.sprite.vX = 0;
+	      entity.sprite.gotoAndPlay("dieByShot");
 	    }
-		  model.sprite.addEventListener("click", function(event) {
-				if(model.sprite.currentAnimation === "walk") {
-		      model.sprite.vX = 0;
-		      model.sprite.gotoAndPlay("dieByShot");
-		    }
-			});
-			model.sprite.on("animationend", function(event) {
-				if(event.name === "spawn") {
-		      model.sprite.gotoAndPlay("walk");
-		    }
-				if(event.name === "dieByShot") {
-		      model.sprite.gotoAndPlay("dead");
-		    }
-		    if(event.name === "dead") {
-		    	gEngine.removeEntity(model);
-		    }
-			});
-			model.init = function() {
-	    	sprite.gotoAndPlay("spawn");
+		});
+		entity.sprite.on("animationend", function(event) {
+			if(event.name === "spawn") {
+	      entity.sprite.gotoAndPlay("walk");
 	    }
-		  return model;
-	  }
-	  return createModel(sprite);
+			if(event.name === "dieByShot") {
+	      entity.sprite.gotoAndPlay("dead");
+	    }
+	    if(event.name === "dead") {
+	    	entity.dead = true;
+	    }
+		});
+		entity.init = function() {
+    	sprite.gotoAndPlay("spawn");
+    }
 	}
 	return {
-		createEntity: createEntity
+		decorate: decorate
 	}
 });
