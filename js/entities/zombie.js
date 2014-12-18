@@ -1,6 +1,6 @@
-define(['engine/gameEngine', 'sprites/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(gEngine, zSprite) {
-	function createZombie(data) {
-	  var zombieSprite = zSprite.createSprite(data);
+define(['engine/gameEngine', 'sprites/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(gEngine, zombieSprite) {
+	function createEntity(data) {
+	  var sprite = zombieSprite.createSprite(data);
 
 	  var createModel = function(sprite) {
 	  	var model = {
@@ -49,9 +49,9 @@ define(['engine/gameEngine', 'sprites/zombie', 'lib/easeljs', 'lib/preloadjs', '
 	    }
 		  return model;
 	  }
-	  return createModel(zombieSprite);
+	  return createModel(sprite);
 	}
 	return {
-		createZombie: createZombie
+		createEntity: createEntity
 	}
 });

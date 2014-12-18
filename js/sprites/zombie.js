@@ -58,19 +58,19 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     var zombie = new Image();
     zombie.onload = handleImageLoad;
     zombie.onerror = handleImageError;
-    zombie.src = "assets/zombie.png";
+    zombie.src = "assets/zombie3.png";
     
     var spriteSheet = createSpriteSheet(zombie);
-  	var zombieSprite = new createjs.Sprite(spriteSheet);
-    zombieSprite.name = "zombie1";
-    zombieSprite.direction = data.direction;
-    zombieSprite.vX =data.vX;
-    zombieSprite.x = data.x;
-    zombieSprite.y = data.y;
+  	var sprite = new createjs.Sprite(spriteSheet);
+    sprite.name = "zombie1";
+    sprite.direction = data.direction;
+    sprite.vX =data.vX;
+    sprite.x = data.x;
+    sprite.y = data.y;
 
     // have each monster start at a specific frame
-    zombieSprite.currentFrame = 0;
-    return zombieSprite;
+    sprite.currentFrame = 0;
+    return sprite;
   }
   return {
     createSprite: createSprite
