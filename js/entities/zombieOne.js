@@ -1,6 +1,6 @@
-define(['sprites/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieSprite) {
+define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieOneSprite) {
 	function decorate(entity, spriteData) {
-	  var sprite = zombieSprite.createSprite(spriteData);
+	  var sprite = zombieOneSprite.createSprite(spriteData);
 	  entity.sprite = sprite;
 	  entity.update = function(event, data) {
     	if(sprite.currentAnimation === "walk") {

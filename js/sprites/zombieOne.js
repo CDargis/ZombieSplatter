@@ -62,7 +62,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     
     var spriteSheet = createSpriteSheet(zombie);
   	var sprite = new createjs.Sprite(spriteSheet);
-    sprite.name = "zombie1";
+    // sprite.name = "zombie1";  // TODO
     sprite.direction = data.direction;
     sprite.scaleX = data.scaleX;
     sprite.vX =data.vX;

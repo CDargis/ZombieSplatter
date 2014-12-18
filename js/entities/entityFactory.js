@@ -1,4 +1,4 @@
-define(['entities/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieEntity) {
+define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieEntityOne) {
 
 	var baseEntityModel = function(type) {
 		return {
@@ -8,8 +8,8 @@ define(['entities/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], funct
 		}
 	}
 
-	var decoratorFactory = { 'zombie': zombieEntity }
-	
+	var decoratorFactory = { 'zombieOne': zombieEntityOne }
+
 	var createEntity = function(entityData) {
 		var entity = baseEntityModel(entityData.type);
 		decoratorFactory[entityData.type].decorate(entity, entityData.spriteData);

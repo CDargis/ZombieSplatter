@@ -51,7 +51,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
           direction *= -1;
           scaleX *= -1;
         }
-        var entityData = {type: 'zombie', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
+        var entityData = {type: 'zombieOne', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
         var entity = entityFactory.createEntity(entityData);
         engine.addEntity(entity);
       }
