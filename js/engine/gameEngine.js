@@ -44,7 +44,14 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       // Check how many entities we have and spawn a new one if needed
       if(engine.entities.length === 0) {
         var x = Math.floor(Math.random() * (engine.screenWidth - 50)) + 1;
-        var entityModel = {type: 'zombie', data: { direction: 90, vX: 3, x: x, y: 250 }};
+        var rand = Math.floor(Math.random() * 2);
+        var direction = 90;
+        var scaleX = 1;
+        if(rand === 1) {
+          direction *= -1;
+          scaleX *= -1;
+        }
+        var entityModel = {type: 'zombie', data: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
         var entity = entityFactory.createEntity(entityModel);
         engine.addEntity(entity);
       }
