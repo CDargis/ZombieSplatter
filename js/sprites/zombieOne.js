@@ -58,7 +58,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     var zombie = new Image();
     zombie.onload = handleImageLoad;
     zombie.onerror = handleImageError;
-    zombie.src = "assets/zombie1.png";
+    zombie.src = "assets/zombieOne.png";
     
     var spriteSheet = createSpriteSheet(zombie);
   	var sprite = new createjs.Sprite(spriteSheet);
