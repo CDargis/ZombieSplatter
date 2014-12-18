@@ -9,17 +9,18 @@ define(['entities/zombie', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], funct
 	}
 
 	var decoratorFactory = { 'zombie': zombieEntity }
-	var createEntity = function(entityModel) {
-		var entity = baseEntityModel(entityModel.type);
-		decoratorFactory[entityModel.type].decorate(entity, entityModel.data);
+	
+	var createEntity = function(entityData) {
+		var entity = baseEntityModel(entityData.type);
+		decoratorFactory[entityData.type].decorate(entity, entityData.spriteData);
 		return entity;
 	}
 
-	var createEntities = function(entityModels) {
+	var createEntities = function(entityDataArray) {
 		var entities = [];
-		for(var i = 0; i < entityModels.length; i++) {
-			var entityModel = entityModels[i];
-			var entity = createEntity(entityModel);
+		for(var i = 0; i < entityDataArray.length; i++) {
+			var entityData = entityDataArray[i];
+			var entity = createEntity(entityData);
 			entities.push(entity);
 		}
 		return entities;
