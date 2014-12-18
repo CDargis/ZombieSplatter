@@ -5,12 +5,22 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       screenHeight: 400,
       entities: []
     };
-    engine.init = function(stage, entities) {
-      engine.stage = stage;
-      for(var i = 0; i < entities.length; i++) {
-        var entity = entities[i];
-        engine.addEntity(entity);
+    engine.generateRandomZombieEntityData = function() {
+      var x = Math.floor(Math.random() * (engine.screenWidth - 50)) + 1;
+      var rand = Math.floor(Math.random() * 2);
+      var direction = 90;
+      var scaleX = 1;
+      if(rand === 1) {
+        direction *= -1;
+        scaleX *= -1;
       }
+      return {type: 'zombieOne', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
+    };
+    engine.init = function(stage) {
+      engine.stage = stage;
+      var entityData = engine.generateRandomZombieEntityData();
+      var entity = entityFactory.createEntity(entityData);
+      engine.addEntity(entity);
     }
     engine.addEntity = function(entity) {
       entity.init();
@@ -23,7 +33,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
         engine.entities.splice(index, 1);
       }
       engine.stage.removeChild(entity.sprite);
-    }
+    };
     engine.onTick = function(event) {
       var entitiesToRemove = [];
 
@@ -43,15 +53,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
 
       // Check how many entities we have and spawn a new one if needed
       if(engine.entities.length === 0) {
-        var x = Math.floor(Math.random() * (engine.screenWidth - 50)) + 1;
-        var rand = Math.floor(Math.random() * 2);
-        var direction = 90;
-        var scaleX = 1;
-        if(rand === 1) {
-          direction *= -1;
-          scaleX *= -1;
-        }
-        var entityData = {type: 'zombieOne', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
+        var entityData = engine.generateRandomZombieEntityData();
         var entity = entityFactory.createEntity(entityData);
         engine.addEntity(entity);
       }
