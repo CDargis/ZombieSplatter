@@ -1,13 +1,11 @@
 require(['entities/entityFactory', 'engine/gameEngine', 'lib/easeljs'], function(entityFactory, gEngine) {
 	// Load the assets
-	var loader;
+	var loadQueue;
 	var onLoadComplete = function(event) {
-		console.log(loader.getResult('zombieOne'));
+		var stage = new createjs.Stage('gameCanvas');
+  	gEngine.init(loadQueue, stage); // Init the game because we are finished loading
 	}
-	loader = new createjs.LoadQueue(false);
-	loader.addEventListener('complete', onLoadComplete);
-	loader.loadManifest({src: "../assets/manifest.json", callback: "loadAssets", type: "manifest"}, true);
-
-  var stage = new createjs.Stage('gameCanvas');
-  gEngine.init(stage);
+	loadQueue = new createjs.LoadQueue(false);
+	loadQueue.addEventListener('complete', onLoadComplete);
+	loadQueue.loadManifest({src: "assets/manifest.json", callback: "loadAssets", type: "manifest"}, true);
 });

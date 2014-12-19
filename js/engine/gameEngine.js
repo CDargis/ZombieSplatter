@@ -16,7 +16,8 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       }
       return {type: 'zombieOne', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
     };
-    engine.init = function(stage) {
+    engine.init = function(loadQueue, stage) {
+      entityFactory.init(loadQueue);
       engine.stage = stage;
       var entityData = engine.generateRandomZombieEntityData();
       var entity = entityFactory.createEntity(entityData);

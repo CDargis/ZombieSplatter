@@ -1,5 +1,5 @@
 loadAssets({
 	"manifest": [
-		{"src": "assets/zombieOne.png", "id": "zombieOne"}
+		{ "src": "assets/zombieOne.png", "id": "zombieOne" }
 	]
 });

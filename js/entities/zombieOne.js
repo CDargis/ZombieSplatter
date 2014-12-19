@@ -1,5 +1,5 @@
 define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieOneSprite) {
-	function decorate(entity, spriteData) {
+	var decorate = function(entity, spriteData) {
 	  var sprite = zombieOneSprite.createSprite(spriteData);
 	  entity.sprite = sprite;
 	  entity.update = function(event, data) {
@@ -44,7 +44,11 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
     	sprite.gotoAndPlay("spawn");
     }
 	}
+	var init = function(loadQueue) {
+		zombieOneSprite.init(loadQueue);
+	}
 	return {
+		init: init,
 		decorate: decorate
 	}
 });

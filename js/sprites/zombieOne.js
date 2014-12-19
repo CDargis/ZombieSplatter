@@ -1,17 +1,16 @@
 define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 
-  function handleImageLoad(event) {
+  // TODO -- Make this entire file a model to return
 
+  var img;
+  var init = function(loadQueue) {
+    img = loadQueue.getResult("zombieOne");
   }
 
-  function handleImageError(event) {
-    
-  }
-
-  function createSpriteSheet(image) {
+  var createSpriteSheet = function() {
     var spriteSheet = new createjs.SpriteSheet({
       // image to use
-      images: [image],
+      images: [img],
       frames: [
         // spwan frames
         [135, 4, 49, 103, 0, 0, 0],
@@ -54,13 +53,8 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     return spriteSheet;
   }
 
-  function createSprite(data) {
-    var zombie = new Image();
-    zombie.onload = handleImageLoad;
-    zombie.onerror = handleImageError;
-    zombie.src = "assets/zombieOne.png";
-    
-    var spriteSheet = createSpriteSheet(zombie);
+  var createSprite = function(data) {    
+    var spriteSheet = createSpriteSheet();
   	var sprite = new createjs.Sprite(spriteSheet);
     // sprite.name = "zombie1";  // TODO
     sprite.direction = data.direction;
@@ -74,6 +68,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     return sprite;
   }
   return {
+    init: init,
     createSprite: createSprite
   }
 });
