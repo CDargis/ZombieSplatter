@@ -7,5 +7,5 @@ require(['entities/entityFactory', 'engine/gameEngine', 'lib/easeljs'], function
 	}
 	loadQueue = new createjs.LoadQueue(false);
 	loadQueue.addEventListener('complete', onLoadComplete);
-	loadQueue.loadManifest({src: "../assets/manifest.json", callback: "loadAssets", type: "manifest"}, true);
+	loadQueue.loadManifest({src: "assets/manifest.json", callback: "loadAssets", type: "manifest"}, true);
 });
