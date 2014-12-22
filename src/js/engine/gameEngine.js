@@ -22,7 +22,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       var entityData = engine.generateRandomZombieEntityData();
       var entity = entityFactory.createEntity(entityData);
       engine.addEntity(entity);
-    }
+    };
     engine.addEntity = function(entity) {
       entity.init();
       engine.stage.addChild(entity.sprite);
@@ -37,9 +37,10 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
     };
     engine.onTick = function(event) {
       var entitiesToRemove = [];
+      var entity = {};
 
       for(var i = 0; i < engine.entities.length; i++) {
-        var entity = engine.entities[i];
+        entity = engine.entities[i];
         if(entity.dead === true) {
           entitiesToRemove.push(entity);
         }
@@ -48,14 +49,14 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
         }
       }
 
-      for(var i = 0; i < entitiesToRemove.length; i++) {
+      for(i = 0; i < entitiesToRemove.length; i++) {
         engine.removeEntity(entitiesToRemove[i]);
       }
 
       // Check how many entities we have and spawn a new one if needed
       if(engine.entities.length === 0) {
         var entityData = engine.generateRandomZombieEntityData();
-        var entity = entityFactory.createEntity(entityData);
+        entity = entityFactory.createEntity(entityData);
         engine.addEntity(entity);
       }
 
@@ -63,6 +64,6 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
     };
     createjs.Ticker.addEventListener("tick", engine.onTick);
     return engine;
-  }
-  return createGameEngine()
+  };
+  return createGameEngine();
 });

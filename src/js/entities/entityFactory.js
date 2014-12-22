@@ -5,18 +5,18 @@ define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fu
 			type: type,
 			dead: false,
 			update: function() {}
-		}
-	}
+		};
+	};
 
 	var entityTypes = { 
 		'zombieOne': zombieEntityOne
-	}
+	};
 
 	var createEntity = function(entityData) {
 		var entity = baseEntity(entityData.type);
 		entityTypes[entityData.type].decorate(entity, entityData.spriteData);
 		return entity;
-	}
+	};
 
 	var createEntities = function(entityDataArray) {
 		var entities = [];
@@ -26,17 +26,17 @@ define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fu
 			entities.push(entity);
 		}
 		return entities;
-	}
+	};
 
 	var init = function(loadQueue) {
 		for(var entityType in entityTypes) {
 			entityTypes[entityType].init(loadQueue);
 		}
-	}
+	};
 
   return {
   	init: init,
   	createEntities: createEntities,
   	createEntity: createEntity
-  }
+  };
 });

@@ -22,7 +22,7 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		      sprite.x -= sprite.vX;
 		    }
 		  }
-    }
+    };
 	  entity.sprite.addEventListener("click", function(event) {
 			if(entity.sprite.currentAnimation === "walk") {
 	      entity.sprite.vX = 0;
@@ -42,13 +42,13 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		});
 		entity.init = function() {
     	sprite.gotoAndPlay("spawn");
-    }
-	}
+    };
+	};
 	var init = function(loadQueue) {
 		zombieOneSprite.init(loadQueue);
-	}
+	};
 	return {
 		init: init,
 		decorate: decorate
-	}
+	};
 });

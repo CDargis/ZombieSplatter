@@ -5,7 +5,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
   var img;
   var init = function(loadQueue) {
     img = loadQueue.getResult("zombieOne");
-  }
+  };
 
   var createSpriteSheet = function() {
     var spriteSheet = new createjs.SpriteSheet({
@@ -51,7 +51,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
       }
     });
     return spriteSheet;
-  }
+  };
 
   var createSprite = function(data) {    
     var spriteSheet = createSpriteSheet();
@@ -66,9 +66,9 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     // have each monster start at a specific frame
     sprite.currentFrame = 0;
     return sprite;
-  }
+  };
   return {
     init: init,
     createSprite: createSprite
-  }
+  };
 });
