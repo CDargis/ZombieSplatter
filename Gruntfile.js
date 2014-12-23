@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     customConfig: grunt.file.readJSON('config.json'),
     jshint: {
-      all: ['Gruntfile.js', 'src/**/*.js', '!src/js/lib/*.js'],
+      all: ['Gruntfile.js', 'src/**/*.js', '!src/js/lib/*.js', 'test/**/*.js'],
       options: {
         bitwise: true,
         camelcase: true,
