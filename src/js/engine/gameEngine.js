@@ -22,6 +22,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       var entityData = engine.generateRandomZombieEntityData();
       var entity = entityFactory.createEntity(entityData);
       engine.addEntity(entity);
+      createjs.Ticker.addEventListener('tick', engine.onTick);
     };
     engine.addEntity = function(entity) {
       entity.init();
@@ -62,7 +63,6 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
 
       engine.stage.update();
     };
-    createjs.Ticker.addEventListener('tick', engine.onTick);
     return engine;
   };
   return createGameEngine();
