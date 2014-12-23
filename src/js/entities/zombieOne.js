@@ -2,8 +2,8 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 	var decorate = function(entity, spriteData) {
 	  var sprite = zombieOneSprite.createSprite(spriteData);
 	  entity.sprite = sprite;
-	  entity.update = function(event, data) {
-    	if(sprite.currentAnimation === "walk") {
+	  entity.update = function(data) {
+    	if(sprite.currentAnimation === 'walk') {
 		    if (sprite.x >= data.width - 50) {
 		      sprite.direction = -90;
 		      sprite.scaleX = -1;
@@ -15,7 +15,7 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		    }
 
 		    // Moving the sprite based on the direction & the speed
-		    if (sprite.direction == 90) {
+		    if (sprite.direction === 90) {
 		      sprite.x += sprite.vX;
 		    }
 		    else {
@@ -23,25 +23,25 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		    }
 		  }
     };
-	  entity.sprite.addEventListener("click", function(event) {
-			if(entity.sprite.currentAnimation === "walk") {
+	  entity.sprite.addEventListener('click', function() {
+			if(entity.sprite.currentAnimation === 'walk') {
 	      entity.sprite.vX = 0;
-	      entity.sprite.gotoAndPlay("dieByShot");
+	      entity.sprite.gotoAndPlay('dieByShot');
 	    }
 		});
-		entity.sprite.on("animationend", function(event) {
-			if(event.name === "spawn") {
-	      entity.sprite.gotoAndPlay("walk");
+		entity.sprite.on('animationend', function(event) {
+			if(event.name === 'spawn') {
+	      entity.sprite.gotoAndPlay('walk');
 	    }
-			if(event.name === "dieByShot") {
-	      entity.sprite.gotoAndPlay("dead");
+			if(event.name === 'dieByShot') {
+	      entity.sprite.gotoAndPlay('dead');
 	    }
-	    if(event.name === "dead") {
+	    if(event.name === 'dead') {
 	    	entity.dead = true;
 	    }
 		});
 		entity.init = function() {
-    	sprite.gotoAndPlay("spawn");
+    	sprite.gotoAndPlay('spawn');
     };
 	};
 	var init = function(loadQueue) {

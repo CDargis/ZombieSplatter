@@ -30,7 +30,9 @@ define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fu
 
 	var init = function(loadQueue) {
 		for(var entityType in entityTypes) {
-			entityTypes[entityType].init(loadQueue);
+			if(entityTypes.hasOwnProperty(entityType)) {
+				entityTypes[entityType].init(loadQueue);
+			}
 		}
 	};
 

@@ -6,6 +6,25 @@ module.exports = function(grunt) {
     customConfig: grunt.file.readJSON('config.json'),
     jshint: {
       all: ['Gruntfile.js', 'src/**/*.js', '!src/js/lib/*.js'],
+      options: {
+        bitwise: true,
+        camelcase: true,
+        curly: true,
+        eqeqeq: true,
+        forin: true,
+        freeze: true,
+        funcscope: true,
+        globals: {'define': true, 'module': true, 'createjs': true, 'require': true, 'document': true},
+        immed: true,
+        indent: 2,
+        latedef: true,
+        maxlen: 110,
+        noempty: true,
+        quotmark: 'single',
+        shadow: false,
+        undef: true,
+        unused: true
+      },
     },
     copy: {
       main: {

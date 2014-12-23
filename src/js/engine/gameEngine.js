@@ -35,7 +35,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       }
       engine.stage.removeChild(entity.sprite);
     };
-    engine.onTick = function(event) {
+    engine.onTick = function() {
       var entitiesToRemove = [];
       var entity = {};
 
@@ -45,7 +45,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
           entitiesToRemove.push(entity);
         }
         else {
-          entity.update(event, { width: engine.screenWidth, height: engine.screenHeight });
+          entity.update({ width: engine.screenWidth, height: engine.screenHeight });
         }
       }
 
@@ -62,7 +62,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
 
       engine.stage.update();
     };
-    createjs.Ticker.addEventListener("tick", engine.onTick);
+    createjs.Ticker.addEventListener('tick', engine.onTick);
     return engine;
   };
   return createGameEngine();
