@@ -1,10 +1,11 @@
 define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(entityFactory) {
-  var createGameEngine = function() {
+  var createGameEngineModel = function() {
     var engine = {
       screenWidth: 750,
       screenHeight: 400,
       entities: []
     };
+
     engine.generateRandomZombieEntityData = function() {
       var x = Math.floor(Math.random() * (engine.screenWidth - 50)) + 1;
       var rand = Math.floor(Math.random() * 2);
@@ -16,6 +17,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       }
       return {type: 'zombieOne', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
     };
+
     engine.init = function(loadQueue, stage) {
       entityFactory.init(loadQueue);
       engine.stage = stage;
@@ -24,11 +26,13 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       engine.addEntity(entity);
       createjs.Ticker.addEventListener('tick', engine.onTick);
     };
+
     engine.addEntity = function(entity) {
       entity.init();
       engine.stage.addChild(entity.sprite);
       engine.entities.push(entity);
     };
+
     engine.removeEntity = function(entity) {
       var index = engine.entities.indexOf(entity);
       if(index !== -1) {
@@ -36,6 +40,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       }
       engine.stage.removeChild(entity.sprite);
     };
+
     engine.onTick = function() {
       var entitiesToRemove = [];
       var entity = {};
@@ -65,5 +70,5 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
     };
     return engine;
   };
-  return createGameEngine();
+  return createGameEngineModel();
 });

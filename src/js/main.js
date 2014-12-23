@@ -1,4 +1,5 @@
 require(['entities/entityFactory', 'engine/gameEngine', 'lib/easeljs'], function(entityFactory, gEngine) {
+	
 	var rootContext = document.body.getAttribute('data-root');
 
 	// Load the assets

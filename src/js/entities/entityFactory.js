@@ -1,44 +1,45 @@
 define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieEntityOne) {
 
-	var baseEntity = function(type) {
-		return {
-			type: type,
-			dead: false,
-			update: function() {}
+	var createEntityFactoryModel = function() {
+		var baseEntity = function(type) {
+			return {
+				type: type,
+				dead: false,
+				update: function() {}
+			};
 		};
-	};
 
-	var entityTypes = { 
-		'zombieOne': zombieEntityOne
-	};
+		var factory = {
+			entityTypes: {
+				'zombieOne': zombieEntityOne
+			},
 
-	var createEntity = function(entityData) {
-		var entity = baseEntity(entityData.type);
-		entityTypes[entityData.type].decorate(entity, entityData.spriteData);
-		return entity;
-	};
+			createEntity: function(entityData) {
+				var entity = baseEntity(entityData.type);
+				factory.entityTypes[entityData.type].decorate(entity, entityData.spriteData);
+				return entity;
+			},
 
-	var createEntities = function(entityDataArray) {
-		var entities = [];
-		for(var i = 0; i < entityDataArray.length; i++) {
-			var entityData = entityDataArray[i];
-			var entity = createEntity(entityData);
-			entities.push(entity);
-		}
-		return entities;
-	};
+			createEntities: function(entityDataArray) {
+				var entities = [];
+				for(var i = 0; i < entityDataArray.length; i++) {
+					var entityData = entityDataArray[i];
+					var entity = factory.createEntity(entityData);
+					entities.push(entity);
+				}
+				return entities;
+			},
 
-	var init = function(loadQueue) {
-		for(var entityType in entityTypes) {
-			if(entityTypes.hasOwnProperty(entityType)) {
-				entityTypes[entityType].init(loadQueue);
+			init: function(loadQueue) {
+				for(var entityType in factory.entityTypes) {
+					if(factory.entityTypes.hasOwnProperty(entityType)) {
+						factory.entityTypes[entityType].init(loadQueue);
+					}
+				}
 			}
-		}
+		};
+		return factory;
 	};
 
-  return {
-  	init: init,
-  	createEntities: createEntities,
-  	createEntity: createEntity
-  };
+  return createEntityFactoryModel();
 });
