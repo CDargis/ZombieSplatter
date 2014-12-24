@@ -26,6 +26,7 @@ module.exports = function(grunt) {
         unused: true
       },
     },
+    clean: ['build/'],
     copy: {
       main: {
         files: [
@@ -57,9 +58,10 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-  grunt.registerTask('default', ['jshint', 'copy', 'replace', 'requirejs']);
+  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'replace', 'requirejs']);
 };
