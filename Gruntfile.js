@@ -26,6 +26,21 @@ module.exports = function(grunt) {
         unused: true
       },
     },
+    connect: {
+      server: {
+        options: {
+          port: 8000,
+          base: '.',
+        },
+      },
+    },
+    qunit: {
+      all: {
+        options: {
+          urls: ['http://localhost:8000/tests/index.html'],
+        },
+      },
+    },
     clean: ['build/'],
     copy: {
       main: {
@@ -58,10 +73,13 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'replace', 'requirejs']);
+  grunt.registerTask('unit', ['connect', 'qunit']);
+  grunt.registerTask('default', ['jshint', 'unit', 'clean', 'copy', 'replace', 'requirejs']);
 };
