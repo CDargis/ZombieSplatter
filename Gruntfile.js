@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     qunit: {
       all: {
         options: {
-          urls: ['http://localhost:8000/tests/index.html'],
+          urls: ['http://localhost:8000/src/qunit.html'],
         },
       },
     },
@@ -81,5 +81,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('unit', ['connect', 'qunit']);
-  grunt.registerTask('default', ['jshint', 'unit', 'clean', 'copy', 'replace', 'requirejs']);
+  grunt.registerTask('default', ['unit', 'jshint', 'clean', 'copy', 'replace', 'requirejs']);
 };
