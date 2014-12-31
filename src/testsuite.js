@@ -4,7 +4,7 @@ if (typeof require === 'function' && require.config) {
   });
 }
 
-require(['sprites/zombieOne.test'], function() {
+require(['entities/zombieOne.test', 'sprites/zombieOne.test'], function() {
   QUnit.load();
   QUnit.start();
 });

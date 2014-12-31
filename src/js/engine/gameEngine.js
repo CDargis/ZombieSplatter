@@ -51,7 +51,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
           entitiesToRemove.push(entity);
         }
         else {
-          entity.update({ width: engine.screenWidth, height: engine.screenHeight });
+          entity.update({ minX: 50, maxX: engine.screenWidth - 50, height: engine.screenHeight });
         }
       }
 
