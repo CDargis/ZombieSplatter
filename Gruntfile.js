@@ -14,7 +14,8 @@ module.exports = function(grunt) {
         forin: true,
         freeze: true,
         funcscope: true,
-        globals: {'define': true, 'module': true, 'createjs': true, 'require': true, 'document': true},
+        globals: {'define': true, 'module': true, 'createjs': true, 'Image': true, 'sinon': true,
+                    'require': true, 'document': true, 'QUnit': true, 'test': true },
         immed: true,
         indent: 2,
         latedef: true,
@@ -37,7 +38,7 @@ module.exports = function(grunt) {
     qunit: {
       all: {
         options: {
-          urls: ['http://localhost:8000/src/qunit.html'],
+          urls: ['http://localhost:8000/src/testsuite.html'],
         },
       },
     },
