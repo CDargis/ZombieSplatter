@@ -10,33 +10,23 @@ define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fu
 		};
 
 		var factory = {
-			entityTypes: {
+			entityMap: {
 				'zombieOne': zombieEntityOne
+			},
+
+			init: function(loadQueue) {
+				for(var entityType in factory.entityMap) {
+					if(factory.entityMap.hasOwnProperty(entityType)) {
+						factory.entityMap[entityType].init(loadQueue);
+					}
+				}
 			},
 
 			createEntity: function(entityData) {
 				var entity = baseEntity(entityData.type);
-				factory.entityTypes[entityData.type].decorate(entity, entityData.spriteData);
+				factory.entityMap[entityData.type].decorate(entity, entityData.spriteData);
 				return entity;
 			},
-
-			createEntities: function(entityDataArray) {
-				var entities = [];
-				for(var i = 0; i < entityDataArray.length; i++) {
-					var entityData = entityDataArray[i];
-					var entity = factory.createEntity(entityData);
-					entities.push(entity);
-				}
-				return entities;
-			},
-
-			init: function(loadQueue) {
-				for(var entityType in factory.entityTypes) {
-					if(factory.entityTypes.hasOwnProperty(entityType)) {
-						factory.entityTypes[entityType].init(loadQueue);
-					}
-				}
-			}
 		};
 		return factory;
 	};

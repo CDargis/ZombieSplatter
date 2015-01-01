@@ -4,6 +4,7 @@ define(['sprites/zombieOne'], function(zombieOneSprite) {
 	var loadQueue = { getResult: function() { } };
 
 	module('Zombie One Sprite - Init');
+
 	test('Init - Should get zombieOne image from the load queue', function() {
 		var mock = this.mock(loadQueue);
 		mock.expects('getResult').once().withExactArgs('zombieOne');
@@ -32,6 +33,7 @@ define(['sprites/zombieOne'], function(zombieOneSprite) {
 			stub.restore();
 		},
 	});
+
 	test('Should use image from load queue in sprite sheet', function(assert) {
 		var spriteSheet = zombieOneSprite.createSpriteSheet();
 		assert.deepEqual(spriteSheet._images, [img]);
@@ -53,6 +55,7 @@ define(['sprites/zombieOne'], function(zombieOneSprite) {
 			stub.restore();
 		},
 	});
+	
 	test('Should use all data passed to initialize sprite', function(assert) {
 		var sprite = zombieOneSprite.createSprite(spriteData);
 		assert.deepEqual( { direction: sprite.direction, scaleX: sprite.scaleX,

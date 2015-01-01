@@ -4,6 +4,7 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 	var loadQueue = { getResult: function() { } };
 
 	module('Zombie One Entity - Init');
+
 	test('Should call init on sprite module', function() {
 		var mock = this.mock(zombieOneSprite);
 		mock.expects('init').once().withExactArgs(loadQueue);
@@ -25,6 +26,7 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 			this.loadQueueStub.restore();
 		},
 	});
+	
 	test('Should create a sprite via sprite module and save result', function(assert) {
 		var mock = this.mock(zombieOneSprite);
 		var sprite = zombieOneSprite.createSprite(spriteData);
