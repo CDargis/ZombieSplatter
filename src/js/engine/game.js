@@ -6,8 +6,11 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       entities: []
     };
 
+    engine.minSpawnX = 50;
+    engine.maxSpawnX = engine.screenWidth - 50;
+
     engine.generateRandomZombieEntityData = function() {
-      var x = Math.floor(Math.random() * (engine.screenWidth - 50)) + 1;
+      var x = Math.floor(Math.random() * (engine.maxSpawnX)) + 1;
       var rand = Math.floor(Math.random() * 2);
       var direction = 90;
       var scaleX = 1;
@@ -51,7 +54,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
           entitiesToRemove.push(entity);
         }
         else {
-          entity.update({ minX: 50, maxX: engine.screenWidth - 50, height: engine.screenHeight });
+          entity.update({ minX: engine.minSpawnX, maxX: engine.maxSpawnX, height: engine.screenHeight });
         }
       }
 
