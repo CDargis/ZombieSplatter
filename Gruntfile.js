@@ -48,7 +48,7 @@ module.exports = function(grunt) {
         files: [
           { expand: true, src: ['assets/*'], dest: 'build/' },
           { expand: true, src: ['src/js/lib/require.js'], dest: 'build/js/lib/', flatten: true },
-          { expand: true, src: ['src/main.css'], dest: 'build/', flatten: true },
+          { expand: true, src: ['src/css/main.css'], dest: 'build/css/', flatten: true },
         ],
       },
     },
