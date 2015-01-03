@@ -1,5 +1,9 @@
 define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(entityFactory) {
-  var createGameEngineModel = function() {
+  var getRandomNumberBetween = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  var createGameEngine = function() {
     var engine = {
       screenWidth: 750,
       screenHeight: 400,
@@ -10,15 +14,16 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
     engine.maxSpawnX = engine.screenWidth - 50;
 
     engine.generateRandomZombieEntityData = function() {
-      var x = Math.floor(Math.random() * (engine.maxSpawnX)) + 1;
-      var rand = Math.floor(Math.random() * 2);
+      var x = getRandomNumberBetween(engine.minSpawnX, engine.maxSpawnX);
+      var rand = getRandomNumberBetween(0, 1);
       var direction = 90;
       var scaleX = 1;
       if(rand === 1) {
         direction *= -1;
         scaleX *= -1;
       }
-      return {type: 'zombieOne', spriteData: { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 }};
+      return { entityType: 'zombieOne', spriteData:
+                { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 } };
     };
 
     engine.init = function(loadQueue, stage) {
@@ -73,5 +78,5 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
     };
     return engine;
   };
-  return createGameEngineModel();
+  return createGameEngine();
 });

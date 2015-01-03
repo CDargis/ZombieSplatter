@@ -1,9 +1,10 @@
 define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieOneSprite) {
 
-	var createEntityDecoratorModel = function() {
+	var createEntityDecorator = function() {
 
 		var entityDecorator = {
 
+			// Decorate sprite?!?!
 			decorate: function(entity, spriteData) {
 				var sprite = zombieOneSprite.createSprite(spriteData);
 			  entity.sprite = sprite;
@@ -61,5 +62,5 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		};
 		return entityDecorator;
 	};
-	return createEntityDecoratorModel();
+	return createEntityDecorator();
 });

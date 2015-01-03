@@ -56,7 +56,7 @@ define(['entities/entityFactory'], function(entityFactory) {
 		for(var entityType in entityMap) {
 			if(entityMap.hasOwnProperty(entityType)) {
 				var spy = sinon.spy(entityMap[entityType], 'decorate');
-				var entityData = {type: entityType, spriteData: spriteData};
+				var entityData = {entityType: entityType, spriteData: spriteData};
 				entityFactory.createEntity(entityData);
 
 				sinon.assert.calledOnce(spy);
@@ -71,10 +71,10 @@ define(['entities/entityFactory'], function(entityFactory) {
 		var entityMap = entityFactory.entityMap;
 		for(var entityType in entityMap) {
 			if(entityMap.hasOwnProperty(entityType)) {
-				var entityData = {type: entityType, spriteData: spriteData};
+				var entityData = {entityType: entityType, spriteData: spriteData};
 				entityFactory.createEntity(entityData);
 				var expected = { dead: false, init: sinon.match.func, sprite: sinon.match.object,
-															type: entityType, update: sinon.match.func };
+															entityType: entityType, update: sinon.match.func };
 
 				assert.ok(spy.returned(sinon.match(expected)));
 				spy.reset();

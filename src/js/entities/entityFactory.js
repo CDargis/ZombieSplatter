@@ -1,9 +1,9 @@
 define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieEntityOne) {
 
-	var createEntityFactoryModel = function() {
-		var baseEntity = function(type) {
+	var createEntityFactory = function() {
+		var baseEntity = function(entityType) {
 			return {
-				type: type,
+				entityType: entityType,
 				dead: false,
 				update: function() {}
 			};
@@ -23,13 +23,13 @@ define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fu
 			},
 
 			createEntity: function(entityData) {
-				var entity = baseEntity(entityData.type);
-				factory.entityMap[entityData.type].decorate(entity, entityData.spriteData);
+				var entity = baseEntity(entityData.entityType);
+				factory.entityMap[entityData.entityType].decorate(entity, entityData.spriteData);
 				return entity;
 			},
 		};
 		return factory;
 	};
 
-  return createEntityFactoryModel();
+  return createEntityFactory();
 });

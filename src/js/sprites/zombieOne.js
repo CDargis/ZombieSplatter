@@ -1,6 +1,6 @@
 define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 
-  var createSpriteModel = function() {
+  var createSpriteCreator = function() {
     var model = {
       img: {},
       init: function(loadQueue) {
@@ -68,5 +68,5 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
     };
     return model;
   };
-  return createSpriteModel();
+  return createSpriteCreator();
 });
