@@ -3,8 +3,9 @@ define(['entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fu
 	var createEntityFactory = function() {
 		var baseEntity = function(entityType) {
 			return {
-				entityType: entityType,
 				dead: false,
+				entityType: entityType,
+				sprite: {},
 				update: function() {}
 			};
 		};

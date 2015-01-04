@@ -80,5 +80,6 @@ define(['entities/entityFactory'], function(entityFactory) {
 				spy.reset();
 			}
 		}
+		entityFactory.createEntity.restore();
 	});
 });

@@ -27,6 +27,7 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
     };
 
     engine.init = function(loadQueue, stage) {
+      engine.entities = [];
       entityFactory.init(loadQueue);
       engine.stage = stage;
       var entityData = engine.generateRandomZombieEntityData();
