@@ -1,15 +1,15 @@
 define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 
-  var createSpriteCreator = function() {
-    var model = {
+  var createSpriteSheetCreator = function() {
+    var spriteSheetCreator = {
       img: {},
       init: function(loadQueue) {
-        model.img = loadQueue.getResult('zombieOne');
+        spriteSheetCreator.img = loadQueue.getResult('zombieOne');
       },
 
       createSpriteSheet: function() {
         var spriteSheet = new createjs.SpriteSheet({
-          images: [model.img],
+          images: [spriteSheetCreator.img],
           frames: [
             // spwan frames
             [135, 4, 49, 103, 0, 0, 0],
@@ -51,22 +51,8 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
         });
         return spriteSheet;
       },
-
-      createSprite: function(data) {
-        var spriteSheet = model.createSpriteSheet();
-        var sprite = new createjs.Sprite(spriteSheet);
-        sprite.direction = data.direction;
-        sprite.scaleX = data.scaleX;
-        sprite.vX = data.vX;
-        sprite.x = data.x;
-        sprite.y = data.y;
-
-        // have each zombie start at a specific frame
-        sprite.currentFrame = 0;
-        return sprite;
-      },
     };
-    return model;
+    return spriteSheetCreator;
   };
-  return createSpriteCreator();
+  return createSpriteSheetCreator();
 });

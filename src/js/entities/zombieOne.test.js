@@ -13,8 +13,52 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 		mock.restore();
 	});
 
-	var entity = {};
 	var spriteData = { direction: 90, scaleX: 1, vX: 3, x: 250, y: 250 };
+	module('Zombie One Entity - CreateSprite', {
+		beforeEach: function() {
+			this.stub = sinon.stub(loadQueue, 'getResult');
+			this.stub.returns(img);
+			zombieOneSprite.init(loadQueue);
+		},
+		afterEach: function() {
+			this.stub.restore();
+		},
+	});
+	
+	test('Should use all data passed to initialize sprite', function(assert) {
+		var sprite = zombieOneEntity.createSprite(spriteData);
+		assert.deepEqual( { direction: sprite.direction, scaleX: sprite.scaleX,
+												vX: sprite.vX, x: sprite.x, y: sprite.y }, spriteData);
+	});
+
+	test('Should start current frame at 0', function(assert) {
+		var sprite = zombieOneEntity.createSprite(spriteData);
+		assert.ok(sprite.currentFrame === 0);
+	});
+
+	test('Should call createSpriteSheet', function() {
+		var spy = sinon.spy(zombieOneSprite, 'createSpriteSheet');
+		zombieOneEntity.createSprite(spriteData);
+		
+		sinon.assert.calledOnce(spy);
+		zombieOneSprite.createSpriteSheet.restore();
+	});
+
+	test('Should call Sprite constructor with sprite sheet', function() {
+		var spriteSheet = { _animations: [], _data: {}, _frames: [], _images: [img] };
+		var spriteSheetStub = sinon.stub(zombieOneSprite, 'createSpriteSheet');
+		spriteSheetStub.returns(spriteSheet);
+
+		var spy = sinon.spy(createjs, 'Sprite');
+		zombieOneEntity.createSprite(spriteData);
+
+		sinon.assert.calledOnce(spy);
+		sinon.assert.calledWith(spy, spriteSheet);
+		spriteSheetStub.restore();
+		createjs.Sprite.restore();
+	});
+
+	var entity = {};
 	module('Zombie One Entity - Decorate', {
 		beforeEach: function() {
 			entity = { type: 'zombieOne', dead: false, update: function() {} };
@@ -28,8 +72,8 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 	});
 	
 	test('Should create a sprite via sprite module and save result', function(assert) {
-		var mock = this.mock(zombieOneSprite);
-		var sprite = zombieOneSprite.createSprite(spriteData);
+		var mock = this.mock(zombieOneEntity);
+		var sprite = zombieOneEntity.createSprite(spriteData);
 		mock.expects('createSprite').once().withExactArgs(spriteData).returns(sprite);
 		
 		zombieOneEntity.decorate(entity, spriteData);

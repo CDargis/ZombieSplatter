@@ -4,9 +4,27 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 
 		var entityDecorator = {
 
-			// Decorate sprite?!?!
+			createSprite: function(data) {
+				var spriteSheet = zombieOneSprite.createSpriteSheet();
+        var sprite = new createjs.Sprite(spriteSheet);
+        sprite.direction = data.direction;
+        sprite.scaleX = data.scaleX;
+        sprite.vX = data.vX;
+        sprite.x = data.x;
+        sprite.y = data.y;
+
+        // Possibly remove ater removing click event listener
+        var hit = new createjs.Shape();
+        hit.graphics.beginFill('#000').rect(0, 0, 50, 100); 
+        sprite.hitArea = hit;
+
+        // have each zombie start at a specific frame
+        sprite.currentFrame = 0;
+        return sprite;
+      },
+
 			decorate: function(entity, spriteData) {
-				var sprite = zombieOneSprite.createSprite(spriteData);
+				var sprite = entityDecorator.createSprite(spriteData);
 			  entity.sprite = sprite;
 
 			  entity.update = function(data) {
@@ -32,9 +50,6 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		    };
 
 		    // To be removed
-		    var hit = new createjs.Shape();
-        hit.graphics.beginFill("#000").rect(0, 0, 52, 100); 
-        entity.sprite.hitArea = hit;
 			  entity.sprite.addEventListener('click', function() {
 					if(entity.sprite.currentAnimation === 'walk') {
 			      entity.sprite.vX = 0;
