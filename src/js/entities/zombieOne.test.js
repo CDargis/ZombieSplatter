@@ -1,4 +1,4 @@
-define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zombieOneSprite) {
+define(['entities/zombieOne', 'spriteSheets/zombieOne'], function(zombieOneEntity, zombieOneSpriteSheet) {
 	var img = new Image();
 	img.src = '../assets/zombieOne.png';
 	var loadQueue = { getResult: function() { } };
@@ -6,7 +6,7 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 	module('Zombie One Entity - Init');
 
 	test('Should call init on sprite module', function() {
-		var mock = this.mock(zombieOneSprite);
+		var mock = this.mock(zombieOneSpriteSheet);
 		mock.expects('init').once().withExactArgs(loadQueue);
 
 		zombieOneEntity.init(loadQueue);
@@ -18,7 +18,7 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 		beforeEach: function() {
 			this.stub = sinon.stub(loadQueue, 'getResult');
 			this.stub.returns(img);
-			zombieOneSprite.init(loadQueue);
+			zombieOneSpriteSheet.init(loadQueue);
 		},
 		afterEach: function() {
 			this.stub.restore();
@@ -36,17 +36,17 @@ define(['entities/zombieOne', 'sprites/zombieOne'], function(zombieOneEntity, zo
 		assert.ok(sprite.currentFrame === 0);
 	});
 
-	test('Should call createSpriteSheet', function() {
-		var spy = sinon.spy(zombieOneSprite, 'createSpriteSheet');
+	test('Should call create on spriteSheet module', function() {
+		var spy = sinon.spy(zombieOneSpriteSheet, 'create');
 		zombieOneEntity.createSprite(spriteData);
 		
 		sinon.assert.calledOnce(spy);
-		zombieOneSprite.createSpriteSheet.restore();
+		zombieOneSpriteSheet.create.restore();
 	});
 
 	test('Should call Sprite constructor with sprite sheet', function() {
 		var spriteSheet = { _animations: [], _data: {}, _frames: [], _images: [img] };
-		var spriteSheetStub = sinon.stub(zombieOneSprite, 'createSpriteSheet');
+		var spriteSheetStub = sinon.stub(zombieOneSpriteSheet, 'create');
 		spriteSheetStub.returns(spriteSheet);
 
 		var spy = sinon.spy(createjs, 'Sprite');

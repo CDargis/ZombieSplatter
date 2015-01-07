@@ -1,15 +1,15 @@
-define(['sprites/zombieOne'], function(zombieOneSprite) {
+define(['spriteSheets/zombieOne'], function(zombieOneSpriteSheet) {
 	var img = new Image();
 	img.src = '../assets/zombieOne.png';
 	var loadQueue = { getResult: function() { } };
 
-	module('Zombie One Sprite - Init');
+	module('Zombie One SpriteSheet - Init');
 
 	test('Init - Should get zombieOne image from the load queue', function() {
 		var mock = this.mock(loadQueue);
 		mock.expects('getResult').once().withExactArgs('zombieOne');
 
-		zombieOneSprite.init(loadQueue);
+		zombieOneSpriteSheet.init(loadQueue);
 		mock.restore();
 	});
 
@@ -17,16 +17,16 @@ define(['sprites/zombieOne'], function(zombieOneSprite) {
 		var stub = sinon.stub(loadQueue, 'getResult');
 		stub.returns(img);
 
-		zombieOneSprite.init(loadQueue);
-		assert.deepEqual(zombieOneSprite.img, img);
+		zombieOneSpriteSheet.init(loadQueue);
+		assert.deepEqual(zombieOneSpriteSheet.img, img);
 		stub.restore();
 	});
 
-	module('Zombie One Sprite - CreateSpriteSheet', {
+	module('Zombie One SpriteSheet - create', {
 		beforeEach: function() {
 			this.stub = sinon.stub(loadQueue, 'getResult');
 			this.stub.returns(img);
-			zombieOneSprite.init(loadQueue);
+			zombieOneSpriteSheet.init(loadQueue);
 		},
 		afterEach: function() {
 			this.stub.restore();
@@ -34,12 +34,12 @@ define(['sprites/zombieOne'], function(zombieOneSprite) {
 	});
 
 	test('Should use image from load queue in sprite sheet', function(assert) {
-		var spriteSheet = zombieOneSprite.createSpriteSheet();
+		var spriteSheet = zombieOneSpriteSheet.create();
 		assert.deepEqual(spriteSheet._images, [img]);
 	});
 
 	test('Should have 4 animations', function(assert) {
-		var spriteSheet = zombieOneSprite.createSpriteSheet();
+		var spriteSheet = zombieOneSpriteSheet.create();
 		assert.deepEqual(spriteSheet._animations, ['spawn', 'walk', 'dieByShot', 'dead']);
 	});
 });

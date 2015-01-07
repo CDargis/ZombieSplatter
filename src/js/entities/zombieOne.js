@@ -1,11 +1,12 @@
-define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function(zombieOneSprite) {
+define(['spriteSheets/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'],
+	function(zombieOneSpriteSheet) {
 
 	var createEntityDecorator = function() {
 
 		var entityDecorator = {
 
 			createSprite: function(data) {
-				var spriteSheet = zombieOneSprite.createSpriteSheet();
+				var spriteSheet = zombieOneSpriteSheet.create();
         var sprite = new createjs.Sprite(spriteSheet);
         sprite.direction = data.direction;
         sprite.scaleX = data.scaleX;
@@ -75,7 +76,7 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 			},
 
 			init: function(loadQueue) {
-				zombieOneSprite.init(loadQueue);
+				zombieOneSpriteSheet.init(loadQueue);
 			},
 		};
 		return entityDecorator;

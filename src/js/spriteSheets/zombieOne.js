@@ -7,7 +7,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
         spriteSheetCreator.img = loadQueue.getResult('zombieOne');
       },
 
-      createSpriteSheet: function() {
+      create: function() {
         var spriteSheet = new createjs.SpriteSheet({
           images: [spriteSheetCreator.img],
           frames: [
