@@ -32,6 +32,9 @@ define(['sprites/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], fun
 		    };
 
 		    // To be removed
+		    var hit = new createjs.Shape();
+        hit.graphics.beginFill("#000").rect(0, 0, 52, 100); 
+        entity.sprite.hitArea = hit;
 			  entity.sprite.addEventListener('click', function() {
 					if(entity.sprite.currentAnimation === 'walk') {
 			      entity.sprite.vX = 0;
