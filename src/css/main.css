@@ -13,19 +13,17 @@ a:hover {
   color: #2a5db0;
 }
 .img {
+  background-image: url('../assets/zSplatter.png');
   display: block;
   margin: 50px auto 0 auto;
   width: 423px;
   height: 195px;
 }
-canvas {
-	background-color: black;
-  padding-left: 0;
+iframe {
+	padding-left: 0;
   padding-right: 0;
   margin: 50px auto 25px auto;
   display: block;
-  width: 750px;
-  height: 400px;
 }
 .about {
   display: block;

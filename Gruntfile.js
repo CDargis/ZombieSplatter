@@ -46,18 +46,19 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          { expand: true, src: ['assets/*'], dest: 'build/' },
+          { expand: true, src: ['src/index.html'], dest: 'build/', flatten: true },
+          { expand: true, src: ['src/assets/*'], dest: 'build/assets/', flatten: true },
           { expand: true, src: ['src/js/lib/require.js'], dest: 'build/js/lib/', flatten: true },
-          { expand: true, src: ['src/css/main.css'], dest: 'build/css/', flatten: true },
+          { expand: true, src: ['src/css/*'], dest: 'build/css/', flatten: true },
         ],
       },
     },
     replace: {
       index: {
-        src: ['src/index.html'],
+        src: ['src/theGame.html'],
         dest: 'build/',
         replacements: [{
-          from: 'http://localhost:8080/',
+          from: 'http://localhost:8080/src/',
           to: '<%= customConfig.rootContext %>'
         }],
       },

@@ -1,6 +1,6 @@
 define(['entities/zombieOne', 'spriteSheets/zombieOne'], function(zombieOneEntity, zombieOneSpriteSheet) {
 	var img = new Image();
-	img.src = '../assets/zombieOne.png';
+	img.src = '/src/assets/zombieOne.png';
 	var loadQueue = { getResult: function() { } };
 
 	module('Zombie One Entity - Init');

@@ -12,7 +12,7 @@ define(['entities/entityFactory'], function(entityFactory) {
 	};
 
 	var img = new Image();
-	img.src = '../assets/zombieOne.png';
+	img.src = '/src/assets/zombieOne.png';
 	var loadQueue = { getResult: function() { } };
 
 	module('Entity Factory - Init');

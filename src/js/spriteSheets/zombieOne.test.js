@@ -1,6 +1,6 @@
 define(['spriteSheets/zombieOne'], function(zombieOneSpriteSheet) {
 	var img = new Image();
-	img.src = '../assets/zombieOne.png';
+	img.src = '/src/assets/zombieOne.png';
 	var loadQueue = { getResult: function() { } };
 
 	module('Zombie One SpriteSheet - Init');
