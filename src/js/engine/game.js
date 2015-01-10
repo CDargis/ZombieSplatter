@@ -17,22 +17,31 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       var x = getRandomNumberBetween(engine.minSpawnX, engine.maxSpawnX);
       var rand = getRandomNumberBetween(0, 1);
       var direction = 90;
-      var scaleX = 1;
+      var scaleX = 1.250;
       if(rand === 1) {
         direction *= -1;
         scaleX *= -1;
       }
       return { entityType: 'zombieOne', spriteData:
-                { direction: direction, scaleX: scaleX, vX: 3, x: x, y: 250 } };
+                { direction: direction, scaleX: scaleX, scaleY: 1.2, vX: 3, x: x, y: 250 } };
+    };
+
+    engine.addPlayer = function() {
+      var playerSpriteData = { direction: 90, scaleX: .2, scaleY: .2, vX: 3, x: 200, y: 250 }
+      var playerData = { entityType: 'soldierOne', spriteData: playerSpriteData };
+      var player = entityFactory.createEntity(playerData);
+      engine.addEntity(player);
     };
 
     engine.init = function(loadQueue, stage) {
       engine.entities = [];
       entityFactory.init(loadQueue);
       engine.stage = stage;
-      var entityData = engine.generateRandomZombieEntityData();
-      var entity = entityFactory.createEntity(entityData);
-      engine.addEntity(entity);
+      engine.addPlayer(); // Will always be index 0
+      
+      var zombieData = engine.generateRandomZombieEntityData();
+      var zombie = entityFactory.createEntity(zombieData);
+      engine.addEntity(zombie);
       createjs.Ticker.addEventListener('tick', engine.onTick);
     };
 
@@ -69,9 +78,9 @@ define(['entities/entityFactory', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs']
       }
 
       // Check how many entities we have and spawn a new one if needed
-      if(engine.entities.length === 0) {
-        var entityData = engine.generateRandomZombieEntityData();
-        entity = entityFactory.createEntity(entityData);
+      if(engine.entities.length === 1) {
+        var zombieData = engine.generateRandomZombieEntityData();
+        entity = entityFactory.createEntity(zombieData);
         engine.addEntity(entity);
       }
 
