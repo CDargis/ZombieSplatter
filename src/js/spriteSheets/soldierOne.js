@@ -52,6 +52,15 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
           	// Shoot
           	[1560, 2400, 520, 600],
           	[2600, 1800, 520, 600],
+
+          	// Crouched
+          	[0, 600, 520, 600],
+
+          	// Exit Crouch
+          	[0, 600, 520, 600],
+          	[1040, 0, 520, 600],
+          	[520, 0, 520, 600],
+          	[0, 0, 520, 600],
           ],
           animations: {
             idle: 0,
@@ -61,6 +70,8 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
             jump: [11, 14, 'jump', 5/8],
             run: [15, 26, 'run', 1],
             shoot: [27, 28, 'shoot', 1/2],
+            crouched: [29, 29, 'crouched', 1],
+            exitCrouch: [30, 33, 'exitCrouch', 1],
           }
         });
         return spriteSheet;

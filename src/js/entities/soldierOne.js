@@ -1,31 +1,46 @@
-define(['spriteSheets/soldierOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'],
-	function(soldierOneSpriteSheet) {
+define(['entities/spriteCreator', 'spriteSheets/soldierOne',
+	'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'],
+	function(spriteCreator, soldierOneSpriteSheet) {
 
 		var createEntityDecorator = function() {
 
 			var entityDecorator = {
 
-				createSprite: function(data) {
-					var spriteSheet = soldierOneSpriteSheet.create();
-	        var sprite = new createjs.Sprite(spriteSheet);
-	        sprite.direction = data.direction;
-	        sprite.scaleX = data.scaleX;
-	        sprite.scaleY = data.scaleY;
-	        sprite.vX = data.vX;
-	        sprite.x = data.x;
-	        sprite.y = data.y;
-	        sprite.currentFrame = 0;
-	        return sprite;
-	      },
-
 				decorate: function(entity, spriteData) {
 					var spriteSheet = soldierOneSpriteSheet.create();
-					var sprite = entityDecorator.createSprite(spriteData);
+					var sprite = spriteCreator.create(spriteSheet, spriteData);
 				  entity.sprite = sprite;
 
 				  entity.update = function(data) {
-			    	if(sprite.currentAnimation === 'run') {
-					    // Moving the sprite based on the direction & the speed
+				  	var currentAnimation = sprite.currentAnimation;
+				  	var actions = data.actions;
+				  	if(actions.LEFT && sprite.x > data.minX) {
+				  		sprite.scaleX = -Math.abs(sprite.scaleX); 
+				  		sprite.direction = -90;
+				  		if(sprite.currentAnimation !== 'run') {
+				  			sprite.gotoAndPlay('run');
+				  		}
+				  	}
+				  	else if(actions.RIGHT && sprite.x < data.maxX) {
+				  		sprite.scaleX = Math.abs(sprite.scaleX); 
+				  		sprite.direction = 90;
+				  		if(sprite.currentAnimation !== 'run') {
+				  			sprite.gotoAndPlay('run');
+				  		}
+				  	}
+				  	else if(actions.DOWN && currentAnimation !== 'crouch' &&
+				  			currentAnimation !== 'crouched' && currentAnimation !== 'exitCrouch') {
+				  		sprite.gotoAndPlay('crouch');
+				  	}
+				  	else if(actions.DOWN && currentAnimation === 'crouched') {
+				  		sprite.gotoAndPlay('exitCrouch');
+				  	}
+				  	else if (currentAnimation !== 'jump' && currentAnimation !== 'crouch' &&
+				  		currentAnimation !== 'crouched') {
+				  		sprite.gotoAndPlay('idle');
+				  	}
+
+			    	if(currentAnimation === 'run') {
 					    if (sprite.direction === 90) {
 					      sprite.x += sprite.vX;
 					    }
@@ -34,6 +49,16 @@ define(['spriteSheets/soldierOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'
 					    }
 					  }
 			    };
+
+			    entity.sprite.on('animationend', function() {
+			    	var currentAnimation = sprite.currentAnimation;
+			    	if(currentAnimation === 'jump') {
+			    		entity.sprite.gotoAndPlay('idle');
+			    	}
+			    	else if(currentAnimation === 'crouch') {
+			    		entity.sprite.gotoAndPlay('crouched');
+			    	}
+					});
 
 					entity.init = function() {
 			    	sprite.gotoAndPlay('idle');
