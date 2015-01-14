@@ -5,7 +5,7 @@ if (typeof require === 'function' && require.config) {
 }
 
 require(['engine/game.test', 'engine/input.test', 'entities/spriteCreator.test',
-	'entities/entityFactory.test', 'entities/zombieOne.test',
+	'entities/entityFactory.test', 'entities/zombieOne.test', 'entities/soldierOne.test',
 	'spriteSheets/soldierOne.test', 'spriteSheets/zombieOne.test'], function() {
 	  QUnit.load();
 	  QUnit.start();

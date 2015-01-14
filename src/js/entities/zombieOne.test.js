@@ -117,6 +117,8 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			entity.sprite.dispatchEvent(event);
 			assert.ok(entity.dead);
 			spy.reset();
+
+			entity.sprite.gotoAndPlay.restore();
 		});
 
 		test('Should gotoAndPlay(\'spawn\') on init', function() {

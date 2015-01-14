@@ -50,12 +50,8 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					  }
 			    };
 
-			    entity.sprite.on('animationend', function() {
-			    	var currentAnimation = sprite.currentAnimation;
-			    	if(currentAnimation === 'jump') {
-			    		entity.sprite.gotoAndPlay('idle');
-			    	}
-			    	else if(currentAnimation === 'crouch') {
+			    entity.sprite.on('animationend', function(event) {
+			    	if(event.name === 'crouch') {
 			    		entity.sprite.gotoAndPlay('crouched');
 			    	}
 					});
