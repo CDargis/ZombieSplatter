@@ -91,7 +91,7 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			assert.ok(entity.sprite.x === 150 - spriteData.vX);
 		});
 
-		test('Should gotoAndPlay (walk, dead) or die respectively on animationend', function(assert) {
+		test('Should die on animationend \'dead\' ', function(assert) {
 			var createEvent = function(eventName) {
 				var event = new createjs.Event('animationend');
 				event.name = eventName;
@@ -101,22 +101,9 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			zombieOneEntity.decorate(entity, spriteData);
 			
 			var spy = sinon.spy(entity.sprite, 'gotoAndPlay');
-			var event = createEvent('spawn');
-			entity.sprite.dispatchEvent(event);
-			sinon.assert.calledOnce(spy);
-			sinon.assert.calledWith(spy, 'walk');
-			spy.reset();
-
-			event = createEvent('dieByShot');
-			entity.sprite.dispatchEvent(event);
-			sinon.assert.calledOnce(spy);
-			sinon.assert.calledWith(spy, 'dead');
-			spy.reset();
-
 			event = createEvent('dead');
 			entity.sprite.dispatchEvent(event);
 			assert.ok(entity.dead);
-			spy.reset();
 
 			entity.sprite.gotoAndPlay.restore();
 		});

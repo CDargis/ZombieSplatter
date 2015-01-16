@@ -43,10 +43,10 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
             [359, 443, 123, 122, 0, 0, 0]
           ],
           animations: {
-            spawn: [ 0, 7, 'spawn', 1/4],
+            spawn: [ 0, 7, 'walk', 1/4],
             walk: [8, 15, 'walk', 1/4],
-            dieByShot: [16, 21, 'dieByShot', 1/2],
-            dead: 22
+            dieByShot: [16, 21, 'dead', 1/2],
+            dead: [22, 22, 'dead', 1]
           }
         });
         return spriteSheet;

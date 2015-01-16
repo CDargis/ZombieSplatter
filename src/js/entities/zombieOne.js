@@ -48,12 +48,6 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					});
 
 					entity.sprite.on('animationend', function(event) {
-						if(event.name === 'spawn') {
-				      entity.sprite.gotoAndPlay('walk');
-				    }
-						if(event.name === 'dieByShot') {
-				      entity.sprite.gotoAndPlay('dead');
-				    }
 				    if(event.name === 'dead') {
 				    	entity.dead = true;
 				    }
