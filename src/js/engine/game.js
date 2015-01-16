@@ -28,7 +28,7 @@ define(['engine/input', 'entities/entityFactory', 'lib/easeljs', 'lib/preloadjs'
       };
 
       engine.addPlayer = function() {
-        var playerSpriteData = { direction: 90, scaleX: '.2', scaleY: '.2', vX: 5, x: 200, y: 250 };
+        var playerSpriteData = { direction: 90, scaleX: '.2', scaleY: '.2', vX: 6, x: 200, y: 250 };
         var playerData = { entityType: 'soldierOne', spriteData: playerSpriteData };
         var player = entityFactory.createEntity(playerData);
         engine.addEntity(player);

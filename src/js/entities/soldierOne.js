@@ -49,13 +49,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					    }
 					  }
 			    };
-
-			    entity.sprite.on('animationend', function(event) {
-			    	if(event.name === 'crouch') {
-			    		entity.sprite.gotoAndPlay('crouched');
-			    	}
-					});
-
+			    
 					entity.init = function() {
 			    	sprite.gotoAndPlay('idle');
 			    };

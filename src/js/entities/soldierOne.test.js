@@ -43,23 +43,6 @@ define(['entities/spriteCreator', 'entities/soldierOne', 'spriteSheets/soldierOn
 
 		// NEED UPDATE() TESTS
 
-		test('Should gotoAndPlay crouched on animationend for crouch', function() {
-			var createEvent = function(eventName) {
-				var event = new createjs.Event('animationend');
-				event.name = eventName;
-				return event;
-			};
-
-			soldierOneEntity.decorate(this.entity, spriteData);
-			
-			var spy = sinon.spy(this.entity.sprite, 'gotoAndPlay');
-			var event = createEvent('crouch');
-			this.entity.sprite.dispatchEvent(event);
-			sinon.assert.calledOnce(spy);
-			sinon.assert.calledWith(spy, 'crouched');
-			this.entity.sprite.gotoAndPlay.restore();
-		});
-
 		test('Should gotoAndPlay(\'idle\') on init', function() {
 			soldierOneEntity.decorate(this.entity, spriteData);
 			var spy = sinon.spy(this.entity.sprite, 'gotoAndPlay');
