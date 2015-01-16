@@ -35,7 +35,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  	else if(actions.DOWN && currentAnimation === 'crouched') {
 				  		sprite.gotoAndPlay('exitCrouch');
 				  	}
-				  	else if (currentAnimation !== 'jump' && currentAnimation !== 'crouch' &&
+				  	else if (currentAnimation !== 'crouch' &&
 				  		currentAnimation !== 'crouched') {
 				  		sprite.gotoAndPlay('idle');
 				  	}
@@ -49,7 +49,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					    }
 					  }
 			    };
-			    
+
 					entity.init = function() {
 			    	sprite.gotoAndPlay('idle');
 			    };
