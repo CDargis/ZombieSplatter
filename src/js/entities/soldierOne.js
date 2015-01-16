@@ -15,7 +15,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  	var currentAnimation = sprite.currentAnimation;
 				  	var actions = data.actions;
 				  	if(actions.LEFT && sprite.x > data.minX) {
-				  		sprite.scaleX = -Math.abs(sprite.scaleX); 
+				  		sprite.scaleX = -Math.abs(sprite.scaleX);
 				  		sprite.direction = -90;
 				  		if(sprite.currentAnimation !== 'run') {
 				  			sprite.gotoAndPlay('run');

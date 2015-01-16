@@ -9,10 +9,13 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				decorate: function(entity, spriteData) {
 					var spriteSheet = zombieOneSpriteSheet.create();
 					var sprite = spriteCreator.create(spriteSheet, spriteData);
+
 					 // Possibly remove ater removing click event listener
+					var bounds = sprite.getBounds();
 	        var hit = new createjs.Shape();
-	        hit.graphics.beginFill('#000').rect(0, 0, 50, 100); 
+	        hit.graphics.beginFill('#000').rect(0, 0, bounds.width, bounds.height); 
 	        sprite.hitArea = hit;
+
 				  entity.sprite = sprite;
 
 				  entity.update = function(data) {
