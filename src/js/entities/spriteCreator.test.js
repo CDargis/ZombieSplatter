@@ -10,7 +10,7 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 		    animations: {
 		       run:[1,5],
 		    }
-			})
+			});
 			this.spriteData = { direction: 90, scaleX: 1, scaleY: 1, vX: 3, x: 250, y: 250 };
 		},
 	});

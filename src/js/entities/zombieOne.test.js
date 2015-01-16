@@ -99,13 +99,9 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			};
 
 			zombieOneEntity.decorate(entity, spriteData);
-			
-			var spy = sinon.spy(entity.sprite, 'gotoAndPlay');
-			event = createEvent('dead');
+			var event = createEvent('dead');
 			entity.sprite.dispatchEvent(event);
 			assert.ok(entity.dead);
-
-			entity.sprite.gotoAndPlay.restore();
 		});
 
 		test('Should gotoAndPlay(\'spawn\') on init', function() {
