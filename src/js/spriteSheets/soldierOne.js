@@ -69,7 +69,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
             hurt: [9, 10, 'hurt', 1/4],
             jump: [11, 14, 'idle', 5/8],
             run: [15, 26, 'run', 1],
-            shoot: [27, 28, 'shoot', 1/2],
+            shoot: [27, 28, 'idle', 99/100],
             crouched: [29, 29, 'crouched', 1],
             exitCrouch: [30, 33, 'idle', 1],
           }

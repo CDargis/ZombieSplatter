@@ -25,6 +25,7 @@ define([], function() {
 				engine.bind(37, 'LEFT');
 				engine.bind(39, 'RIGHT');
 				engine.bind(40, 'DOWN');
+				engine.bind(32, 'SHOOT');
 				document.addEventListener('keydown', engine.onKeyDown);
 				document.addEventListener('keyup', engine.onKeyUp);
 			},

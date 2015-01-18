@@ -28,6 +28,9 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  			sprite.gotoAndPlay('run');
 				  		}
 				  	}
+				  	else if(actions.SHOOT && currentAnimation !== 'shoot') {
+				  		sprite.gotoAndPlay('shoot');
+				  	}
 				  	else if(actions.DOWN && currentAnimation !== 'crouch' &&
 				  			currentAnimation !== 'crouched' && currentAnimation !== 'exitCrouch') {
 				  		sprite.gotoAndPlay('crouch');
@@ -36,7 +39,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  		sprite.gotoAndPlay('exitCrouch');
 				  	}
 				  	else if (currentAnimation !== 'crouch' &&
-				  		currentAnimation !== 'crouched') {
+				  		currentAnimation !== 'crouched' && currentAnimation !== 'shoot') {
 				  		sprite.gotoAndPlay('idle');
 				  	}
 

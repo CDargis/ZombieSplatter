@@ -83,10 +83,11 @@ define(['engine/input'], function(inputEngine) {
 		var spy = sinon.spy(inputEngine, 'bind');
 		inputEngine.init();
 
-		sinon.assert.calledThrice(spy);
+		sinon.assert.callCount(spy, 4);
 		sinon.assert.calledWith(spy, 37, 'LEFT');
 		sinon.assert.calledWith(spy, 39, 'RIGHT');
 		sinon.assert.calledWith(spy, 40, 'DOWN');
+		sinon.assert.calledWith(spy, 32, 'SHOOT');
 	});
 
 	test('Should add event listeners', function() {
