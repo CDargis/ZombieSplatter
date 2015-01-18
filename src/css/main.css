@@ -31,3 +31,6 @@ iframe {
   margin: 25px auto 25px auto;
   text-align: center;
 }
+.bold {
+  font-weight: bold;
+}

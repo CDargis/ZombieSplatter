@@ -46,7 +46,6 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          { expand: true, src: ['src/index.html'], dest: 'build/', flatten: true },
           { expand: true, src: ['src/assets/*'], dest: 'build/assets/', flatten: true },
           { expand: true, src: ['src/js/lib/require.js'], dest: 'build/js/lib/', flatten: true },
           { expand: true, src: ['src/css/*'], dest: 'build/css/', flatten: true },
@@ -55,6 +54,14 @@ module.exports = function(grunt) {
     },
     replace: {
       index: {
+        src: ['src/index.html'],
+        dest: 'build/',
+        replacements: [{
+          from: 'THE_DATE',
+          to: '<%= grunt.template.today() %>'
+        }],
+      },
+      theGame: {
         src: ['src/theGame.html'],
         dest: 'build/',
         replacements: [{
