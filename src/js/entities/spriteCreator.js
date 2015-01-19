@@ -9,10 +9,10 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 	      sprite.vX = data.vX;
 	      sprite.x = data.x;
 	      sprite.y = data.y;
+	      sprite.currentFrame = 0;
 	      var bounds = sprite.getBounds();
 	      sprite.regX = bounds.width / 2;
 	      sprite.regY = bounds.height / 2;
-	      sprite.currentFrame = 0;
 	      return sprite;
 			},
 		};

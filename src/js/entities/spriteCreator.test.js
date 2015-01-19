@@ -2,10 +2,12 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 
 	module('Sprite Creator - Create', {
 		beforeEach: function() {
+			this.img = new Image();
+			this.img.src = '/src/assets/zombieOne.png';
 			this.width = 50;
 			this.height = 50;
 			this.spriteSheet = new createjs.SpriteSheet({
-				images: ['/src/assets/zombieOne.png'],
+				images: [this.img],
 		    frames: { width: this.width, height: this.height },
 		    animations: {
 		       run:[1,5],
