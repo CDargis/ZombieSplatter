@@ -1,10 +1,10 @@
 define(['entities/entityFactory'], function(entityFactory) {
 	var getSpies = function(methodName) {
 		var spies = [];
-		var entityMap = entityFactory.entityMap;
-		for(var entityType in entityMap) {
-			if(entityMap.hasOwnProperty(entityType)) {
-				var spy = sinon.spy(entityMap[entityType], methodName);
+		var decorators = entityFactory.decorators;
+		for(var entityType in decorators) {
+			if(decorators.hasOwnProperty(entityType)) {
+				var spy = sinon.spy(decorators[entityType], methodName);
 				spies.push(spy);
 			}
 		}
@@ -30,10 +30,10 @@ define(['entities/entityFactory'], function(entityFactory) {
 			sinon.assert.calledWith(spy, loadQueue);
 		}
 
-		var entityMap = entityFactory.entityMap;
-		for(var entityType in entityMap) {
-			if(entityMap.hasOwnProperty(entityType)) {
-				entityMap[entityType].init.restore();
+		var decorators = entityFactory.decorators;
+		for(var entityType in decorators) {
+			if(decorators.hasOwnProperty(entityType)) {
+				decorators[entityType].init.restore();
 			}
 		}
 		loadQueueStub.restore();
@@ -52,25 +52,25 @@ define(['entities/entityFactory'], function(entityFactory) {
 
 	var spriteData = { direction: 90, scaleX: 1, vX: 3, x: 50, y: 250 };
 	test('Should call decorate for each entity type', function() {
-		var entityMap = entityFactory.entityMap;
-		for(var entityType in entityMap) {
-			if(entityMap.hasOwnProperty(entityType)) {
-				var spy = sinon.spy(entityMap[entityType], 'decorate');
+		var decorators = entityFactory.decorators;
+		for(var entityType in decorators) {
+			if(decorators.hasOwnProperty(entityType)) {
+				var spy = sinon.spy(decorators[entityType], 'decorate');
 				var entityData = {entityType: entityType, spriteData: spriteData};
 				entityFactory.createEntity(entityData);
 
 				sinon.assert.calledOnce(spy);
 				sinon.assert.calledWith(spy, sinon.match.object, entityData.spriteData);
-				entityMap[entityType].decorate.restore();
+				decorators[entityType].decorate.restore();
 			}
 		}
 	});
 
 	test('Should return correct entity for each entity type', function(assert) {
 		var spy = sinon.spy(entityFactory, 'createEntity');
-		var entityMap = entityFactory.entityMap;
-		for(var entityType in entityMap) {
-			if(entityMap.hasOwnProperty(entityType)) {
+		var decorators = entityFactory.decorators;
+		for(var entityType in decorators) {
+			if(decorators.hasOwnProperty(entityType)) {
 				var entityData = {entityType: entityType, spriteData: spriteData};
 				entityFactory.createEntity(entityData);
 				var expected = { dead: false, sprite: sinon.match.object,

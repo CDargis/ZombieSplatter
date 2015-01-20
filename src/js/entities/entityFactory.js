@@ -12,22 +12,22 @@ define(['entities/soldierOne', 'entities/zombieOne', 'lib/easeljs', 'lib/preload
 			};
 
 			var factory = {
-				entityMap: {
+				decorators: {
 					'soldierOne': soldierOneEntity,
 					'zombieOne': zombieOneEntity
 				},
 
 				init: function(loadQueue) {
-					for(var entityType in factory.entityMap) {
-						if(factory.entityMap.hasOwnProperty(entityType)) {
-							factory.entityMap[entityType].init(loadQueue);
+					for(var entityType in factory.decorators) {
+						if(factory.decorators.hasOwnProperty(entityType)) {
+							factory.decorators[entityType].init(loadQueue);
 						}
 					}
 				},
 
 				createEntity: function(entityData) {
 					var entity = baseEntity(entityData.entityType);
-					factory.entityMap[entityData.entityType].decorate(entity, entityData.spriteData);
+					factory.decorators[entityData.entityType].decorate(entity, entityData.spriteData);
 					return entity;
 				},
 			};
