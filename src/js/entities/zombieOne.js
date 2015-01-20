@@ -52,10 +52,6 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				    	entity.dead = true;
 				    }
 					});
-
-					entity.init = function() {
-			    	sprite.gotoAndPlay('spawn');
-			    };
 				},
 
 				init: function(loadQueue) {

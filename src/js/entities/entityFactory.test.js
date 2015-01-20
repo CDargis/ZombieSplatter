@@ -73,7 +73,7 @@ define(['entities/entityFactory'], function(entityFactory) {
 			if(entityMap.hasOwnProperty(entityType)) {
 				var entityData = {entityType: entityType, spriteData: spriteData};
 				entityFactory.createEntity(entityData);
-				var expected = { dead: false, init: sinon.match.func, sprite: sinon.match.object,
+				var expected = { dead: false, sprite: sinon.match.object,
 															entityType: entityType, update: sinon.match.func };
 
 				assert.ok(spy.returned(sinon.match(expected)));

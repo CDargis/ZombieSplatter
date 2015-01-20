@@ -23,12 +23,15 @@ define(['engine/input', 'entities/entityFactory', 'lib/easeljs', 'lib/preloadjs'
           direction *= -1;
           scaleX *= -1;
         }
-        return { entityType: 'zombieOne', spriteData:
-                  { direction: direction, scaleX: scaleX, scaleY: 1.2, vX: 3, x: x, y: 250 } };
+        var spriteData =
+          { direction: direction, scaleX: scaleX, scaleY: 1.2,
+            vX: 3, x: x, y: 250, initialAnimation: 'spawn' };
+        return { entityType: 'zombieOne', spriteData: spriteData};
       };
 
       engine.addPlayer = function() {
-        var playerSpriteData = { direction: 90, scaleX: '.2', scaleY: '.2', vX: 6, x: 200, y: 260 };
+        var playerSpriteData =
+          { direction: 90, scaleX: '.2', scaleY: '.2', vX: 6, x: 200, y: 260, initialAnimation: 'idle' };
         var playerData = { entityType: 'soldierOne', spriteData: playerSpriteData };
         var player = entityFactory.createEntity(playerData);
         engine.addEntity(player);
@@ -48,7 +51,6 @@ define(['engine/input', 'entities/entityFactory', 'lib/easeljs', 'lib/preloadjs'
       };
 
       engine.addEntity = function(entity) {
-        entity.init();
         engine.stage.addChild(entity.sprite);
         engine.entities.push(entity);
       };

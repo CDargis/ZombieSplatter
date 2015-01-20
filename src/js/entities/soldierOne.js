@@ -52,10 +52,6 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					    }
 					  }
 			    };
-
-					entity.init = function() {
-			    	sprite.gotoAndPlay('idle');
-			    };
 				},
 
 				init: function(loadQueue) {

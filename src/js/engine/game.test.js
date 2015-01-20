@@ -156,22 +156,19 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 
 		module('Game Engine - addEntity');
 
-		test('Should init entity, add child to stage and push entity to array', function() {
+		test('Should add child to stage and push entity to array', function() {
 			var fakeEntity = createFakeEntity(false, 'someType', 1);
 			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
 			createEntityStub.returns(fakeEntity);
 			gameEngine.init(loadQueue, stage);
 
 			var anotherFakeEntity = createFakeEntity(false, 'someType', 2);
-			var entitySpy = sinon.spy(anotherFakeEntity, 'init');
 			var stageSpy = sinon.spy(stage, 'addChild');
 
 			gameEngine.addEntity(anotherFakeEntity);
-			sinon.assert.calledOnce(entitySpy);
 			sinon.assert.calledOnce(stageSpy);
 			sinon.assert.calledWith(stageSpy, anotherFakeEntity.sprite);
 
-			anotherFakeEntity.init.restore();
 			stage.addChild.restore();
 			createEntityStub.restore();
 		});

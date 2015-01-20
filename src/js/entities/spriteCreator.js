@@ -2,7 +2,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 	var createSpriteCreator = function() {
 		var spriteCreator = {
 			create: function(spriteSheet, data) {
-	      var sprite = new createjs.Sprite(spriteSheet);
+	      var sprite = new createjs.Sprite(spriteSheet, data.initialAnimation);
 	      sprite.direction = data.direction;
 	      sprite.scaleX = data.scaleX;
 	      sprite.scaleY = data.scaleY;

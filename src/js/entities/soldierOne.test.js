@@ -43,15 +43,6 @@ define(['entities/spriteCreator', 'entities/soldierOne', 'spriteSheets/soldierOn
 
 		// NEED UPDATE() TESTS
 
-		test('Should gotoAndPlay(\'idle\') on init', function() {
-			soldierOneEntity.decorate(this.entity, spriteData);
-			var spy = sinon.spy(this.entity.sprite, 'gotoAndPlay');
-
-			this.entity.init();
-			sinon.assert.calledOnce(spy);
-			sinon.assert.calledWith(spy, 'idle');
-		});
-
 		module('Soldier One Entity - Init');
 
 		test('Should call init on sprite module', function() {

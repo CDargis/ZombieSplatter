@@ -13,7 +13,8 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 		       run:[1,5],
 		    }
 			});
-			this.spriteData = { direction: 90, scaleX: 1, scaleY: 1, vX: 3, x: 250, y: 250 };
+			this.spriteData =
+				{ direction: 90, scaleX: 1, scaleY: 1, vX: 3, x: 250, y: 250, initialAnimation: 'run' };
 		},
 	});
 
@@ -22,13 +23,17 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 		spriteCreator.create(this.spriteSheet, this.spriteData);
 
 		sinon.assert.calledOnce(spy);
-		sinon.assert.calledWith(spy, this.spriteSheet);
+		sinon.assert.calledWith(spy, this.spriteSheet, this.spriteData.initialAnimation);
 		createjs.Sprite.restore();
 	});
 
 	test('Should use all data passed to initialize sprite', function(assert) {
 		var sprite = spriteCreator.create(this.spriteSheet, this.spriteData);
-		for(var prop in this.spriteData) {
+		var expected =
+			{ direction: this.spriteData.direction, scaleX: this.spriteData.scaleX,
+				scaleY: this.spriteData.scaleY, vX: this.spriteData.vX,
+					x: this.spriteData.x, y: this.spriteData.y };
+		for(var prop in expected) {
 			if(this.spriteData.hasOwnProperty(prop)) {
 				assert.equal(sprite[prop], this.spriteData[prop]);
 			}
