@@ -25,9 +25,9 @@ define(['entities/soldierOne', 'entities/zombieOne', 'lib/easeljs', 'lib/preload
 					}
 				},
 
-				createEntity: function(entityData) {
-					var entity = baseEntity(entityData.entityType);
-					factory.decorators[entityData.entityType].decorate(entity, entityData.spriteData);
+				createEntity: function(entityDef) {
+					var entity = baseEntity(entityDef.entityType);
+					factory.decorators[entityDef.entityType].decorate(entity, entityDef.spriteDef);
 					return entity;
 				},
 			};

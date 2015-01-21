@@ -11,31 +11,31 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			assert.ok(gameEngine.hasOwnProperty('entities'), 'has an entities property'); // Validate is array?
 		});
 
-		module('Game Engine - generateRandomZombieEntityData');
+		module('Game Engine - generateRandomZombieEntityDef');
 
 		test('Should generate data for the \'zombieOne\' entityType', function(assert) {
-			var spy = sinon.spy(gameEngine, 'generateRandomZombieEntityData');
-			gameEngine.generateRandomZombieEntityData();
-			var expected = { entityType: 'zombieOne', spriteData:
+			var spy = sinon.spy(gameEngine, 'generateRandomZombieEntityDef');
+			gameEngine.generateRandomZombieEntityDef();
+			var expected = { entityType: 'zombieOne', spriteDef:
 					{ direction: sinon.match.number, scaleX: sinon.match.number, vX: sinon.match.number,
 						x: sinon.match.number, y: sinon.match.number} };
 			assert.ok(spy.returned(sinon.match(expected)));
-			gameEngine.generateRandomZombieEntityData.restore();
+			gameEngine.generateRandomZombieEntityDef.restore();
 		});
 
 		test('Should generate sprite\'s x value between bounds', function(assert) {
 			// Generate 10 values
 			for(var i = 0; i < 10; i++) {
-				var entityData = gameEngine.generateRandomZombieEntityData();
-				assert.ok(entityData.spriteData.x >= gameEngine.minX);
-				assert.ok(entityData.spriteData.x <= gameEngine.maxX);
+				var entityDef = gameEngine.generateRandomZombieEntityDef();
+				assert.ok(entityDef.spriteDef.x >= gameEngine.minX);
+				assert.ok(entityDef.spriteDef.x <= gameEngine.maxX);
 			}
 		});
 
 		test('The sprite\'s direction and scaleX value should have the same sign', function(assert) {
-			var entityData = gameEngine.generateRandomZombieEntityData();
+			var entityDef = gameEngine.generateRandomZombieEntityDef();
 			// Should always be positive
-			var product = entityData.spriteData.direction * entityData.spriteData.scaleX;
+			var product = entityDef.spriteDef.direction * entityDef.spriteDef.scaleX;
 			assert.ok(product >= 1);
 		});
 
@@ -98,8 +98,8 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			createEntityStub.restore();
 		});
 
-		test('Should generateRandomZombieEntityData', function() {
-			var entityData = { entityType: 'someType', spriteData: { direction: 90 } };
+		test('Should generateRandomZombieEntityDef', function() {
+			var entityDef = { entityType: 'someType', spriteDef: { direction: 90 } };
 			var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
 			var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
 			
@@ -108,7 +108,7 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
 
 			var gameEngineMock = this.mock(gameEngine);
-			gameEngineMock.expects('generateRandomZombieEntityData').once().returns(entityData);
+			gameEngineMock.expects('generateRandomZombieEntityDef').once().returns(entityDef);
 
 			gameEngine.init(loadQueue, stage);
 			entityFactoryStub.restore();

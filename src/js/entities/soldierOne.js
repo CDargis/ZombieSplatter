@@ -6,9 +6,9 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 
 			var entityDecorator = {
 
-				decorate: function(entity, spriteData) {
+				decorate: function(entity, spriteDef) {
 					var spriteSheet = soldierOneSpriteSheet.create();
-					var sprite = spriteCreator.create(spriteSheet, spriteData);
+					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.sprite = sprite;
 
 				  entity.update = function(data) {

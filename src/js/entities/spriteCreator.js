@@ -1,14 +1,14 @@
 define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 	var createSpriteCreator = function() {
 		var spriteCreator = {
-			create: function(spriteSheet, data) {
-	      var sprite = new createjs.Sprite(spriteSheet, data.initialAnimation);
-	      sprite.direction = data.direction;
-	      sprite.scaleX = data.scaleX;
-	      sprite.scaleY = data.scaleY;
-	      sprite.vX = data.vX;
-	      sprite.x = data.x;
-	      sprite.y = data.y;
+			create: function(spriteSheet, spriteDef) {
+	      var sprite = new createjs.Sprite(spriteSheet, spriteDef.initialAnimation);
+	      sprite.direction = spriteDef.direction;
+	      sprite.scaleX = spriteDef.scaleX;
+	      sprite.scaleY = spriteDef.scaleY;
+	      sprite.vX = spriteDef.vX;
+	      sprite.x = spriteDef.x;
+	      sprite.y = spriteDef.y;
 	      sprite.currentFrame = 0;
 	      var bounds = sprite.getBounds();
 	      sprite.regX = bounds.width / 2;

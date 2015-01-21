@@ -50,17 +50,17 @@ define(['entities/entityFactory'], function(entityFactory) {
 		},
 	});
 
-	var spriteData = { direction: 90, scaleX: 1, vX: 3, x: 50, y: 250 };
+	var spriteDef = { direction: 90, scaleX: 1, vX: 3, x: 50, y: 250 };
 	test('Should call decorate for each entity type', function() {
 		var decorators = entityFactory.decorators;
 		for(var entityType in decorators) {
 			if(decorators.hasOwnProperty(entityType)) {
 				var spy = sinon.spy(decorators[entityType], 'decorate');
-				var entityData = {entityType: entityType, spriteData: spriteData};
-				entityFactory.createEntity(entityData);
+				var entityDef = {entityType: entityType, spriteDef: spriteDef};
+				entityFactory.createEntity(entityDef);
 
 				sinon.assert.calledOnce(spy);
-				sinon.assert.calledWith(spy, sinon.match.object, entityData.spriteData);
+				sinon.assert.calledWith(spy, sinon.match.object, entityDef.spriteDef);
 				decorators[entityType].decorate.restore();
 			}
 		}
@@ -71,8 +71,8 @@ define(['entities/entityFactory'], function(entityFactory) {
 		var decorators = entityFactory.decorators;
 		for(var entityType in decorators) {
 			if(decorators.hasOwnProperty(entityType)) {
-				var entityData = {entityType: entityType, spriteData: spriteData};
-				entityFactory.createEntity(entityData);
+				var entityDef = {entityType: entityType, spriteDef: spriteDef};
+				entityFactory.createEntity(entityDef);
 				var expected = { dead: false, sprite: sinon.match.object,
 															entityType: entityType, update: sinon.match.func };
 

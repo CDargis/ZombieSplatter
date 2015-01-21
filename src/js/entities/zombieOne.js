@@ -6,9 +6,9 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 
 			var entityDecorator = {
 
-				decorate: function(entity, spriteData) {
+				decorate: function(entity, spriteDef) {
 					var spriteSheet = zombieOneSpriteSheet.create();
-					var sprite = spriteCreator.create(spriteSheet, spriteData);
+					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 
 					 // Possibly remove ater removing click event listener
 					var bounds = sprite.getBounds();
