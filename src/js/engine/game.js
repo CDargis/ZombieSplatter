@@ -9,7 +9,8 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
         var engine = {
           screenWidth: 750,
           screenHeight: 400,
-          entities: []
+          entities: [],
+          framerate: 60
         };
 
         engine.minX = 75;
@@ -26,14 +27,14 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
           }
           var spriteDef =
             { direction: direction, scaleX: scaleX, scaleY: 1.2,
-              vX: 3, x: x, y: 250, initialAnimation: 'spawn' };
+              vX: 1, x: x, y: 250, initialAnimation: 'spawn' };
           var entityDef = { entityType: 'zombieOne', spriteDef: spriteDef};
           return entityDef;
         };
 
         engine.addPlayer = function() {
           var spriteDef =
-            { direction: 90, scaleX: '.2', scaleY: '.2', vX: 6, x: 200, y: 260, initialAnimation: 'idle' };
+            { direction: 90, scaleX: '.2', scaleY: '.2', vX: 3, x: 200, y: 260, initialAnimation: 'idle' };
           var entityDef = { entityType: 'soldierOne', spriteDef: spriteDef };
           var player = entityFactory.createEntity(entityDef);
           engine.addEntity(player);
@@ -49,8 +50,8 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
           var zombieData = engine.generateRandomZombieEntityDef();
           var zombie = entityFactory.createEntity(zombieData);
           engine.addEntity(zombie);
+          createjs.Ticker.framerate = engine.framerate;
           createjs.Ticker.addEventListener('tick', engine.onTick);
-          // createjs.Ticker.framerate = 60;
         };
 
         engine.addEntity = function(entity) {

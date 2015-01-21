@@ -33,9 +33,9 @@ define(['engine/input'], function(inputEngine) {
 		this.event.keyCode = 40;
 		inputEngine.onKeyDown(this.event);
 
-		assert.equal(inputEngine.actions.LEFT, true);
-		assert.equal(inputEngine.actions.RIGHT, true);
-		assert.equal(inputEngine.actions.DOWN, true);
+		assert.equal(true, inputEngine.actions.LEFT);
+		assert.equal(true, inputEngine.actions.RIGHT);
+		assert.equal(true, inputEngine.actions.DOWN);
 	});
 
 	test('Should prevent default on codes 32, 37, 38, 39, 40', function(assert) {
@@ -74,7 +74,7 @@ define(['engine/input'], function(inputEngine) {
 		inputEngine.onKeyDown(this.event);
 		inputEngine.onKeyUp(this.event);
 
-		assert.equal(inputEngine.actions.LEFT, false);
+		assert.equal(false, inputEngine.actions.LEFT);
 	});
 
 	module('Input Engine - Init');

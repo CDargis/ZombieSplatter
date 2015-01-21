@@ -38,7 +38,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  	else if(actions.DOWN && currentAnimation === 'crouched') {
 				  		sprite.gotoAndPlay('exitCrouch');
 				  	}
-				  	else if (currentAnimation !== 'crouch' &&
+				  	else if (currentAnimation !== 'crouch' && currentAnimation !== 'exitCrouch' &&
 				  		currentAnimation !== 'crouched' && currentAnimation !== 'shoot') {
 				  		sprite.gotoAndPlay('idle');
 				  	}

@@ -4,10 +4,11 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 		module('Game Engine - Props');
 
 		test('Should have the following props and/or values', function(assert) {
-			assert.equal(gameEngine.screenWidth, 750, 'screen width');
-			assert.equal(gameEngine.screenHeight, 400, 'screen height');
-			assert.equal(gameEngine.minX, 75, 'min spawn x value');
-			assert.equal(gameEngine.maxX, gameEngine.screenWidth - 75, 'max spawn x value');
+			assert.equal(750, gameEngine.screenWidth, 'screen width');
+			assert.equal(400, gameEngine.screenHeight, 'screen height');
+			assert.equal(60, gameEngine.framerate, 'framerate');
+			assert.equal(75, gameEngine.minX, 'min spawn x value');
+			assert.equal(gameEngine.screenWidth - 75, gameEngine.maxX, 'max spawn x value');
 			assert.ok(gameEngine.hasOwnProperty('entities'), 'has an entities property'); // Validate is array?
 		});
 
@@ -81,7 +82,7 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			sinon.assert.calledOnce(inputEngineSpy);
 			sinon.assert.calledOnce(factorySpy);
 			sinon.assert.calledWith(factorySpy, loadQueue);
-			assert.equal(gameEngine.stage, stage);
+			assert.equal(stage, gameEngine.stage);
 			inputEngine.init.restore();
 			entityFactory.init.restore();
 			createEntityStub.restore();
@@ -151,6 +152,18 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			sinon.assert.calledWith(spy, 'tick', gameEngine.onTick);
 
 			createjs.Ticker.addEventListener.restore();
+			createEntityStub.restore();
+		});
+
+		test('Should set framerate to prop', function(assert) {
+			var fakeEntity = createFakeEntity(false, 'someType', 1);
+			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+			createEntityStub.returns(fakeEntity);
+			
+			gameEngine.init(loadQueue, stage);
+			var diff = Math.abs(createjs.Ticker.framerate - gameEngine.framerate);
+			assert.equal(true, diff <= .0001);
+
 			createEntityStub.restore();
 		});
 
