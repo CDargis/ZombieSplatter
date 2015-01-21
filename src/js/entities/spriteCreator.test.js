@@ -35,7 +35,7 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 					x: this.spriteDef.x, y: this.spriteDef.y };
 		for(var prop in expected) {
 			if(this.spriteDef.hasOwnProperty(prop)) {
-				assert.equal(sprite[prop], this.spriteDef[prop]);
+				assert.equal(this.spriteDef[prop], sprite[prop]);
 			}
 		}
 	});
@@ -43,12 +43,12 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 	test('Should set regX and regY to half width and height', function(assert) {
 		var sprite = spriteCreator.create(this.spriteSheet, this.spriteDef);
 
-		assert.equal(sprite.regX, this.width / 2);
-		assert.equal(sprite.regY, this.height / 2);
+		assert.equal(this.width / 2, sprite.regX);
+		assert.equal(this.height / 2, sprite.regY);
 	});
 
 	test('Should set current frame to 0', function(assert) {
 		var sprite = spriteCreator.create(this.spriteSheet, this.spriteDef);
-		assert.equal(sprite.currentFrame, 0);
+		assert.equal(0, sprite.currentFrame);
 	});
 });

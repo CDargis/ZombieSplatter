@@ -52,7 +52,7 @@ define(['engine/input'], function(inputEngine) {
 		this.event.keyCode = 40;
 		inputEngine.onKeyDown(this.event);
 
-		assert.equal(spy.callCount, 5);
+		assert.equal(5, spy.callCount);
 		this.event.preventDefault.restore();
 	});
 

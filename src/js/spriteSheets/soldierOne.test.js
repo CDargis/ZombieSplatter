@@ -18,7 +18,7 @@ define(['spriteSheets/soldierOne'], function(soldierOneSpriteSheet) {
 		stub.returns(img);
 
 		soldierOneSpriteSheet.init(loadQueue);
-		assert.deepEqual(soldierOneSpriteSheet.img, img);
+		assert.deepEqual(img, soldierOneSpriteSheet.img);
 		stub.restore();
 	});
 
@@ -35,12 +35,13 @@ define(['spriteSheets/soldierOne'], function(soldierOneSpriteSheet) {
 
 	test('Should use image from load queue in sprite sheet', function(assert) {
 		var spriteSheet = soldierOneSpriteSheet.create();
-		assert.deepEqual(spriteSheet._images, [img]);
+		assert.deepEqual([img], spriteSheet._images);
 	});
 
 	test('Should have 9 animations', function(assert) {
 		var spriteSheet = soldierOneSpriteSheet.create();
-		assert.deepEqual(spriteSheet._animations,
-			['idle', 'crouch', 'die', 'hurt', 'jump', 'run', 'shoot', 'crouched', 'exitCrouch']);
+		assert.deepEqual(
+			['idle', 'crouch', 'die', 'hurt', 'jump', 'run', 'shoot', 'crouched', 'exitCrouch'],
+			spriteSheet._animations);
 	});
 });

@@ -36,7 +36,7 @@ define(['entities/spriteCreator', 'entities/soldierOne', 'spriteSheets/soldierOn
 			
 			soldierOneEntity.decorate(this.entity, spriteDef);
 
-			assert.deepEqual(this.entity.sprite, sprite);
+			assert.deepEqual(sprite, this.entity.sprite);
 			stub.restore();
 			mock.restore();
 		});

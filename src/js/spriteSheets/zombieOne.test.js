@@ -18,7 +18,7 @@ define(['spriteSheets/zombieOne'], function(zombieOneSpriteSheet) {
 		stub.returns(img);
 
 		zombieOneSpriteSheet.init(loadQueue);
-		assert.deepEqual(zombieOneSpriteSheet.img, img);
+		assert.deepEqual(img, zombieOneSpriteSheet.img);
 		stub.restore();
 	});
 
@@ -35,11 +35,11 @@ define(['spriteSheets/zombieOne'], function(zombieOneSpriteSheet) {
 
 	test('Should use image from load queue in sprite sheet', function(assert) {
 		var spriteSheet = zombieOneSpriteSheet.create();
-		assert.deepEqual(spriteSheet._images, [img]);
+		assert.deepEqual([img], spriteSheet._images);
 	});
 
 	test('Should have 4 animations', function(assert) {
 		var spriteSheet = zombieOneSpriteSheet.create();
-		assert.deepEqual(spriteSheet._animations, ['spawn', 'walk', 'dieByShot', 'dead']);
+		assert.deepEqual(['spawn', 'walk', 'dieByShot', 'dead'], spriteSheet._animations);
 	});
 });

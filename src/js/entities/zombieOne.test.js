@@ -46,7 +46,7 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			
 			zombieOneEntity.decorate(entity, spriteDef);
 
-			assert.deepEqual(entity.sprite, sprite);
+			assert.deepEqual(sprite, entity.sprite);
 			stub.restore();
 			mock.restore();
 		});
