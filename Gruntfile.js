@@ -59,12 +59,8 @@ module.exports = function(grunt) {
         replacements: [{
           from: 'THE_DATE',
           to: '<%= grunt.template.today() %>'
-        }],
-      },
-      theGame: {
-        src: ['src/theGame.html'],
-        dest: 'build/',
-        replacements: [{
+        },
+        {
           from: 'http://localhost:8080/src/',
           to: '<%= customConfig.rootContext %>'
         }],

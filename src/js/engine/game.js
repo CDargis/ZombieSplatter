@@ -50,6 +50,7 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
           var zombie = entityFactory.createEntity(zombieData);
           engine.addEntity(zombie);
           createjs.Ticker.addEventListener('tick', engine.onTick);
+          // createjs.Ticker.framerate = 60;
         };
 
         engine.addEntity = function(entity) {

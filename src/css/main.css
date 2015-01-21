@@ -19,8 +19,11 @@ a:hover {
   width: 423px;
   height: 195px;
 }
-iframe {
-	padding-left: 0;
+canvas {
+  background-color: black;
+  width: 750px;
+  height: 400px;
+  padding-left: 0;
   padding-right: 0;
   margin: 50px auto 25px auto;
   display: block;
