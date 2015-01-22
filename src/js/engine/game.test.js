@@ -162,7 +162,7 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			
 			gameEngine.init(loadQueue, stage);
 			var diff = Math.abs(createjs.Ticker.framerate - gameEngine.framerate);
-			assert.equal(true, diff <= .0001);
+			assert.equal(true, diff <= '.0001');
 
 			createEntityStub.restore();
 		});
