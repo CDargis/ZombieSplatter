@@ -6,7 +6,6 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 	      sprite.direction = spriteDef.direction;
 	      sprite.scaleX = spriteDef.scaleX;
 	      sprite.scaleY = spriteDef.scaleY;
-	      sprite.vX = spriteDef.vX;
 	      sprite.x = spriteDef.x;
 	      sprite.y = spriteDef.y;
 	      sprite.currentFrame = 0;

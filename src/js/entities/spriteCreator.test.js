@@ -14,7 +14,7 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 		    }
 			});
 			this.spriteDef =
-				{ direction: 90, scaleX: 1, scaleY: 1, vX: 3, x: 250, y: 250, initialAnimation: 'run' };
+				{ direction: 90, scaleX: 1, scaleY: 1, x: 250, y: 250, initialAnimation: 'run' };
 		},
 	});
 

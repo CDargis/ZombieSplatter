@@ -31,10 +31,10 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					    }
 
 					    if (sprite.direction === 90) {
-					      sprite.x += sprite.vX;
+					      sprite.x += entity.speed;
 					    }
 					    else {
-					      sprite.x -= sprite.vX;
+					      sprite.x -= entity.speed;
 					    }
 					  }
 			    };

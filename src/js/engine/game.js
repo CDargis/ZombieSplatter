@@ -27,15 +27,15 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
           }
           var spriteDef =
             { direction: direction, scaleX: scaleX, scaleY: 1.2,
-              vX: 1, x: x, y: 250, initialAnimation: 'spawn' };
-          var entityDef = { entityType: 'zombieOne', spriteDef: spriteDef};
+                x: x, y: 250, initialAnimation: 'spawn' };
+          var entityDef = { entityType: 'zombieOne', speed: 1, spriteDef: spriteDef};
           return entityDef;
         };
 
         engine.addPlayer = function() {
           var spriteDef =
-            { direction: 90, scaleX: '.2', scaleY: '.2', vX: 3, x: 200, y: 260, initialAnimation: 'idle' };
-          var entityDef = { entityType: 'soldierOne', spriteDef: spriteDef };
+            { direction: 90, scaleX: '.2', scaleY: '.2', x: 200, y: 260, initialAnimation: 'idle' };
+          var entityDef = { entityType: 'soldierOne', speed: 3, spriteDef: spriteDef };
           var player = entityFactory.createEntity(entityDef);
           engine.addEntity(player);
         };

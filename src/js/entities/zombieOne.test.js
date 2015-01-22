@@ -14,11 +14,10 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			mock.restore();
 		});
 
-		var spriteDef = { direction: 90, scaleX: 1, vX: 3, x: 250, y: 250 };
-		var entity = {};
+		var spriteDef = { direction: 90, scaleX: 1, x: 250, y: 250 };
 		module('Zombie One Entity - Decorate', {
 			beforeEach: function() {
-				entity = { type: 'zombieOne', dead: false, update: function() {} };
+				this.entity = { type: 'zombieOne', dead: false, speed: 3, update: function() {} };
 				this.loadQueueStub = sinon.stub(loadQueue, 'getResult');
 				this.loadQueueStub.returns(img);
 				zombieOneEntity.init(loadQueue);
@@ -30,7 +29,7 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 
 		test('Should call create on spriteSheet module', function() {
 			var spy = sinon.spy(zombieOneSpriteSheet, 'create');
-			zombieOneEntity.decorate(entity, spriteDef);
+			zombieOneEntity.decorate(this.entity, spriteDef);
 			
 			sinon.assert.calledOnce(spy);
 			zombieOneSpriteSheet.create.restore();
@@ -44,51 +43,51 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			var mock = this.mock(spriteCreator);
 			mock.expects('create').once().withExactArgs(spriteSheet, spriteDef).returns(sprite);
 			
-			zombieOneEntity.decorate(entity, spriteDef);
+			zombieOneEntity.decorate(this.entity, spriteDef);
 
-			assert.deepEqual(sprite, entity.sprite);
+			assert.deepEqual(sprite, this.entity.sprite);
 			stub.restore();
 			mock.restore();
 		});
 
 		test('Should change direction and flip image on update when sprite is too far to the right',
 				function(assert) {
-			zombieOneEntity.decorate(entity, spriteDef);
-			entity.sprite.currentAnimation = 'walk';
-			entity.sprite.x = 150;
-			entity.update({minX: 50, maxX: 150});
+			zombieOneEntity.decorate(this.entity, spriteDef);
+			this.entity.sprite.currentAnimation = 'walk';
+			this.entity.sprite.x = 150;
+			this.entity.update({minX: 50, maxX: 150});
 
-			assert.ok(entity.sprite.direction === -90);
-			assert.ok(entity.sprite.scaleX === -1);
+			assert.ok(this.entity.sprite.direction === -90);
+			assert.ok(this.entity.sprite.scaleX === -1);
 		});
 
 		test('Should change direction and flip image on update when sprite is too far to the left',
 				function(assert) {
-			zombieOneEntity.decorate(entity, spriteDef);
-			entity.sprite.currentAnimation = 'walk';
-			entity.sprite.x = 49;
-			entity.update({minX: 50, maxX: 150});
+			zombieOneEntity.decorate(this.entity, spriteDef);
+			this.entity.sprite.currentAnimation = 'walk';
+			this.entity.sprite.x = 49;
+			this.entity.update({minX: 50, maxX: 150});
 
-			assert.ok(entity.sprite.direction === 90);
-			assert.ok(entity.sprite.scaleX === 1);
+			assert.ok(this.entity.sprite.direction === 90);
+			assert.ok(this.entity.sprite.scaleX === 1);
 		});
 
 		test('Should update x with a positive value when moving to the right', function(assert) {
-			zombieOneEntity.decorate(entity, spriteDef);
-			entity.sprite.currentAnimation = 'walk';
-			entity.sprite.x = 49;
-			entity.update({minX: 50, maxX: 150});
+			zombieOneEntity.decorate(this.entity, spriteDef);
+			this.entity.sprite.currentAnimation = 'walk';
+			this.entity.sprite.x = 49;
+			this.entity.update({minX: 50, maxX: 150});
 
-			assert.ok(entity.sprite.x === 49 + spriteDef.vX);
+			assert.ok(this.entity.sprite.x === 49 + this.entity.speed);
 		});
 
 		test('Should update x with a negative value when moving to the left', function(assert) {
-			zombieOneEntity.decorate(entity, spriteDef);
-			entity.sprite.currentAnimation = 'walk';
-			entity.sprite.x = 150;
-			entity.update({minX: 50, maxX: 150});
+			zombieOneEntity.decorate(this.entity, spriteDef);
+			this.entity.sprite.currentAnimation = 'walk';
+			this.entity.sprite.x = 150;
+			this.entity.update({minX: 50, maxX: 150});
 
-			assert.ok(entity.sprite.x === 150 - spriteDef.vX);
+			assert.ok(this.entity.sprite.x === 150 - this.entity.speed);
 		});
 
 		test('Should die on animationend \'dead\' ', function(assert) {
@@ -98,9 +97,9 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 				return event;
 			};
 
-			zombieOneEntity.decorate(entity, spriteDef);
+			zombieOneEntity.decorate(this.entity, spriteDef);
 			var event = createEvent('dead');
-			entity.sprite.dispatchEvent(event);
-			assert.ok(entity.dead);
+			this.entity.sprite.dispatchEvent(event);
+			assert.ok(this.entity.dead);
 		});
 });

@@ -17,8 +17,8 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 		test('Should generate data for the \'zombieOne\' entityType', function(assert) {
 			var spy = sinon.spy(gameEngine, 'generateRandomZombieEntityDef');
 			gameEngine.generateRandomZombieEntityDef();
-			var expected = { entityType: 'zombieOne', spriteDef:
-					{ direction: sinon.match.number, scaleX: sinon.match.number, vX: sinon.match.number,
+			var expected = { entityType: 'zombieOne', speed: 1, spriteDef:
+					{ direction: sinon.match.number, scaleX: sinon.match.number,
 						x: sinon.match.number, y: sinon.match.number} };
 			assert.ok(spy.returned(sinon.match(expected)));
 			gameEngine.generateRandomZombieEntityDef.restore();

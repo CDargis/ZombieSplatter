@@ -2,10 +2,11 @@ define(['entities/soldierOne', 'entities/zombieOne', 'lib/easeljs', 'lib/preload
 	function(soldierOneEntity, zombieOneEntity) {
 
 		var createEntityFactory = function() {
-			var baseEntity = function(entityType) {
+			var baseEntity = function(entityType, speed) {
 				return {
 					dead: false,
 					entityType: entityType,
+					speed: speed,
 					sprite: {},
 					update: function() {}
 				};
@@ -26,7 +27,7 @@ define(['entities/soldierOne', 'entities/zombieOne', 'lib/easeljs', 'lib/preload
 				},
 
 				createEntity: function(entityDef) {
-					var entity = baseEntity(entityDef.entityType);
+					var entity = baseEntity(entityDef.entityType, entityDef.speed);
 					factory.decorators[entityDef.entityType].decorate(entity, entityDef.spriteDef);
 					return entity;
 				},

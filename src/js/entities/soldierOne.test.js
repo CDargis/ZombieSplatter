@@ -8,7 +8,7 @@ define(['entities/spriteCreator', 'entities/soldierOne', 'spriteSheets/soldierOn
 		var spriteDef = { direction: 90, scaleX: 1, vX: 3, x: 250, y: 250 };
 		module('Soldier One Entity - Decorate', {
 			beforeEach: function() {
-				this.entity = { type: 'soldierOne', dead: false, update: function() {} };
+				this.entity = { type: 'soldierOne', dead: false, speed: 3, update: function() {} };
 				this.loadQueueStub = sinon.stub(loadQueue, 'getResult');
 				this.loadQueueStub.returns(img);
 				soldierOneEntity.init(loadQueue);
