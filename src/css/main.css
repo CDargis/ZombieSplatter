@@ -19,14 +19,42 @@ a:hover {
   width: 423px;
   height: 195px;
 }
-canvas {
-  background-color: black;
+#canvasContainer {
   width: 750px;
   height: 400px;
   padding-left: 0;
   padding-right: 0;
   margin: 50px auto 25px auto;
   display: block;
+  position: relative;
+  text-align: center;
+}
+canvas {
+  background-color: black;
+  top: 0;
+  left: 0;
+}
+#gameCanvas {
+  z-index: 1;
+  opacity: .6;
+}
+#debugCanvas {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+}
+#canvasContainer.hideDebug > #gameCanvas {
+  opacity: 1;
+}
+#canvasContainer.hideDebug > #debugCanvas {
+  display: none;
+}
+.container {
+  text-align: center;
+}
+button {
+  width: 100px;
+  height: 30px;
 }
 .about {
   display: block;

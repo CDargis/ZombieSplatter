@@ -6,12 +6,22 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 	      sprite.direction = spriteDef.direction;
 	      sprite.scaleX = spriteDef.scaleX;
 	      sprite.scaleY = spriteDef.scaleY;
-	      sprite.x = spriteDef.x;
-	      sprite.y = spriteDef.y;
-	      sprite.currentFrame = 0;
+	      
 	      var bounds = sprite.getBounds();
 	      sprite.regX = bounds.width / 2;
 	      sprite.regY = bounds.height / 2;
+
+	      // Assume y is where we want the bottom of the sprite
+	      var transformedBounds = sprite.getTransformedBounds();
+	      var y = spriteDef.pos.y - transformedBounds.height
+	      	+ (transformedBounds.height / 2) + spriteDef.padding.bottom;
+	      // console.log(transformedBounds);
+	      // console.log(y);
+	      sprite.userData = { padding: spriteDef.padding };
+
+	      sprite.x = spriteDef.pos.x;
+	      sprite.y = y;
+
 	      return sprite;
 			},
 		};

@@ -6,6 +6,8 @@ define(['entities/soldierOne', 'entities/zombieOne', 'lib/easeljs', 'lib/preload
 				return {
 					dead: false,
 					entityType: entityType,
+					ontouch: function() {},
+					physBody: {},
 					speed: speed,
 					sprite: {},
 					update: function() {}

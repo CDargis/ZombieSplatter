@@ -1,6 +1,6 @@
-define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
-  'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'],
-    function(inputEngine, entityFactory) {
+define(['engine/input', 'engine/physics', 'entities/entityFactory',
+  'lib/box2dWeb', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'],
+    function(inputEngine, physicsEngine, entityFactory) {
       var getRandomNumberBetween = function(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       };
@@ -18,6 +18,7 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
 
         engine.generateRandomZombieEntityDef = function() {
           var x = getRandomNumberBetween(engine.minX, engine.maxX);
+          var pos = { x: x, y: 375 };
           var rand = getRandomNumberBetween(0, 1);
           var direction = 90;
           var scaleX = 1.250;
@@ -25,36 +26,47 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
             direction *= -1;
             scaleX *= -1;
           }
+          var padding = { bottom: 0 }
           var spriteDef =
             { direction: direction, scaleX: scaleX, scaleY: 1.2,
-                x: x, y: 250, initialAnimation: 'spawn' };
-          var entityDef = { entityType: 'zombieOne', speed: 1, spriteDef: spriteDef};
+                pos: pos, initialAnimation: 'spawn', padding: padding };
+          var entityDef = { entityType: 'zombieOne', speed: 2, spriteDef: spriteDef};
           return entityDef;
         };
 
         engine.addPlayer = function() {
+          var pos = { x: 200, y: 375 };
+          var padding = { bottom: 0 };
           var spriteDef =
-            { direction: 90, scaleX: '.2', scaleY: '.2', x: 200, y: 260, initialAnimation: 'idle' };
-          var entityDef = { entityType: 'soldierOne', speed: 3, spriteDef: spriteDef };
+            { direction: 90, scaleX: '.2', scaleY: '.2',
+              pos: pos, initialAnimation: 'idle', padding: padding };
+          var entityDef = { entityType: 'soldierOne', speed: 15, spriteDef: spriteDef };
           var player = entityFactory.createEntity(entityDef);
-          engine.addEntity(player);
+          engine.addEntity(player, 'dynamic');
+        };
+
+        // Unit test!!
+        engine.addZombie = function() {
+          var zombieData = engine.generateRandomZombieEntityDef();
+          var zombie = entityFactory.createEntity(zombieData);
+          engine.addEntity(zombie, 'dynamic');
         };
 
         engine.init = function(loadQueue, stage) {
           engine.entities = [];
           inputEngine.init();
+          physicsEngine.init();
           entityFactory.init(loadQueue);
           engine.stage = stage;
           engine.addPlayer(); // Will always be index 0
+          engine.addZombie();
 
-          var zombieData = engine.generateRandomZombieEntityDef();
-          var zombie = entityFactory.createEntity(zombieData);
-          engine.addEntity(zombie);
           createjs.Ticker.framerate = engine.framerate;
           createjs.Ticker.addEventListener('tick', engine.onTick);
         };
 
-        engine.addEntity = function(entity) {
+        engine.addEntity = function(entity, type) {
+          physicsEngine.addBody(entity, type);
           engine.stage.addChild(entity.sprite);
           engine.entities.push(entity);
         };
@@ -63,6 +75,9 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
           var index = engine.entities.indexOf(entity);
           if(index !== -1) {
             engine.entities.splice(index, 1);
+          }
+          if(entity.physBody) {
+            physicsEngine.removeBody(entity.physBody);
           }
           engine.stage.removeChild(entity.sprite);
         };
@@ -79,7 +94,7 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
             else {
               var data = { minX: engine.minX, maxX: engine.maxX, height: engine.screenHeight,
                 actions: inputEngine.actions};
-              entity.update(data);
+              // entity.update(data);
             }
           }
 
@@ -87,13 +102,12 @@ define(['engine/input', 'entities/entityFactory','lib/box2dWeb',
             engine.removeEntity(entitiesToRemove[i]);
           }
 
-          // Check how many entities we have and spawn a new one if needed
+          // Check how many entities we have and spawn a new zombie if needed
           if(engine.entities.length === 1) {
-            var zombieData = engine.generateRandomZombieEntityDef();
-            entity = entityFactory.createEntity(zombieData);
-            engine.addEntity(entity);
+            // engine.addZombie();
           }
 
+          physicsEngine.update(inputEngine.actions);
           engine.stage.update();
         };
         return engine;
