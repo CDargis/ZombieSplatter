@@ -1,4 +1,4 @@
-define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
+define(['include/createJS'], function() {
 	var createSpriteSheetCreator = function() {
     var spriteSheetCreator = {
       img: {},

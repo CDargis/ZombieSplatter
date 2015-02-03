@@ -1,4 +1,4 @@
-define(['entities/soldierOne', 'entities/zombieOne', 'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'],
+define(['entities/soldierOne', 'entities/zombieOne'],
 	function(soldierOneEntity, zombieOneEntity) {
 
 		var createEntityFactory = function() {

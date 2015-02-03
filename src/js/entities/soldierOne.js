@@ -1,7 +1,6 @@
 define(['entities/spriteCreator', 'spriteSheets/soldierOne',
-	'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs', 'lib/box2dWeb'],
-	function(spriteCreator, soldierOneSpriteSheet) {
-		var b2Vec2 = Box2D.Common.Math.b2Vec2;
+	'engine/physics', 'include/createJS'],
+	function(spriteCreator, soldierOneSpriteSheet, physicsEngine) {
 
 		var createEntityDecorator = function() {
 
@@ -11,6 +10,25 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					var spriteSheet = soldierOneSpriteSheet.create();
 					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.sprite = sprite;
+
+				  // UNIT TEST!!
+					bounds = entity.sprite.getTransformedBounds();
+					var physBodyDef = {
+						density: 1.0,
+            friction: 0,
+            restitution: 0,
+						halfWidth: bounds.width / 2,
+						halfHeight: bounds.height / 2,
+						groupIndex: -1,
+						pos: { x: entity.sprite.x, y: entity.sprite.y},
+						type: 'dynamic',
+						userData: {
+              'id': 'soldierOne',
+              'entity': entity
+            }
+					};
+					var body = physicsEngine.addBody(physBodyDef);
+					entity.physBody = body;
 
 				  entity.onTouch = function(otherBody, impulse) {
 				  	// console.log("sold" + otherBody);
@@ -48,16 +66,6 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  		sprite.gotoAndPlay('idle');
 				  	}
 
-				  	// Old implementaton
-			    // 	if(currentAnimation === 'run') {
-					  //   if (sprite.direction === 90) {
-					  //     sprite.x += entity.speed;
-					  //   }
-					  //   else {
-					  //     sprite.x -= entity.speed;
-					  //   }
-					  // }
-
 					  // Setting the linear velocity
 					  var velocity = entity.physBody.GetLinearVelocity();
 			    	if(currentAnimation === 'run') {
@@ -74,28 +82,9 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					  }
 					  entity.physBody.SetLinearVelocity(velocity);
 					 	entity.sprite.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
-					  entity.sprite.x = entity.physBody.GetWorldCenter().x * data.scale;
-						entity.sprite.y = entity.physBody.GetWorldCenter().y * data.scale;
-
-						// Forces
-						// var force = 0;
-			   //  	if(actions.LEFT) {
-			   //  		force = -250 * entity.speed;
-			   //  	}
-			   //  	else if(actions.RIGHT) {
-			   //  		force = 250 * entity.speed;
-			   //  	}
-			   //  	else {
-			   //  		entity.physBody.SetLinearVelocity(new b2Vec2(0,0));
-			   //  		entity.physBody.SetLinearDamping(12.0);
-			   //  	}
-			   //  	if(force !== 0) {
-			   //  		entity.physBody.ApplyForce(new b2Vec2(force, 0), entity.physBody.GetWorldCenter());
-			   //  	}
-			   //  	entity.sprite.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
-					 //  entity.sprite.x = entity.physBody.GetWorldCenter().x * data.scale;
-						// entity.sprite.y = entity.physBody.GetWorldCenter().y * data.scale;
-			    };
+					  entity.sprite.x = entity.physBody.GetWorldCenter().x * physicsEngine.SCALE;
+						entity.sprite.y = entity.physBody.GetWorldCenter().y * physicsEngine.SCALE;
+					};
 				},
 
 				init: function(loadQueue) {

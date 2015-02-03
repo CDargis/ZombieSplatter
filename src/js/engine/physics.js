@@ -1,7 +1,7 @@
 define(['lib/box2dWeb'],
 	function() {
 		var createPhysicsEngine = function() {
-			var  b2Vec2 = Box2D.Common.Math.b2Vec2
+			var b2Vec2 = Box2D.Common.Math.b2Vec2
        	,	b2BodyDef = Box2D.Dynamics.b2BodyDef
        	,	b2Body = Box2D.Dynamics.b2Body
        	,	b2FixtureDef = Box2D.Dynamics.b2FixtureDef
@@ -17,43 +17,48 @@ define(['lib/box2dWeb'],
         , b2Listener = Box2D.Dynamics.b2ContactListener;
         ;
 
-      var SCALE = 30.0;
-
 			var engine = {
+        SCALE: 30.0,
 				world: {},
 				init: function(entities) {
 					engine.world = new b2World(new b2Vec2(0, 0), true)
-					
-					var groundFixDef = new b2FixtureDef;
-          groundFixDef.density = 1.0;
-          groundFixDef.friction = 0.5;
-          groundFixDef.restitution = 0.2;
 
-          var groundBody = new b2BodyDef;
-         
-         	//create ground
-         	groundBody.type = b2Body.b2_staticBody;
-         	groundBody.position.x = 375 / SCALE;
-         	groundBody.position.y = 390 / SCALE;
-         	groundFixDef.shape = new b2PolygonShape;
-         	groundFixDef.shape.SetAsBox(375 / SCALE, 15 / SCALE);
-         	engine.world.CreateBody(groundBody).CreateFixture(groundFixDef);
+          // Ground
+          var groundPhysBodyDef = {
+            density: 1.0,
+            friction: .5,
+            restitution: .2,
+            halfWidth: 375,
+            halfHeight: 15,
+            groupIndex: null,
+            pos: { x: 375, y: 390},
+            type: 'static',
+            userData: {
+              'id': 'ground',
+              'entity': null
+            }
+          };
+          engine.addBody(groundPhysBodyDef);
 
-          // Create walls
-          groundBody.position.x = 15 / SCALE;
-          groundBody.position.y = 200 / SCALE;
-          groundFixDef.shape = new b2PolygonShape;
-          groundFixDef.shape.SetAsBox(15 / SCALE, 200 / SCALE);
-          var body = engine.world.CreateBody(groundBody);
-          body.CreateFixture(groundFixDef);
-          body.SetUserData({ id: 'wall', update: function() {} });
-          groundBody.position.x = 735 / SCALE;
-          groundBody.position.y = 200 / SCALE;
-          groundFixDef.shape = new b2PolygonShape;
-          groundFixDef.shape.SetAsBox(15 / SCALE, 200 / SCALE);
-          body = engine.world.CreateBody(groundBody);
-          body.CreateFixture(groundFixDef);
-          body.SetUserData({ id: 'wall', update: function() {} });
+          // Walls
+          var wallPhysBodyDef = {
+            density: 1.0,
+            friction: .5,
+            restitution: .2,
+            halfWidth: 15,
+            halfHeight: 200,
+            groupIndex: null,
+            pos: { x: 15, y: 200},
+            type: 'static',
+            userData: {
+              'id': 'wall',
+              'entity': null
+            }
+          };
+          engine.addBody(wallPhysBodyDef);
+          wallPhysBodyDef.pos.x = 735;
+          wallPhysBodyDef.pos.y = 200;
+          engine.addBody(wallPhysBodyDef);
 
           // Listener
           var listener = new b2Listener;
@@ -67,7 +72,7 @@ define(['lib/box2dWeb'],
          	//setup debug draw
           var debugDraw = new b2DebugDraw();
 					debugDraw.SetSprite(document.getElementById('debugCanvas').getContext('2d'));
-					debugDraw.SetDrawScale(SCALE);
+					debugDraw.SetDrawScale(engine.SCALE);
 					debugDraw.SetFillAlpha(0.7);
 					debugDraw.SetLineThickness(1.0);
 					debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
@@ -75,52 +80,60 @@ define(['lib/box2dWeb'],
 
 				},
         postSolve: function (bodyA, bodyB, impulse) {
-          var entityA = bodyA ? bodyA.GetUserData() : null;
-          var entityB = bodyB ? bodyB.GetUserData() : null;
-          if(entityA !== null && entityA.onTouch) {
-            entityA.onTouch(bodyB, impulse);
+          var uA = bodyA ? bodyA.GetUserData() : null;
+          var uB = bodyB ? bodyB.GetUserData() : null;
+
+          if(uA !== null) {
+            entityA = uA.entity;
+            if(entityA !== null && entityA.onTouch) {
+              entityA.onTouch(bodyB, impulse);
+            }
           }
-          if(entityB !== null && entityB.onTouch) {
-            entityB.onTouch(bodyA, impulse);
+          if(uB !== null) {
+            entityB = uB.entity;
+            if(entityB !== null && entityB.onTouch) {
+              entityB.onTouch(bodyA, impulse);
+            }
           }
         },
-				addBody: function(entity, type) {
-					var fixtureDef = new b2FixtureDef;
-         	fixtureDef.density = 1.0;
-          fixtureDef.friction = 0;
-          fixtureDef.restitution = 0;
-         	fixtureDef.shape = new b2PolygonShape;
-         	var bounds = entity.sprite.getTransformedBounds();
-          fixtureDef.shape.SetAsBox((bounds.width / 2) / SCALE,
-          	((bounds.height - entity.sprite.userData.padding.bottom) / 2) / SCALE);
+        addBody: function(physBodyDef) {
+          var fixtureDef = new b2FixtureDef;
+          fixtureDef.density = physBodyDef.density;
+          fixtureDef.friction = physBodyDef.friction;
+          fixtureDef.restitution = physBodyDef.restitution;
+          fixtureDef.shape = new b2PolygonShape;
+          fixtureDef.shape.SetAsBox(physBodyDef.halfWidth / engine.SCALE,
+            physBodyDef.halfHeight / engine.SCALE);
           var filter = new b2FilterData();
-          filter.groupIndex = -1;
+          filter.groupIndex = physBodyDef.groupIndex;
           fixtureDef.filter = filter;
 
           var bodyDef = new b2BodyDef;
-          if(type === 'dynamic') {
+          if(physBodyDef.type === 'dynamic') {
             bodyDef.type = b2Body.b2_dynamicBody;
           }
-          else if(type === 'kinematic') {
+          else if(physBodyDef.type === 'kinematic') {
             bodyDef.type = b2Body.b2_kinematicBody;
           }
           else {
             bodyDef.type = b2Body.b2_staticBody;
           }
-          bodyDef.position.Set(entity.sprite.x / SCALE, entity.sprite.y / SCALE);
+          bodyDef.position.Set(physBodyDef.pos.x / engine.SCALE, physBodyDef.pos.y / engine.SCALE);
 
           var body = engine.world.CreateBody(bodyDef);
-		      body.CreateFixture(fixtureDef);
-          body.SetUserData(entity);
-		      //body.userData = entity;
-		      entity.physBody = body;
-				},
+          body.CreateFixture(fixtureDef);
+          if(physBodyDef.userData) {
+            body.SetUserData(physBodyDef.userData);
+          }
+          return body;
+        },
 				removeBody: function(body) {
 					engine.world.DestroyBody(body);
 				},
 				update: function(actions) {
-          var data = { actions: actions, scale: SCALE }
+          var data = { actions: actions };
 
+          // Step through the world
           engine.world.Step(
             1 / 60  //frame-rate
             ,10     //velocity iterations
@@ -132,19 +145,12 @@ define(['lib/box2dWeb'],
 
           // Update all the physics bodies
           for (var body = engine.world.GetBodyList(); body; body = body.GetNext()) {
-            var entity = body.GetUserData();
-            if(entity) {
-              // var velocity = body.GetLinearVelocity();
-              // console.log(body.IsSleepingAllowed())
-              // console.log(velocity);
-              entity.update(data);
-              // velocity.x = entity.sprite.x;
-              // velocity.y = entity.sprite.y;
-              // body.SetLinearVelocity(velocity);
-              // body.ApplyForce( new b2Vec2(20,0), body.GetWorldCenter() );
-              // var pos = new b2Vec2(entity.sprite.x, entity.sprite.y);
-              // var transform = new b2Transform(pos, new b2Mat22());
-              // body.SetTransform(transform);
+            var userData = body.GetUserData();
+            if(userData) {
+              var entity = userData.entity;
+              if(entity) {
+                entity.update(data);
+              }
             }
           }
 				},

@@ -1,7 +1,6 @@
 define(['entities/spriteCreator', 'spriteSheets/zombieOne',
-	'lib/easeljs', 'lib/preloadjs', 'lib/tweenjs', 'lib/box2dWeb'],
-	function(spriteCreator, zombieOneSpriteSheet) {
-		var b2Vec2 = Box2D.Common.Math.b2Vec2;
+	'engine/physics', 'include/createJS', 'lib/box2dWeb'],
+	function(spriteCreator, zombieOneSpriteSheet, physicsEngine) {
 
 		var createEntityDecorator = function() {
 
@@ -19,6 +18,25 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 
 				  entity.sprite = sprite;
 
+				  // UNIT TEST!!
+					bounds = entity.sprite.getTransformedBounds();
+					var physBodyDef = {
+						density: 1.0,
+            friction: 0,
+            restitution: 0,
+						halfWidth: bounds.width / 2,
+						halfHeight: bounds.height / 2,
+						groupIndex: -1,
+						pos: { x: entity.sprite.x, y: entity.sprite.y},
+						type: 'dynamic',
+						userData: {
+              'id': 'zombieOne',
+              'entity': entity
+            }
+					};
+					var body = physicsEngine.addBody(physBodyDef);
+					entity.physBody = body;
+
 				  entity.onTouch = function(otherBody, impulse) {
 				  	if(!otherBody) return;
 				  	var physOwner = otherBody.GetUserData();
@@ -34,27 +52,10 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				  			sprite.scaleX = -Math.abs(sprite.scaleX);
 				  		}
 				  	}
-				  }
+				  };
 
 				  entity.update = function(data) {
 			    	if(sprite.currentAnimation === 'walk') {
-					    // if (sprite.x >= data.maxX) {
-					    //   sprite.direction = -90;
-					    //   sprite.scaleX = -Math.abs(sprite.scaleX);
-					    // }
-
-					    // if (sprite.x < data.minX) {
-					    //   sprite.direction = 90;
-					    //   sprite.scaleX = Math.abs(sprite.scaleX);
-					    // }
-
-					    // if (sprite.direction === 90) {
-					    //   sprite.x += entity.speed;
-					    // }
-					    // else {
-					    //   sprite.x -= entity.speed;
-					    // }
-
 					    var velocity = entity.physBody.GetLinearVelocity();
 					    entity.physBody.SetAwake(true);
 					    if (sprite.direction === 90) {
@@ -63,21 +64,10 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					    else {
 					      velocity.x = -entity.speed;
 					    }
+					    entity.physBody.SetLinearVelocity(velocity);
 					    entity.sprite.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
-					    entity.sprite.x = entity.physBody.GetWorldCenter().x * data.scale;
-							entity.sprite.y = entity.physBody.GetWorldCenter().y * data.scale;
-
-					  //   var force = 0;
-					  //   if(sprite.direction === -90) {
-				   //  		force = -50 * entity.speed;
-				   //  	}
-				   //  	else {
-				   //  		force = 50 * entity.speed;
-				   //  	}
-				   //  	entity.physBody.ApplyForce(new b2Vec2(force, 0), entity.physBody.GetWorldCenter());
-					  //   entity.sprite.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
-					  //   entity.sprite.x = entity.physBody.GetWorldCenter().x * data.scale;
-							// entity.sprite.y = entity.physBody.GetWorldCenter().y * data.scale;
+					    entity.sprite.x = entity.physBody.GetWorldCenter().x * physicsEngine.SCALE;
+							entity.sprite.y = entity.physBody.GetWorldCenter().y * physicsEngine.SCALE;
 					  }
 			    };
 
