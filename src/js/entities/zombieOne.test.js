@@ -1,5 +1,6 @@
-define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'],
-	function(spriteCreator, zombieOneEntity, zombieOneSpriteSheet) {
+define(['engine/physics', 'entities/spriteCreator',
+	'entities/zombieOne', 'spriteSheets/zombieOne',],
+	function(physicsEngine, spriteCreator, zombieOneEntity, zombieOneSpriteSheet) {
 		var img = new Image();
 		img.src = '/src/assets/zombieOne.png';
 		var loadQueue = { getResult: function() { } };
@@ -14,12 +15,14 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			mock.restore();
 		});
 
-		var spriteDef = { direction: 90, scaleX: 1, x: 250, y: 250 };
+		var pos = { x: 250, y: 250 };
+		var spriteDef = { direction: 90, scaleX: 1, scaleY: 1, pos: pos };
 		module('Zombie One Entity - Decorate', {
 			beforeEach: function() {
 				this.entity = { type: 'zombieOne', dead: false, speed: 3, update: function() {} };
 				this.loadQueueStub = sinon.stub(loadQueue, 'getResult');
 				this.loadQueueStub.returns(img);
+				physicsEngine.init();
 				zombieOneEntity.init(loadQueue);
 			},
 			afterEach: function() {
@@ -50,44 +53,22 @@ define(['entities/spriteCreator', 'entities/zombieOne', 'spriteSheets/zombieOne'
 			mock.restore();
 		});
 
-		test('Should change direction and flip image on update when sprite is too far to the right',
-				function(assert) {
+		test('Should update velocity with positive speed when moving to the right', function(assert) {
 			zombieOneEntity.decorate(this.entity, spriteDef);
 			this.entity.sprite.currentAnimation = 'walk';
-			this.entity.sprite.x = 150;
-			this.entity.update({minX: 50, maxX: 150});
+			this.entity.sprite.direction = 90;
+			this.entity.update();
 
-			assert.ok(this.entity.sprite.direction === -90);
-			assert.ok(this.entity.sprite.scaleX === -1);
+			assert.ok(this.entity.physBody.GetLinearVelocity().x === this.entity.speed);
 		});
 
-		test('Should change direction and flip image on update when sprite is too far to the left',
-				function(assert) {
+		test('Should update velocity with negative speed when moving to the left', function(assert) {
 			zombieOneEntity.decorate(this.entity, spriteDef);
 			this.entity.sprite.currentAnimation = 'walk';
-			this.entity.sprite.x = 49;
-			this.entity.update({minX: 50, maxX: 150});
+			this.entity.sprite.direction = -90;
+			this.entity.update();
 
-			assert.ok(this.entity.sprite.direction === 90);
-			assert.ok(this.entity.sprite.scaleX === 1);
-		});
-
-		test('Should update x with a positive value when moving to the right', function(assert) {
-			zombieOneEntity.decorate(this.entity, spriteDef);
-			this.entity.sprite.currentAnimation = 'walk';
-			this.entity.sprite.x = 49;
-			this.entity.update({minX: 50, maxX: 150});
-
-			assert.ok(this.entity.sprite.x === 49 + this.entity.speed);
-		});
-
-		test('Should update x with a negative value when moving to the left', function(assert) {
-			zombieOneEntity.decorate(this.entity, spriteDef);
-			this.entity.sprite.currentAnimation = 'walk';
-			this.entity.sprite.x = 150;
-			this.entity.update({minX: 50, maxX: 150});
-
-			assert.ok(this.entity.sprite.x === 150 - this.entity.speed);
+			assert.ok(this.entity.physBody.GetLinearVelocity().x === -this.entity.speed);
 		});
 
 		test('Should die on animationend \'dead\' ', function(assert) {

@@ -4,11 +4,11 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 		module('Game Engine - Props');
 
 		test('Should have the following props and/or values', function(assert) {
-			assert.equal(750, gameEngine.screenWidth, 'screen width');
-			assert.equal(400, gameEngine.screenHeight, 'screen height');
-			assert.equal(60, gameEngine.framerate, 'framerate');
-			assert.equal(75, gameEngine.minX, 'min spawn x value');
-			assert.equal(gameEngine.screenWidth - 75, gameEngine.maxX, 'max spawn x value');
+			assert.equal(gameEngine.screenWidth, 750, 'screen width');
+			assert.equal(gameEngine.screenHeight, 400, 'screen height');
+			assert.equal(gameEngine.framerate, 60, 'framerate');
+			assert.equal(gameEngine.leftSpawnX, 100, 'leftSpawnX');
+			assert.equal(gameEngine.rightSpawnX, 650, 'rightSpawnX');
 			assert.ok(gameEngine.hasOwnProperty('entities'), 'has an entities property'); // Validate is array?
 		});
 
@@ -17,19 +17,20 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 		test('Should generate data for the \'zombieOne\' entityType', function(assert) {
 			var spy = sinon.spy(gameEngine, 'generateRandomZombieEntityDef');
 			gameEngine.generateRandomZombieEntityDef();
-			var expected = { entityType: 'zombieOne', speed: 1, spriteDef:
+			var pos = { x: sinon.match.number, y: sinon.match.number };
+			var expected = { entityType: 'zombieOne', speed: sinon.match.number, spriteDef:
 					{ direction: sinon.match.number, scaleX: sinon.match.number,
-						x: sinon.match.number, y: sinon.match.number} };
+						scaleY: sinon.match.number, pos: pos } };
 			assert.ok(spy.returned(sinon.match(expected)));
 			gameEngine.generateRandomZombieEntityDef.restore();
 		});
 
-		test('Should generate sprite\'s x value between bounds', function(assert) {
+		test('Should generate sprite\'s x value as left or right spawn x', function(assert) {
 			// Generate 10 values
 			for(var i = 0; i < 10; i++) {
 				var entityDef = gameEngine.generateRandomZombieEntityDef();
-				assert.ok(entityDef.spriteDef.x >= gameEngine.minX);
-				assert.ok(entityDef.spriteDef.x <= gameEngine.maxX);
+				assert.ok((entityDef.spriteDef.pos.x) === (gameEngine.leftSpawnX) ||
+									(entityDef.spriteDef.pos.x) === (gameEngine.rightSpawnX));
 			}
 		});
 
@@ -223,24 +224,6 @@ define(['engine/game', 'engine/input', 'entities/entityFactory'],
 			gameEngine.onTick();
 			assert.notDeepEqual([fakeEntity, anotherFakeEntity], gameEngine.entities);
 			createEntityStub.restore();
-		});
-
-		test('Should call update on entities that are not dead', function() {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var anotherFakeEntity = createFakeEntity(false, 'someType', 1);
-			var spyOne = sinon.spy(fakeEntity, 'update');
-			var spyTwo = sinon.spy(anotherFakeEntity, 'update');
-			gameEngine.entities = [fakeEntity, anotherFakeEntity];
-			
-			gameEngine.onTick();
-			var expectedUpdateArg = { minX: gameEngine.minX, maxX: gameEngine.maxX,
-																height: gameEngine.screenHeight, actions: inputEngine.actions };
-			sinon.assert.calledOnce(spyOne);
-			sinon.assert.calledWith(spyOne, expectedUpdateArg);
-			sinon.assert.calledOnce(spyTwo);
-			sinon.assert.calledWith(spyTwo, expectedUpdateArg);
-			fakeEntity.update.restore();
-			anotherFakeEntity.update.restore();
 		});
 
 		test('Should add an entity if all zombies are dead', function(assert) {

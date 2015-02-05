@@ -1,16 +1,19 @@
-define(['entities/spriteCreator', 'entities/soldierOne', 'spriteSheets/soldierOne'],
-	function(spriteCreator, soldierOneEntity, soldierOneSpriteSheet) {
+define(['engine/physics', 'entities/spriteCreator',
+	'entities/soldierOne', 'spriteSheets/soldierOne'],
+	function(physicsEngine, spriteCreator, soldierOneEntity, soldierOneSpriteSheet) {
 		
 		var img = new Image();
 		img.src = '/src/assets/soldierOne.png';
 		var loadQueue = { getResult: function() { } };
 
-		var spriteDef = { direction: 90, scaleX: 1, vX: 3, x: 250, y: 250 };
+		var pos = { x: 250, y: 250 };
+		var spriteDef = { direction: 90, scaleX: 1, scaleY: 1, pos: pos };
 		module('Soldier One Entity - Decorate', {
 			beforeEach: function() {
 				this.entity = { type: 'soldierOne', dead: false, speed: 3, update: function() {} };
 				this.loadQueueStub = sinon.stub(loadQueue, 'getResult');
 				this.loadQueueStub.returns(img);
+				physicsEngine.init();
 				soldierOneEntity.init(loadQueue);
 			},
 			afterEach: function() {

@@ -6,6 +6,9 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 			this.img.src = '/src/assets/zombieOne.png';
 			this.width = 50;
 			this.height = 50;
+			this.pos = { x: 250, y: 250 };
+			this.spriteDef =
+				{ direction: 90, scaleX: 1, scaleY: 1, pos: this.pos, initialAnimation: 'run' };
 			this.spriteSheet = new createjs.SpriteSheet({
 				images: [this.img],
 		    frames: { width: this.width, height: this.height },
@@ -13,42 +16,52 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 		       run:[1,5],
 		    }
 			});
-			this.spriteDef =
-				{ direction: 90, scaleX: 1, scaleY: 1, x: 250, y: 250, initialAnimation: 'run' };
+			this.onLoadComplete = function(testCallback) {
+				if(this.spriteSheet.complete) {
+					testCallback();
+				}
+				else {
+					this.spriteSheet.addEventListener('complete', testCallback);
+				}
+			};
 		},
 	});
 
-	test('Should call Sprite constructor with sprite sheet', function() {
-		var spy = sinon.spy(createjs, 'Sprite');
-		spriteCreator.create(this.spriteSheet, this.spriteDef);
+	test('Should call Sprite constructor with sprite sheet and initial animation', function() {
+		var context = this;
+		var testCallback = function() {
+			var spy = sinon.spy(createjs, 'Sprite');
+			spriteCreator.create(context.spriteSheet, context.spriteDef);
 
-		sinon.assert.calledOnce(spy);
-		sinon.assert.calledWith(spy, this.spriteSheet, this.spriteDef.initialAnimation);
-		createjs.Sprite.restore();
+			sinon.assert.calledOnce(spy);
+			sinon.assert.calledWith(spy, context.spriteSheet, context.spriteDef.initialAnimation);
+			createjs.Sprite.restore();
+		};
+		this.onLoadComplete(testCallback);
 	});
 
-	test('Should use all data passed to initialize sprite', function(assert) {
-		var sprite = spriteCreator.create(this.spriteSheet, this.spriteDef);
-		var expected =
-			{ direction: this.spriteDef.direction, scaleX: this.spriteDef.scaleX,
-				scaleY: this.spriteDef.scaleY, vX: this.spriteDef.vX,
-					x: this.spriteDef.x, y: this.spriteDef.y };
-		for(var prop in expected) {
-			if(this.spriteDef.hasOwnProperty(prop)) {
-				assert.equal(this.spriteDef[prop], sprite[prop]);
-			}
-		}
+	test('Should use all data passed to initialize sprite properly', function(assert) {
+		var context = this;
+		var testCallback = function() {
+			var sprite = spriteCreator.create(context.spriteSheet, context.spriteDef);
+			assert.equal(sprite.direction, context.spriteDef.direction, 'sprite direction');
+			assert.equal(sprite.scaleX, context.spriteDef.scaleX, 'sprite scaleX');
+			assert.equal(sprite.scaleY, context.spriteDef.scaleY, 'sprite scaleY');
+			assert.equal(sprite.x, context.spriteDef.pos.x, 'sprite x');
+			var expectedY = context.spriteDef.pos.y - (context.height / 2);
+			assert.equal(sprite.y, expectedY, 'sprite calculated y');
+		};
+		this.onLoadComplete(testCallback);
 	});
 
 	test('Should set regX and regY to half width and height', function(assert) {
-		var sprite = spriteCreator.create(this.spriteSheet, this.spriteDef);
+		var context = this;
+			var testCallback = function() {
+			var sprite = spriteCreator.create(context.spriteSheet, context.spriteDef);
 
-		assert.equal(this.width / 2, sprite.regX);
-		assert.equal(this.height / 2, sprite.regY);
-	});
-
-	test('Should set current frame to 0', function(assert) {
-		var sprite = spriteCreator.create(this.spriteSheet, this.spriteDef);
-		assert.equal(0, sprite.currentFrame);
+			assert.equal(context.width / 2, sprite.regX);
+			assert.equal(context.height / 2, sprite.regY);
+		};
+		this.onLoadComplete(testCallback);
 	});
 });

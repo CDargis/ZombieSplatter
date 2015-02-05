@@ -1,4 +1,4 @@
-define(['entities/entityFactory'], function(entityFactory) {
+define(['engine/physics', 'entities/entityFactory'], function(physicsEngine, entityFactory) {
 	var getSpies = function(methodName) {
 		var spies = [];
 		var decorators = entityFactory.decorators;
@@ -43,6 +43,7 @@ define(['entities/entityFactory'], function(entityFactory) {
 		beforeEach: function() {
 			this.loadQueueStub = sinon.stub(loadQueue, 'getResult');
 			this.loadQueueStub.returns(img);
+			physicsEngine.init();
 			entityFactory.init(loadQueue);
 		},
 		afterEach: function() {
@@ -50,13 +51,14 @@ define(['entities/entityFactory'], function(entityFactory) {
 		},
 	});
 
-	var spriteDef = { direction: 90, scaleX: 1, vX: 3, x: 50, y: 250 };
+	var pos = { x: 50, y: 50 };
+	var spriteDef = { direction: 90, scaleX: 1, scaleY: 1, pos: pos, initialAnimation: 'spawn' };
 	test('Should call decorate for each entity type', function() {
 		var decorators = entityFactory.decorators;
 		for(var entityType in decorators) {
 			if(decorators.hasOwnProperty(entityType)) {
 				var spy = sinon.spy(decorators[entityType], 'decorate');
-				var entityDef = {entityType: entityType, spriteDef: spriteDef};
+				var entityDef = { entityType: entityType, spriteDef: spriteDef };
 				entityFactory.createEntity(entityDef);
 
 				sinon.assert.calledOnce(spy);

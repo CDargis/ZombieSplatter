@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         freeze: true,
         funcscope: true,
         globals: {'define': true, 'module': true, 'createjs': true, 'Image': true, 'sinon': true,
-                    'require': true, 'document': true, 'QUnit': true, 'test': true },
+                    'require': true, 'document': true, 'QUnit': true, 'test': true, 'Box2D': true },
         immed: true,
         indent: 2,
         latedef: true,
@@ -78,9 +78,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-text-replace');

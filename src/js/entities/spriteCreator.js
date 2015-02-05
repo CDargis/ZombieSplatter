@@ -13,8 +13,7 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 
 	      // Assume y is where we want the bottom of the sprite
 	      var transformedBounds = sprite.getTransformedBounds();
-	      var y = spriteDef.pos.y - transformedBounds.height
-	      	+ (transformedBounds.height / 2);
+	      var y = spriteDef.pos.y - (transformedBounds.height / 2);
 
 	      sprite.x = spriteDef.pos.x;
 	      sprite.y = y;

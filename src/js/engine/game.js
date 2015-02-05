@@ -42,20 +42,20 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
               pos: pos, initialAnimation: 'idle'};
           var entityDef = { entityType: 'soldierOne', speed: 9, spriteDef: spriteDef };
           var player = entityFactory.createEntity(entityDef);
-          engine.addEntity(player, 'dynamic');
+          engine.addEntity(player);
         };
 
-        // Unit test!!
+        // TODO: UNIT TEST!!
         engine.addZombie = function() {
           var zombieData = engine.generateRandomZombieEntityDef();
           var zombie = entityFactory.createEntity(zombieData);
-          engine.addEntity(zombie, 'dynamic');
+          engine.addEntity(zombie);
         };
 
         engine.init = function(loadQueue, stage) {
           engine.entities = [];
           inputEngine.init();
-          physicsEngine.init();
+          physicsEngine.init(); // TODO: UNIT TEST!!
           entityFactory.init(loadQueue);
           engine.stage = stage;
           engine.addPlayer(); // Will always be index 0
@@ -65,7 +65,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
           createjs.Ticker.addEventListener('tick', engine.onTick);
         };
 
-        engine.addEntity = function(entity, type) {
+        engine.addEntity = function(entity) {
           engine.stage.addChild(entity.sprite);
           engine.entities.push(entity);
         };
@@ -76,7 +76,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
             engine.entities.splice(index, 1);
           }
           if(entity.physBody) {
-            physicsEngine.removeBody(entity.physBody);
+            physicsEngine.removeBody(entity.physBody); // TODO: UNIT TEST!!
           }
           engine.stage.removeChild(entity.sprite);
         };
@@ -101,7 +101,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
             engine.addZombie();
           }
 
-          physicsEngine.update(inputEngine.actions);
+          physicsEngine.update(inputEngine.actions); // TODO: UNIT TEST!!
           engine.stage.update();
         };
         return engine;

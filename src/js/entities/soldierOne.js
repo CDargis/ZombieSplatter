@@ -11,8 +11,8 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.sprite = sprite;
 
-				  // UNIT TEST!!
-					bounds = entity.sprite.getTransformedBounds();
+				  // TODO: UNIT TEST!!
+					var bounds = entity.sprite.getTransformedBounds();
 					var physBodyDef = {
 						density: 1.0,
             friction: 0,
@@ -29,10 +29,6 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					};
 					var body = physicsEngine.addBody(physBodyDef);
 					entity.physBody = body;
-
-				  entity.onTouch = function(otherBody, impulse) {
-				  	// console.log("sold" + otherBody);
-				  }
 
 				  entity.update = function(data) {
 				  	var currentAnimation = sprite.currentAnimation;
@@ -66,6 +62,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  		sprite.gotoAndPlay('idle');
 				  	}
 
+				  	// TODO: UNIT TEST!!
 					  // Setting the linear velocity
 					  var velocity = entity.physBody.GetLinearVelocity();
 			    	if(currentAnimation === 'run') {

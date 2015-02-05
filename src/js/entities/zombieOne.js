@@ -18,7 +18,7 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 
 				  entity.sprite = sprite;
 
-				  // UNIT TEST!!
+				  // TODO: UNIT TEST!!
 					bounds = entity.sprite.getTransformedBounds();
 					var physBodyDef = {
 						density: 1.0,
@@ -37,13 +37,18 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					var body = physicsEngine.addBody(physBodyDef);
 					entity.physBody = body;
 
-				  entity.onTouch = function(otherBody, impulse) {
-				  	if(!otherBody) return;
+					// TODO: UNIT TEST!!
+				  entity.onTouch = function(otherBody) {
+				  	if(!otherBody) {
+				  		return;
+				  	}
 				  	var physOwner = otherBody.GetUserData();
-				  	if(!physOwner) return;
+				  	if(!physOwner) {
+				  		return;
+				  	}
 				  	if(physOwner.id === 'wall') {
 				  		var pos = otherBody.GetPosition();
-				  		if(pos.x === .5) {
+				  		if(pos.x === 0.5) {
 				  			sprite.direction = 90;
 				  			sprite.scaleX = Math.abs(sprite.scaleX);
 				  		}
@@ -54,7 +59,8 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				  	}
 				  };
 
-				  entity.update = function(data) {
+				  entity.update = function() {
+				  	// TODO: UNIT TEST!!
 			    	if(sprite.currentAnimation === 'walk') {
 					    var velocity = entity.physBody.GetLinearVelocity();
 					    entity.physBody.SetAwake(true);
@@ -64,11 +70,12 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					    else {
 					      velocity.x = -entity.speed;
 					    }
+					    // TODO: UNIT TEST!!
 					    entity.physBody.SetLinearVelocity(velocity);
-					    entity.sprite.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
-					    entity.sprite.x = entity.physBody.GetWorldCenter().x * physicsEngine.SCALE;
-							entity.sprite.y = entity.physBody.GetWorldCenter().y * physicsEngine.SCALE;
 					  }
+					  entity.sprite.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
+				    entity.sprite.x = entity.physBody.GetWorldCenter().x * physicsEngine.SCALE;
+						entity.sprite.y = entity.physBody.GetWorldCenter().y * physicsEngine.SCALE;
 			    };
 
 			    // To be removed
