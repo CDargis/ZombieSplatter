@@ -27,7 +27,8 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 		},
 	});
 
-	test('Should call Sprite constructor with sprite sheet and initial animation', function() {
+	test('Should call Sprite constructor with sprite sheet and initial animation', function(assert) {
+		var done = assert.async();
 		var context = this;
 		var testCallback = function() {
 			var spy = sinon.spy(createjs, 'Sprite');
@@ -36,11 +37,13 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 			sinon.assert.calledOnce(spy);
 			sinon.assert.calledWith(spy, context.spriteSheet, context.spriteDef.initialAnimation);
 			createjs.Sprite.restore();
+			done();
 		};
 		this.onLoadComplete(testCallback);
 	});
 
 	test('Should use all data passed to initialize sprite properly', function(assert) {
+		var done = assert.async();
 		var context = this;
 		var testCallback = function() {
 			var sprite = spriteCreator.create(context.spriteSheet, context.spriteDef);
@@ -50,17 +53,20 @@ define(['entities/spriteCreator'], function(spriteCreator) {
 			assert.equal(sprite.x, context.spriteDef.pos.x, 'sprite x');
 			var expectedY = context.spriteDef.pos.y - (context.height / 2);
 			assert.equal(sprite.y, expectedY, 'sprite calculated y');
+			done();
 		};
 		this.onLoadComplete(testCallback);
 	});
 
 	test('Should set regX and regY to half width and height', function(assert) {
+		var done = assert.async();
 		var context = this;
-			var testCallback = function() {
+		var testCallback = function() {
 			var sprite = spriteCreator.create(context.spriteSheet, context.spriteDef);
 
 			assert.equal(context.width / 2, sprite.regX);
 			assert.equal(context.height / 2, sprite.regY);
+			done();
 		};
 		this.onLoadComplete(testCallback);
 	});
