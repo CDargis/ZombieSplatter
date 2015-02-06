@@ -77,7 +77,7 @@ define(['lib/box2dWeb'],
           var debugDraw = new b2DebugDraw();
           var debugCanvas = document.getElementById('debugCanvas');
           // Don't neeed debug for unit tests
-          if(debugCanvas) {
+          if(typeof debugCanvas !== undefined && debugCanvas !== null) {
             debugDraw.SetSprite(debugCanvas.getContext('2d'));
             debugDraw.SetDrawScale(engine.SCALE);
             debugDraw.SetFillAlpha(0.7);
