@@ -1,15 +1,16 @@
-define(['entities/soldierOne', 'entities/zombieOne'],
-	function(soldierOneEntity, zombieOneEntity) {
+define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'entities/bullet'],
+	function(soldierOneEntity, zombieOneEntity, zombieTwoEntity, bulletEntity) {
 
 		var createEntityFactory = function() {
 			var baseEntity = function(entityType, speed) {
 				return {
+					bitmap: {},
 					dead: false,
 					entityType: entityType,
 					ontouch: function() {},
 					physBody: {},
 					speed: speed,
-					sprite: {},
+					displayObject: {},
 					update: function() {}
 				};
 			};
@@ -17,7 +18,9 @@ define(['entities/soldierOne', 'entities/zombieOne'],
 			var factory = {
 				decorators: {
 					'soldierOne': soldierOneEntity,
-					'zombieOne': zombieOneEntity
+					'zombieOne': zombieOneEntity,
+					'zombieTwo': zombieTwoEntity,
+					'bullet': bulletEntity
 				},
 
 				init: function(loadQueue) {
@@ -36,6 +39,5 @@ define(['entities/soldierOne', 'entities/zombieOne'],
 			};
 			return factory;
 		};
-
 	  return createEntityFactory();
 });

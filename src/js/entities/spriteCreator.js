@@ -1,4 +1,4 @@
-define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
+define(['include/createJS'], function() {
 	var createSpriteCreator = function() {
 		var spriteCreator = {
 			create: function(spriteSheet, spriteDef) {
@@ -7,13 +7,9 @@ define(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {
 	      sprite.scaleX = spriteDef.scaleX;
 	      sprite.scaleY = spriteDef.scaleY;
 	      
-	      var bounds = sprite.getBounds();
-	      sprite.regX = bounds.width / 2;
-	      sprite.regY = bounds.height / 2;
-
-	      // Assume y is where we want the bottom of the sprite
+	      // Ground is where we want the bottom of the sprite
 	      var transformedBounds = sprite.getTransformedBounds();
-	      var y = spriteDef.pos.y - (transformedBounds.height / 2);
+	      var y = spriteDef.pos.ground - (transformedBounds.height / 2);
 
 	      sprite.x = spriteDef.pos.x;
 	      sprite.y = y;

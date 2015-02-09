@@ -1,31 +1,13 @@
 /*jslint bitwise: true */
-define(['lib/box2dWeb'],
-	function() {
+define(['include/box2d'],
+	function(box2d) {
 		var createPhysicsEngine = function() {
-      /*jshint camelcase: false */
-			var b2Vec2 = Box2D.Common.Math.b2Vec2,
-        b2BodyDef = Box2D.Dynamics.b2BodyDef,
-        b2Body = Box2D.Dynamics.b2Body,
-        b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
-        b2FilterData = Box2D.Dynamics.b2FilterData,
-        b2World = Box2D.Dynamics.b2World,
-        b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
-        b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
-        b2Listener = Box2D.Dynamics.b2ContactListener,
-        b2DynamicBody = b2Body.b2_dynamicBody,
-        b2KinematicBody = b2Body.b2_kinematicBody,
-        b2StaticBody = b2Body.b2_staticBody,
-        debugEShapeBit = b2DebugDraw.e_shapeBit,
-        debugEJointBit = b2DebugDraw.e_jointBit
-        ;
-      /*jshint camelcase: true */
 
       // TODO: UNIT TEST!!
 			var engine = {
-        SCALE: 30.0,
 				world: {},
 				init: function() {
-					engine.world = new b2World(new b2Vec2(0, 0), true);
+					engine.world = new box2d.b2World(new box2d.b2Vec2(0, 0), true);
 
           // Ground
           var groundPhysBodyDef = {
@@ -65,7 +47,7 @@ define(['lib/box2dWeb'],
           engine.addBody(wallPhysBodyDef);
 
           // Listener
-          var listener = new b2Listener();
+          var listener = new box2d.b2Listener();
           listener.PostSolve = function (contact, impulse) {
             engine.postSolve(contact.GetFixtureA().GetBody(),
                       contact.GetFixtureB().GetBody(),
@@ -74,16 +56,16 @@ define(['lib/box2dWeb'],
           engine.world.SetContactListener(listener);
 
          	//setup debug draw
-          var debugDraw = new b2DebugDraw();
+          var debugDraw = new box2d.b2DebugDraw();
           var debugCanvas = document.getElementById('debugCanvas');
           // Don't neeed debug for unit tests
           if(typeof debugCanvas !== undefined && debugCanvas !== null) {
             debugDraw.SetSprite(debugCanvas.getContext('2d'));
-            debugDraw.SetDrawScale(engine.SCALE);
+            debugDraw.SetDrawScale(box2d.SCALE);
             debugDraw.SetFillAlpha(0.7);
             debugDraw.SetLineThickness(1.0);
             /*jslint bitwise: true */
-            debugDraw.SetFlags(debugEShapeBit | debugEJointBit);
+            debugDraw.SetFlags(box2d.debugEShapeBit | box2d.debugEJointBit);
             /*jslint bitwise: false */
             engine.world.SetDebugDraw(debugDraw);
           }
@@ -107,28 +89,31 @@ define(['lib/box2dWeb'],
           }
         },
         addBody: function(physBodyDef) {
-          var fixtureDef = new b2FixtureDef();
+          var fixtureDef = new box2d.b2FixtureDef();
           fixtureDef.density = physBodyDef.density;
           fixtureDef.friction = physBodyDef.friction;
           fixtureDef.restitution = physBodyDef.restitution;
-          fixtureDef.shape = new b2PolygonShape();
-          fixtureDef.shape.SetAsBox(physBodyDef.halfWidth / engine.SCALE,
-            physBodyDef.halfHeight / engine.SCALE);
-          var filter = new b2FilterData();
+          fixtureDef.shape = new box2d.b2PolygonShape();
+          fixtureDef.shape.SetAsBox(physBodyDef.halfWidth / box2d.SCALE,
+            physBodyDef.halfHeight / box2d.SCALE);
+          var filter = new box2d.b2FilterData();
           filter.groupIndex = physBodyDef.groupIndex;
           fixtureDef.filter = filter;
+          if(physBodyDef.isBullet !== null) {
+            fixtureDef.IsBullet = physBodyDef.isBullet;
+          }
 
-          var bodyDef = new b2BodyDef();
+          var bodyDef = new box2d.b2BodyDef();
           if(physBodyDef.type === 'dynamic') {
-            bodyDef.type = b2DynamicBody;
+            bodyDef.type = box2d.b2DynamicBody;
           }
           else if(physBodyDef.type === 'kinematic') {
-            bodyDef.type = b2KinematicBody;
+            bodyDef.type = box2d.b2KinematicBody;
           }
           else {
-            bodyDef.type = b2StaticBody;
+            bodyDef.type = box2d.b2StaticBody;
           }
-          bodyDef.position.Set(physBodyDef.pos.x / engine.SCALE, physBodyDef.pos.y / engine.SCALE);
+          bodyDef.position.Set(physBodyDef.pos.x / box2d.SCALE, physBodyDef.pos.y / box2d.SCALE);
 
           var body = engine.world.CreateBody(bodyDef);
           body.CreateFixture(fixtureDef);
