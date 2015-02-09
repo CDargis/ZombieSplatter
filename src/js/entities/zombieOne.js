@@ -12,7 +12,6 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				  entity.displayObject = sprite;
 				  entity.ground = spriteDef.pos.ground;
 				  entity.hit = false;
-				  entity.attacking = false;
 
 				  // TODO: UNIT TEST!!
 					bounds = sprite.getTransformedBounds();
@@ -22,7 +21,7 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
             restitution: 0,
 						halfWidth: bounds.width / 2,
 						halfHeight: bounds.height / 2,
-						groupIndex: -1,
+						groupIndex: 0,
 						pos: { x: sprite.x, y: sprite.y},
 						type: 'dynamic',
 						userData: {
@@ -31,6 +30,7 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
             }
 					};
 					var body = physicsEngine.addBody(physBodyDef);
+					body.SetSleepingAllowed(false);
 					entity.physBody = body;
 
 					// TODO: UNIT TEST!!
@@ -57,6 +57,10 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				  		entity.hit = true;
 				  		sprite.gotoAndPlay('die');
 				  	}
+				  	else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack') {
+				  		sprite.gotoAndPlay('attack');
+				  		physOwner.entity.displayObject.gotoAndPlay('hurt');
+				  	}
 				  };
 
 				  entity.update = function() {
@@ -78,24 +82,6 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 	          pos.y = sprite.y / box2d.SCALE;
 	          var transform = new box2d.b2Transform(pos, new box2d.b2Mat22(0));
 	          entity.physBody.SetTransform(transform);
-
-					  // var fixture = entity.physBody.GetFixtureList();
-					  // entity.physBody.DestroyFixture(fixture);
-					  // var fixtureDef = new box2d.b2FixtureDef();
-
-					  // fixtureDef.density = 1;
-	      //     fixtureDef.friction = 0;
-	      //     fixtureDef.restitution = 0;
-	      //     fixtureDef.shape = new box2d.b2PolygonShape();
-	      //     fixtureDef.shape.SetAsBox(bounds.width / 2 / box2d.SCALE,
-	      //     	bounds.height / 2 / box2d.SCALE);
-
-	      //     var filter = new box2d.b2FilterData();
-	      //     filter.groupIndex = -1;
-	      //     fixtureDef.filter = filter;
-	          
-	      //     entity.physBody.CreateFixture(fixtureDef);
-
 			    };
 
 					sprite.on('animationend', function(event) {

@@ -24,7 +24,7 @@ define(['include/createJS'], function() {
           images: [spriteSheetCreator.img],
           frames: spriteSheetFrames,
           animations: {
-            attack: [0, 2, 'attack', 1/10],
+            attack: [0, 2, 'walk', 1/10],
             die: [3, 6, 'dead', 1/10],
             walk: [7, 10, 'walk', 1/15],
             dead: [6, 6, 'dead', 1]

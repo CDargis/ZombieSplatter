@@ -11,8 +11,7 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
 					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.displayObject = sprite;
 				  entity.ground = spriteDef.pos.ground;
-				  entity.hit = false;
-				  entity.attacking = false;
+				  entity.shot = false;
 
 				  // TODO: UNIT TEST!!
 					bounds = sprite.getTransformedBounds();
@@ -22,7 +21,7 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
             restitution: 0,
 						halfWidth: bounds.width / 2,
 						halfHeight: bounds.height / 2,
-						groupIndex: -1,
+						groupIndex: 0,
 						pos: { x: sprite.x, y: sprite.y},
 						type: 'dynamic',
 						userData: {
@@ -31,10 +30,11 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
             }
 					};
 					var body = physicsEngine.addBody(physBodyDef);
+					body.SetSleepingAllowed(false);
 					entity.physBody = body;
 
 					// TODO: UNIT TEST!!
-				  entity.onTouch = function(otherBody) {
+				  entity.onTouch = function(otherBody, impulse) {
 				  	if(!otherBody) {
 				  		return;
 				  	}
@@ -53,9 +53,13 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
 				  			sprite.scaleX = Math.abs(sprite.scaleX);
 				  		}
 				  	}
-				  	else if(physOwner.id === 'bullet' && !entity.hit) {
-				  		entity.hit = true;
+				  	else if(physOwner.id === 'bullet' && !entity.shot) {
+				  		entity.shot = true;
 				  		sprite.gotoAndPlay('die');
+				  	}
+				  	else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack') {
+				  		sprite.gotoAndPlay('attack');
+				  		physOwner.entity.displayObject.gotoAndPlay('hurt');
 				  	}
 				  };
 
