@@ -17,21 +17,23 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
 
         engine.generateRandomZombieEntityDef = function() {
           var pos = { x: engine.leftSpawnX, ground: 375 };
+          var direction = -90;
+          var scaleX = -1.7;
           var rand = getRandomNumberBetween(0, 1);
           if(rand === 1) {
             pos.x = engine.rightSpawnX;
-          }
-          rand = getRandomNumberBetween(0, 1);
-          var direction = 90;
-          var scaleX = 1.7;
-          if(rand === 1) {
             direction *= -1;
             scaleX *= -1;
+          }
+          var zombieType = 'zombieOne';
+          rand = getRandomNumberBetween(0, 1);
+          if(rand === 1) {
+            zombieType = 'zombieTwo';
           }
           var spriteDef =
             { direction: direction, scaleX: scaleX, scaleY: 1.7,
                 pos: pos, initialAnimation: 'walk'};
-          var entityDef = { entityType: 'zombieOne', speed: .5, spriteDef: spriteDef};
+          var entityDef = { entityType: zombieType, speed: .5, spriteDef: spriteDef};
           return entityDef;
         };
 
