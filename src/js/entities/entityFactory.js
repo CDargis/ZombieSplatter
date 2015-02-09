@@ -33,7 +33,7 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
 
 				createEntity: function(entityDef) {
 					var entity = baseEntity(entityDef.entityType, entityDef.speed);
-					factory.decorators[entityDef.entityType].decorate(entity, entityDef.spriteDef);
+					factory.decorators[entityDef.entityType].decorate(entity, entityDef);
 					return entity;
 				},
 			};

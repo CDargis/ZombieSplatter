@@ -3,7 +3,8 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
 		var createEntityDecorator = function() {
 
 			var entityDecorator = {
-				decorate: function(entity, bitmapDef) {
+				decorate: function(entity, entityDef) {
+					var bitmapDef = entityDef.bitmapDef;
 					var bitmap = bulletBitmap.create();
 					bitmap.x = bitmapDef.pos.x;
 					bitmap.y = bitmapDef.pos.y

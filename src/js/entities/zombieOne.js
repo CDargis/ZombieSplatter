@@ -5,7 +5,8 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 
 			var entityDecorator = {
 
-				decorate: function(entity, spriteDef) {
+				decorate: function(entity, entityDef) {
+					var spriteDef = entityDef.spriteDef;
 					var spriteSheet = zombieOneSpriteSheet.create();
 					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.displayObject = sprite;

@@ -113,7 +113,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
             }
             var pos = { x: x, y: playerEntity.displayObject.y + 5 };
             var bitmapDef = { direction: direction, pos: pos};
-            var entityDef = { entityType: 'bullet', speed: speed, spriteDef: bitmapDef };
+            var entityDef = { entityType: 'bullet', speed: speed, bitmapDef: bitmapDef };
             var bullet = entityFactory.createEntity(entityDef);
             engine.addEntity(bullet);
           }
