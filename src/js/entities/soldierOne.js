@@ -33,8 +33,7 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 					var body = physicsEngine.addBody(physBodyDef);
 					entity.physBody = body;
 
-					// TODO: UNIT TEST!!
-				  entity.onTouch = function(otherBody) {
+				   entity.onTouchStart = function(otherBody, cancelCb) {
 				  	if(!otherBody) {
 				  		return;
 				  	}
@@ -50,6 +49,9 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  		else {
 				  			entity.onRightWall = true;
 				  		}
+				  	}
+				  	else if(physOwner.id === 'zombieOne' || physOwner.id === 'bullet') {
+				  		cancelCb();
 				  	}
 				  };
 
@@ -110,24 +112,6 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 	          pos.y = sprite.y / box2d.SCALE;
 	          var transform = new box2d.b2Transform(pos, new box2d.b2Mat22(0));
 	          entity.physBody.SetTransform(transform);
-
-	      //      var fixture = entity.physBody.GetFixtureList();
-					  // entity.physBody.DestroyFixture(fixture);
-					  // var fixtureDef = new box2d.b2FixtureDef();
-
-					  // fixtureDef.density = 1;
-	      //     fixtureDef.friction = 0;
-	      //     fixtureDef.restitution = 0;
-	      //     fixtureDef.shape = new box2d.b2PolygonShape();
-	      //     fixtureDef.shape.SetAsBox(bounds.width / 2 / box2d.SCALE,
-	      //     	bounds.height / 2 / box2d.SCALE);
-
-	      //     var filter = new box2d.b2FilterData();
-	      //     filter.groupIndex = -1;
-	      //     fixtureDef.filter = filter;
-	          
-	      //     entity.physBody.CreateFixture(fixtureDef);
-
 					};
 				},
 
@@ -139,3 +123,4 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 		};
 		return createEntityDecorator();
 });
+	

@@ -16,7 +16,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
             restitution: 0,
             halfWidth: 1.5,
             halfHeight: 1.5,
-            groupIndex: 0,
+            groupIndex: -1,
             isBullet: true,
             pos: { x: bitmap.x, y: bitmap.y },
             type: 'dynamic',
@@ -28,8 +28,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
           var body = physicsEngine.addBody(physBodyDef);
           entity.physBody = body;
 
-          // TODO: UNIT TEST!!
-				  entity.onTouch = function(otherBody) {
+				  entity.onTouchStart = function(otherBody, cancelCb) {
 				  	if(!otherBody) {
 				  		return;
 				  	}
@@ -39,6 +38,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
 				  	}
 				  	if(physOwner.id !== 'bullet') {
 				  		entity.dead = true;
+				  		cancelCb();
 				  	}
 				  };
 

@@ -48,6 +48,9 @@ define(['include/box2d'],
 
           // Listener
           var listener = new box2d.b2Listener();
+          listener.PreSolve = function (contact) {
+            engine.preSolve(contact);
+          };
           listener.PostSolve = function (contact, impulse) {
             engine.postSolve(contact.GetFixtureA().GetBody(),
                       contact.GetFixtureB().GetBody(),
@@ -71,20 +74,43 @@ define(['include/box2d'],
           }
 				},
         // TODO: UNIT TEST!!
-        postSolve: function (bodyA, bodyB, impulse) {
+        preSolve: function(contact) {
+          var cancelCb = function() {
+            contact.SetEnabled(false);
+          };
+          var bodyA = contact.GetFixtureA().GetBody();
+          var bodyB = contact.GetFixtureB().GetBody();
+
+          var uA = bodyA ? bodyA.GetUserData() : null;
+          var uB = bodyB ? bodyB.GetUserData() : null;
+          if(uA !== null) {
+            var entityA = uA.entity;
+            if(entityA !== null && entityA.onTouchStart) {
+              entityA.onTouchStart(bodyB, cancelCb);
+            }
+          }
+          if(uB !== null) {
+            var entityB = uB.entity;
+            if(entityB !== null && entityB.onTouchStart) {
+              entityB.onTouchStart(bodyA, cancelCb);
+            }
+          }
+        },
+        // TODO: UNIT TEST!!
+        postSolve: function(bodyA, bodyB, impulse) {
           var uA = bodyA ? bodyA.GetUserData() : null;
           var uB = bodyB ? bodyB.GetUserData() : null;
 
           if(uA !== null) {
             var entityA = uA.entity;
-            if(entityA !== null && entityA.onTouch) {
-              entityA.onTouch(bodyB, impulse);
+            if(entityA !== null && entityA.onTouchFinished) {
+              entityA.onTouchFinished(bodyB, impulse);
             }
           }
           if(uB !== null) {
             var entityB = uB.entity;
-            if(entityB !== null && entityB.onTouch) {
-              entityB.onTouch(bodyA, impulse);
+            if(entityB !== null && entityB.onTouchFinished) {
+              entityB.onTouchFinished(bodyA, impulse);
             }
           }
         },

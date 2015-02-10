@@ -11,7 +11,6 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.displayObject = sprite;
 				  entity.ground = spriteDef.pos.ground;
-				  entity.hit = false;
 
 				  // TODO: UNIT TEST!!
 					bounds = sprite.getTransformedBounds();
@@ -33,8 +32,8 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 					body.SetSleepingAllowed(false);
 					entity.physBody = body;
 
-					// TODO: UNIT TEST!!
-				  entity.onTouch = function(otherBody) {
+				  // TODO: UNIT TEST!!
+				  entity.onTouchStart = function(otherBody, cancelCb) {
 				  	if(!otherBody) {
 				  		return;
 				  	}
@@ -53,13 +52,15 @@ define(['entities/spriteCreator', 'spriteSheets/zombieOne',
 				  			sprite.scaleX = Math.abs(sprite.scaleX);
 				  		}
 				  	}
-				  	else if(physOwner.id === 'bullet' && !entity.hit) {
-				  		entity.hit = true;
+				  	else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die'
+				  					&& sprite.currentAnimation !== 'dead') {
 				  		sprite.gotoAndPlay('die');
 				  	}
-				  	else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack') {
+				  	else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack'
+				  					&& sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {
 				  		sprite.gotoAndPlay('attack');
 				  		physOwner.entity.displayObject.gotoAndPlay('hurt');
+				  		cancelCb();
 				  	}
 				  };
 

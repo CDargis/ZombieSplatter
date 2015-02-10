@@ -7,7 +7,7 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
 					bitmap: {},
 					dead: false,
 					entityType: entityType,
-					ontouch: function() {},
+					onTouchStart: function() {},
 					physBody: {},
 					speed: speed,
 					displayObject: {},

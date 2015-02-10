@@ -11,7 +11,6 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
 					var sprite = spriteCreator.create(spriteSheet, spriteDef);
 				  entity.displayObject = sprite;
 				  entity.ground = spriteDef.pos.ground;
-				  entity.shot = false;
 
 				  // TODO: UNIT TEST!!
 					bounds = sprite.getTransformedBounds();
@@ -34,7 +33,7 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
 					entity.physBody = body;
 
 					// TODO: UNIT TEST!!
-				  entity.onTouch = function(otherBody, impulse) {
+				  entity.onTouchStart = function(otherBody, cancelCb) {
 				  	if(!otherBody) {
 				  		return;
 				  	}
@@ -53,13 +52,15 @@ define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
 				  			sprite.scaleX = Math.abs(sprite.scaleX);
 				  		}
 				  	}
-				  	else if(physOwner.id === 'bullet' && !entity.shot) {
-				  		entity.shot = true;
+				  	else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die'
+				  					&& sprite.currentAnimation !== 'dead') {
 				  		sprite.gotoAndPlay('die');
 				  	}
-				  	else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack') {
+				  	else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack'
+				  					&& sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {
 				  		sprite.gotoAndPlay('attack');
 				  		physOwner.entity.displayObject.gotoAndPlay('hurt');
+				  		cancelCb();
 				  	}
 				  };
 
