@@ -7,10 +7,7 @@ define(['include/createJS'], function() {
       init: function(loadQueue) {
         spriteSheetCreator.img = loadQueue.getResult('zombieOne');
         spriteSheetCreator.meta = loadQueue.getResult('zombieOneMeta');
-      },
-
-      create: function() {
-        var spriteSheetFrames = [];
+        spriteSheetCreator.frames = [[]];
         for(var i = 0; i < spriteSheetCreator.meta.frames.length; i++) {
           var data = spriteSheetCreator.meta.frames[i];
           var frame = data.frame;
@@ -18,11 +15,14 @@ define(['include/createJS'], function() {
           var height = frame.h;
           var regX = width / 2;
           var regY = height/ 2;
-          spriteSheetFrames[i] = [frame.x, frame.y, width, height, 0, regX, regY];
+          spriteSheetCreator.frames[i] = [frame.x, frame.y, width, height, 0, regX, regY];
         }
+      },
+
+      create: function() {
         var spriteSheet = new createjs.SpriteSheet({
           images: [spriteSheetCreator.img],
-          frames: spriteSheetFrames,
+          frames: spriteSheetCreator.frames,
           animations: {
             attack: [0, 4, 'walk', 1/8],
             die: [5, 8, 'dead', 1/10],

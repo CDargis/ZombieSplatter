@@ -3,23 +3,26 @@ define(['include/createJS'], function() {
     var spriteSheetCreator = {
       img: {},
       meta: {},
+      frames: [[]],
       init: function(loadQueue) {
         spriteSheetCreator.img = loadQueue.getResult('soldierOne');
         spriteSheetCreator.meta = loadQueue.getResult('soldierOneMeta');
-      },
-
-      create: function() {
-        var spriteSheetFrames = [];
+        spriteSheetCreator.frames = [[]];
         for(var i = 0; i < spriteSheetCreator.meta.frames.length; i++) {
           var data = spriteSheetCreator.meta.frames[i];
           var frame = data.frame;
-          var regX = frame.w / 2;
-          var regY = frame.h / 2;
-          spriteSheetFrames[i] = [ frame.x, frame.y, frame.w, frame.h, 0, regX, regY ];
+          var width = frame.w;
+          var height = frame.h;
+          var regX = width / 2;
+          var regY = height/ 2;
+          spriteSheetCreator.frames[i] = [frame.x, frame.y, width, height, 0, regX, regY];
         }
+      },
+
+      create: function() {
         var spriteSheet = new createjs.SpriteSheet({
           images: [spriteSheetCreator.img],
-          frames: spriteSheetFrames,
+          frames: spriteSheetCreator.frames,
           animations: {
             idle: 0,
             crouch: [0, 3, 'crouched', 1/4],
