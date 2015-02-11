@@ -1,16 +1,22 @@
-define(['entities/spriteCreator', 'spriteSheets/zombieTwo',
+define(['spriteSheets/zombieTwo',
 	'engine/physics', 'include/box2d', 'include/createJS'],
-	function(spriteCreator, zombieTwoSpriteSheet, physicsEngine, box2d) {
+	function(zombieTwoSpriteSheet, physicsEngine, box2d) {
 		var createEntityDecorator = function() {
 
 			var entityDecorator = {
 
 				decorate: function(entity, entityDef) {
 					var spriteDef = entityDef.spriteDef;
+					entity.ground = spriteDef.pos.ground;
 					var spriteSheet = zombieTwoSpriteSheet.create();
-					var sprite = spriteCreator.create(spriteSheet, spriteDef);
-				  entity.displayObject = sprite;
-				  entity.ground = spriteDef.pos.ground;
+					var sprite = new createjs.Sprite(spriteSheet, 'walk');
+		      sprite.direction = spriteDef.direction;
+		      sprite.scaleX = spriteDef.scaleX;
+		      sprite.scaleY = spriteDef.scaleY;
+
+		      entity.displayObject = sprite;
+		      sprite.x = spriteDef.pos.x;
+		      sprite.y = entity.computeY();
 
 				  // TODO: UNIT TEST!!
 					bounds = sprite.getTransformedBounds();

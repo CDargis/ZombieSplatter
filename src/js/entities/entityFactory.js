@@ -3,16 +3,22 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
 
 		var createEntityFactory = function() {
 			var baseEntity = function(entityType, speed) {
-				return {
-					bitmap: {},
+				var e = {
+					computeY: function() {
+						var transformedBounds = e.displayObject.getTransformedBounds();
+            var y = e.ground - (transformedBounds.height / 2);
+            return y;
+					},
 					dead: false,
+					displayObject: {},
 					entityType: entityType,
+					ground: 0,
 					onTouchStart: function() {},
 					physBody: {},
 					speed: speed,
-					displayObject: {},
 					update: function() {}
 				};
+				return e;
 			};
 
 			var factory = {

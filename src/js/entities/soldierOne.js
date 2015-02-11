@@ -1,18 +1,25 @@
-define(['entities/spriteCreator', 'spriteSheets/soldierOne',
+define(['spriteSheets/soldierOne',
 	'engine/physics', 'include/box2d', 'include/createJS'],
-	function(spriteCreator, soldierOneSpriteSheet, physicsEngine, box2d) {
+	function(soldierOneSpriteSheet, physicsEngine, box2d) {
 
 		var createEntityDecorator = function() {
 
 			var entityDecorator = {
 				decorate: function(entity, entityDef) {
 					var spriteDef = entityDef.spriteDef;
-					var spriteSheet = soldierOneSpriteSheet.create();
-					var sprite = spriteCreator.create(spriteSheet, spriteDef);
-				  entity.displayObject = sprite;
-				  entity.ground = spriteDef.pos.ground;
+					entity.ground = spriteDef.pos.ground;
 				  entity.onLeftWall = false;
 				  entity.onRightWall = false;
+
+					var spriteSheet = soldierOneSpriteSheet.create();
+					var sprite = new createjs.Sprite(spriteSheet, 'idle');
+		      sprite.direction = spriteDef.direction;
+		      sprite.scaleX = spriteDef.scaleX;
+		      sprite.scaleY = spriteDef.scaleY;
+		      entity.displayObject = sprite;
+
+		      sprite.x = spriteDef.pos.x;
+		      sprite.y = entity.computeY();
 
 				  // TODO: UNIT TEST!!
 					var bounds = sprite.getTransformedBounds();
@@ -92,8 +99,6 @@ define(['entities/spriteCreator', 'spriteSheets/soldierOne',
 				  	}
 
 				  	// TODO: UNIT TEST!!
-					  // Setting the linear velocity
-					  var velocity = entity.physBody.GetLinearVelocity();
 			    	if(currentAnimation === 'run') {
 			    		if(sprite.direction === 90 && !entity.onRightWall) {
 					    	sprite.x += entity.speed;

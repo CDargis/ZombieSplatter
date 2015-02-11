@@ -31,8 +31,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
             zombieType = 'zombieTwo';
           }
           var spriteDef =
-            { direction: direction, scaleX: scaleX, scaleY: 1.7,
-                pos: pos, initialAnimation: 'walk'};
+            { direction: direction, scaleX: scaleX, scaleY: 1.7, pos: pos};
           var entityDef = { entityType: zombieType, speed: .5, spriteDef: spriteDef};
           return entityDef;
         };
@@ -40,8 +39,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
         engine.addPlayer = function() {
           var pos = { x: 375, ground: 375 };
           var spriteDef =
-            { direction: 90, scaleX: 0.2, scaleY: 0.2,
-              pos: pos, initialAnimation: 'idle'};
+            { direction: 90, scaleX: 0.2, scaleY: 0.2, pos: pos};
           var entityDef = { entityType: 'soldierOne', speed: 7, spriteDef: spriteDef };
           var player = entityFactory.createEntity(entityDef);
           engine.addEntity(player);
