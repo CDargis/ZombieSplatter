@@ -1,5 +1,5 @@
 define(['include/createJS'], function() {
-	var createSpriteSheetCreator = function() {
+  var createSpriteSheetCreator = function() {
     var spriteSheetCreator = {
       img: {},
       meta: {},

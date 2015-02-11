@@ -1,8 +1,8 @@
 define(['lib/box2dWeb'], function() {
-	var includeBox2d = function() {
-		return {
-			/*jshint camelcase: false */
-			b2Vec2: Box2D.Common.Math.b2Vec2,
+  var includeBox2d = function() {
+    return {
+      /*jshint camelcase: false */
+      b2Vec2: Box2D.Common.Math.b2Vec2,
       b2BodyDef: Box2D.Dynamics.b2BodyDef,
       b2Body: Box2D.Dynamics.b2Body,
       b2FixtureDef: Box2D.Dynamics.b2FixtureDef,
@@ -20,7 +20,7 @@ define(['lib/box2dWeb'], function() {
       debugEJointBit: Box2D.Dynamics.b2DebugDraw.e_jointBit,
       /*jshint camelcase: true */
       SCALE: 30.0
-		};
-	};
-	return includeBox2d();
+    };
+  };
+  return includeBox2d();
 });

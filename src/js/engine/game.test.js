@@ -1,254 +1,254 @@
 define(['engine/game', 'engine/input', 'entities/entityFactory'],
-	function(gameEngine, inputEngine, entityFactory) {
-	
-		module('Game Engine - Props');
+  function(gameEngine, inputEngine, entityFactory) {
+  
+    module('Game Engine - Props');
 
-		test('Should have the following props and/or values', function(assert) {
-			assert.equal(gameEngine.screenWidth, 750, 'screen width');
-			assert.equal(gameEngine.screenHeight, 400, 'screen height');
-			assert.equal(gameEngine.framerate, 60, 'framerate');
-			assert.equal(gameEngine.leftSpawnX, 100, 'leftSpawnX');
-			assert.equal(gameEngine.rightSpawnX, 650, 'rightSpawnX');
-			assert.ok(gameEngine.hasOwnProperty('entities'), 'has an entities property'); // Validate is array?
-		});
+    test('Should have the following props and/or values', function(assert) {
+      assert.equal(gameEngine.screenWidth, 750, 'screen width');
+      assert.equal(gameEngine.screenHeight, 400, 'screen height');
+      assert.equal(gameEngine.framerate, 60, 'framerate');
+      assert.equal(gameEngine.leftSpawnX, 100, 'leftSpawnX');
+      assert.equal(gameEngine.rightSpawnX, 650, 'rightSpawnX');
+      assert.ok(gameEngine.hasOwnProperty('entities'), 'has an entities property'); // Validate is array?
+    });
 
-		module('Game Engine - generateRandomZombieEntityDef');
+    module('Game Engine - generateRandomZombieEntityDef');
 
-		test('Should generate data for the \'zombieOne\' entityType', function(assert) {
-			var spy = sinon.spy(gameEngine, 'generateRandomZombieEntityDef');
-			gameEngine.generateRandomZombieEntityDef();
-			var pos = { x: sinon.match.number, y: sinon.match.number };
-			var expected = { entityType: 'zombieOne', speed: sinon.match.number, spriteDef:
-					{ direction: sinon.match.number, scaleX: sinon.match.number,
-						scaleY: sinon.match.number, pos: pos } };
-			assert.ok(spy.returned(sinon.match(expected)));
-			gameEngine.generateRandomZombieEntityDef.restore();
-		});
+    test('Should generate data for the \'zombieOne\' entityType', function(assert) {
+      var spy = sinon.spy(gameEngine, 'generateRandomZombieEntityDef');
+      gameEngine.generateRandomZombieEntityDef();
+      var pos = { x: sinon.match.number, y: sinon.match.number };
+      var expected = { entityType: 'zombieOne', speed: sinon.match.number, spriteDef:
+          { direction: sinon.match.number, scaleX: sinon.match.number,
+            scaleY: sinon.match.number, pos: pos } };
+      assert.ok(spy.returned(sinon.match(expected)));
+      gameEngine.generateRandomZombieEntityDef.restore();
+    });
 
-		test('Should generate sprite\'s x value as left or right spawn x', function(assert) {
-			// Generate 10 values
-			for(var i = 0; i < 10; i++) {
-				var entityDef = gameEngine.generateRandomZombieEntityDef();
-				assert.ok((entityDef.spriteDef.pos.x) === (gameEngine.leftSpawnX) ||
-									(entityDef.spriteDef.pos.x) === (gameEngine.rightSpawnX));
-			}
-		});
+    test('Should generate sprite\'s x value as left or right spawn x', function(assert) {
+      // Generate 10 values
+      for(var i = 0; i < 10; i++) {
+        var entityDef = gameEngine.generateRandomZombieEntityDef();
+        assert.ok((entityDef.spriteDef.pos.x) === (gameEngine.leftSpawnX) ||
+                  (entityDef.spriteDef.pos.x) === (gameEngine.rightSpawnX));
+      }
+    });
 
-		test('The sprite\'s direction and scaleX value should have the same sign', function(assert) {
-			var entityDef = gameEngine.generateRandomZombieEntityDef();
-			// Should always be positive
-			var product = entityDef.spriteDef.direction * entityDef.spriteDef.scaleX;
-			assert.ok(product >= 1);
-		});
+    test('The sprite\'s direction and scaleX value should have the same sign', function(assert) {
+      var entityDef = gameEngine.generateRandomZombieEntityDef();
+      // Should always be positive
+      var product = entityDef.spriteDef.direction * entityDef.spriteDef.scaleX;
+      assert.ok(product >= 1);
+    });
 
-		var createFakeEntity = function(dead, type, spriteId) {
-			return {
-				dead: dead,
-				entityType: type,
-				update: function(){},
-				init: function(){},
-				sprite: { id: spriteId },
-			};
-		};
+    var createFakeEntity = function(dead, type, spriteId) {
+      return {
+        dead: dead,
+        entityType: type,
+        update: function(){},
+        init: function(){},
+        sprite: { id: spriteId },
+      };
+    };
 
-		var loadQueue = { getResult: function() { } };
-		var stage = { addChild: function() {}, removeChild: function() {}, update: function(){} };
-		module('Game Engine - AddPlayer');
+    var loadQueue = { getResult: function() { } };
+    var stage = { addChild: function() {}, removeChild: function() {}, update: function(){} };
+    module('Game Engine - AddPlayer');
 
-		test('Should call createEntiy and addEntity', function() {
-			gameEngine.stage = stage;
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var entityFactoryMock = this.mock(entityFactory);
-			entityFactoryMock.expects('createEntity').once().returns(fakeEntity);
-			var gameEngineSpy = sinon.spy(gameEngine, 'addEntity');
-			gameEngine.addPlayer();
+    test('Should call createEntiy and addEntity', function() {
+      gameEngine.stage = stage;
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var entityFactoryMock = this.mock(entityFactory);
+      entityFactoryMock.expects('createEntity').once().returns(fakeEntity);
+      var gameEngineSpy = sinon.spy(gameEngine, 'addEntity');
+      gameEngine.addPlayer();
 
-			sinon.assert.calledOnce(gameEngineSpy);
-			sinon.assert.calledWith(gameEngineSpy, fakeEntity);
-			gameEngine.stage = undefined;
-			entityFactoryMock.restore();
-			gameEngine.addEntity.restore();
-		});
+      sinon.assert.calledOnce(gameEngineSpy);
+      sinon.assert.calledWith(gameEngineSpy, fakeEntity);
+      gameEngine.stage = undefined;
+      entityFactoryMock.restore();
+      gameEngine.addEntity.restore();
+    });
 
-		module('Game Engine - Init');
+    module('Game Engine - Init');
 
-		test('Should call init on entity factory, input engine and save stage', function(assert) {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
-			var inputEngineSpy = sinon.spy(inputEngine, 'init');
-			var factorySpy = sinon.spy(entityFactory, 'init');
-			gameEngine.init(loadQueue, stage);
+    test('Should call init on entity factory, input engine and save stage', function(assert) {
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
+      var inputEngineSpy = sinon.spy(inputEngine, 'init');
+      var factorySpy = sinon.spy(entityFactory, 'init');
+      gameEngine.init(loadQueue, stage);
 
-			sinon.assert.calledOnce(inputEngineSpy);
-			sinon.assert.calledOnce(factorySpy);
-			sinon.assert.calledWith(factorySpy, loadQueue);
-			assert.equal(stage, gameEngine.stage);
-			inputEngine.init.restore();
-			entityFactory.init.restore();
-			createEntityStub.restore();
-		});
+      sinon.assert.calledOnce(inputEngineSpy);
+      sinon.assert.calledOnce(factorySpy);
+      sinon.assert.calledWith(factorySpy, loadQueue);
+      assert.equal(stage, gameEngine.stage);
+      inputEngine.init.restore();
+      entityFactory.init.restore();
+      createEntityStub.restore();
+    });
 
-		test('Should call addPlayer', function() {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
-			var spy = sinon.spy(gameEngine, 'addPlayer');
-			gameEngine.init(loadQueue, stage);
+    test('Should call addPlayer', function() {
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
+      var spy = sinon.spy(gameEngine, 'addPlayer');
+      gameEngine.init(loadQueue, stage);
 
-			sinon.assert.calledOnce(spy);
-			createEntityStub.restore();
-		});
+      sinon.assert.calledOnce(spy);
+      createEntityStub.restore();
+    });
 
-		test('Should generateRandomZombieEntityDef', function() {
-			var entityDef = { entityType: 'someType', spriteDef: { direction: 90 } };
-			var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
-			var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
-			
-			var entityFactoryStub = sinon.stub(entityFactory, 'createEntity');
-			entityFactoryStub.onFirstCall().returns(fakePlayerEntity);
-			entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
+    test('Should generateRandomZombieEntityDef', function() {
+      var entityDef = { entityType: 'someType', spriteDef: { direction: 90 } };
+      var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
+      var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
+      
+      var entityFactoryStub = sinon.stub(entityFactory, 'createEntity');
+      entityFactoryStub.onFirstCall().returns(fakePlayerEntity);
+      entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
 
-			var gameEngineMock = this.mock(gameEngine);
-			gameEngineMock.expects('generateRandomZombieEntityDef').once().returns(entityDef);
+      var gameEngineMock = this.mock(gameEngine);
+      gameEngineMock.expects('generateRandomZombieEntityDef').once().returns(entityDef);
 
-			gameEngine.init(loadQueue, stage);
-			entityFactoryStub.restore();
-			gameEngineMock.restore();
-		});
+      gameEngine.init(loadQueue, stage);
+      entityFactoryStub.restore();
+      gameEngineMock.restore();
+    });
 
-		test('Should createEntity twice for player and first zombie', function() {
-			var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
-			var entityFactoryMock = this.mock(entityFactory);
-			entityFactoryMock.expects('createEntity').twice().returns(fakeZombieEntity);
+    test('Should createEntity twice for player and first zombie', function() {
+      var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
+      var entityFactoryMock = this.mock(entityFactory);
+      entityFactoryMock.expects('createEntity').twice().returns(fakeZombieEntity);
 
-			gameEngine.init(loadQueue, stage);
-			entityFactoryMock.restore();
-		});
+      gameEngine.init(loadQueue, stage);
+      entityFactoryMock.restore();
+    });
 
-		test('Should addEntity twice for player and first zombie', function(assert) {
-			var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
-			var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
-			var entityFactoryStub = sinon.stub(entityFactory, 'createEntity');
-			entityFactoryStub.onFirstCall().returns(fakePlayerEntity);
-			entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
+    test('Should addEntity twice for player and first zombie', function(assert) {
+      var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
+      var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
+      var entityFactoryStub = sinon.stub(entityFactory, 'createEntity');
+      entityFactoryStub.onFirstCall().returns(fakePlayerEntity);
+      entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
 
-			var spy = sinon.spy(gameEngine, 'addEntity');
-			gameEngine.init(loadQueue, stage);
-			assert.equal(fakePlayerEntity, spy.getCall(0).args[0]);
-			assert.equal(fakeZombieEntity, spy.getCall(1).args[0]);
+      var spy = sinon.spy(gameEngine, 'addEntity');
+      gameEngine.init(loadQueue, stage);
+      assert.equal(fakePlayerEntity, spy.getCall(0).args[0]);
+      assert.equal(fakeZombieEntity, spy.getCall(1).args[0]);
 
-			gameEngine.addEntity.restore();
-			entityFactoryStub.restore();
-		});
+      gameEngine.addEntity.restore();
+      entityFactoryStub.restore();
+    });
 
-		test('Should add onTick event listener', function() {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
-			var spy = sinon.spy(createjs.Ticker, 'addEventListener');
-			
-			gameEngine.init(loadQueue, stage);
-			sinon.assert.calledOnce(spy);
-			sinon.assert.calledWith(spy, 'tick', gameEngine.onTick);
+    test('Should add onTick event listener', function() {
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
+      var spy = sinon.spy(createjs.Ticker, 'addEventListener');
+      
+      gameEngine.init(loadQueue, stage);
+      sinon.assert.calledOnce(spy);
+      sinon.assert.calledWith(spy, 'tick', gameEngine.onTick);
 
-			createjs.Ticker.addEventListener.restore();
-			createEntityStub.restore();
-		});
+      createjs.Ticker.addEventListener.restore();
+      createEntityStub.restore();
+    });
 
-		test('Should set framerate to prop', function(assert) {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
-			
-			gameEngine.init(loadQueue, stage);
-			var diff = Math.abs(createjs.Ticker.framerate - gameEngine.framerate);
-			assert.equal(true, diff <= '.0001');
+    test('Should set framerate to prop', function(assert) {
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
+      
+      gameEngine.init(loadQueue, stage);
+      var diff = Math.abs(createjs.Ticker.framerate - gameEngine.framerate);
+      assert.equal(true, diff <= '.0001');
 
-			createEntityStub.restore();
-		});
+      createEntityStub.restore();
+    });
 
-		module('Game Engine - addEntity');
+    module('Game Engine - addEntity');
 
-		test('Should add child to stage and push entity to array', function() {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
-			gameEngine.init(loadQueue, stage);
+    test('Should add child to stage and push entity to array', function() {
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
+      gameEngine.init(loadQueue, stage);
 
-			var anotherFakeEntity = createFakeEntity(false, 'someType', 2);
-			var stageSpy = sinon.spy(stage, 'addChild');
+      var anotherFakeEntity = createFakeEntity(false, 'someType', 2);
+      var stageSpy = sinon.spy(stage, 'addChild');
 
-			gameEngine.addEntity(anotherFakeEntity);
-			sinon.assert.calledOnce(stageSpy);
-			sinon.assert.calledWith(stageSpy, anotherFakeEntity.sprite);
+      gameEngine.addEntity(anotherFakeEntity);
+      sinon.assert.calledOnce(stageSpy);
+      sinon.assert.calledWith(stageSpy, anotherFakeEntity.sprite);
 
-			stage.addChild.restore();
-			createEntityStub.restore();
-		});
+      stage.addChild.restore();
+      createEntityStub.restore();
+    });
 
-		module('Game Engine - removeEntity');
+    module('Game Engine - removeEntity');
 
-		test('Should remove entity from stage and array', function(assert) {
-			var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
-			var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
-			var entityFactoryStub = sinon.stub(entityFactory, 'createEntity');
-			entityFactoryStub.onFirstCall().returns(fakePlayerEntity);
-			entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
-			var spy = sinon.spy(stage, 'removeChild');
-			gameEngine.init(loadQueue, stage);
+    test('Should remove entity from stage and array', function(assert) {
+      var fakeZombieEntity = createFakeEntity(false, 'someType', 1);
+      var fakePlayerEntity = createFakeEntity(false, 'someOtherType', 2);
+      var entityFactoryStub = sinon.stub(entityFactory, 'createEntity');
+      entityFactoryStub.onFirstCall().returns(fakePlayerEntity);
+      entityFactoryStub.onSecondCall().returns(fakeZombieEntity);
+      var spy = sinon.spy(stage, 'removeChild');
+      gameEngine.init(loadQueue, stage);
 
-			gameEngine.removeEntity(fakeZombieEntity);
-			sinon.assert.calledOnce(spy);
-			sinon.assert.calledWith(spy, fakeZombieEntity.sprite);
-			assert.deepEqual([fakePlayerEntity], gameEngine.entities);
-			stage.removeChild.restore();
-			entityFactoryStub.restore();
-		});
+      gameEngine.removeEntity(fakeZombieEntity);
+      sinon.assert.calledOnce(spy);
+      sinon.assert.calledWith(spy, fakeZombieEntity.sprite);
+      assert.deepEqual([fakePlayerEntity], gameEngine.entities);
+      stage.removeChild.restore();
+      entityFactoryStub.restore();
+    });
 
-		module('Game Engine - onTick', {
-			beforeEach: function() {
-				gameEngine.entities = [];
-				gameEngine.stage = stage;
-			},
-		});
+    module('Game Engine - onTick', {
+      beforeEach: function() {
+        gameEngine.entities = [];
+        gameEngine.stage = stage;
+      },
+    });
 
-		test('Should remove dead entities', function(assert) {
-			var fakeEntity = createFakeEntity(false, 'someType', 1);
-			var anotherFakeEntity = createFakeEntity(true, 'someOtherType', 1);
-			var yetAnoterFakeEntity = createFakeEntity(true, 'yetAnotherType', 2);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(yetAnoterFakeEntity);
-			gameEngine.entities = [fakeEntity, anotherFakeEntity];
-			
-			gameEngine.onTick();
-			assert.notDeepEqual([fakeEntity, anotherFakeEntity], gameEngine.entities);
-			createEntityStub.restore();
-		});
+    test('Should remove dead entities', function(assert) {
+      var fakeEntity = createFakeEntity(false, 'someType', 1);
+      var anotherFakeEntity = createFakeEntity(true, 'someOtherType', 1);
+      var yetAnoterFakeEntity = createFakeEntity(true, 'yetAnotherType', 2);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(yetAnoterFakeEntity);
+      gameEngine.entities = [fakeEntity, anotherFakeEntity];
+      
+      gameEngine.onTick();
+      assert.notDeepEqual([fakeEntity, anotherFakeEntity], gameEngine.entities);
+      createEntityStub.restore();
+    });
 
-		test('Should add an entity if all zombies are dead', function(assert) {
-			var fakePlayer = createFakeEntity(false, 'thePlayer', 1);
-			var fakeEntity = createFakeEntity(false, 'someType', 2);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
-			gameEngine.entities = [fakePlayer];
+    test('Should add an entity if all zombies are dead', function(assert) {
+      var fakePlayer = createFakeEntity(false, 'thePlayer', 1);
+      var fakeEntity = createFakeEntity(false, 'someType', 2);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
+      gameEngine.entities = [fakePlayer];
 
-			gameEngine.onTick();
-			assert.deepEqual([fakePlayer, fakeEntity], gameEngine.entities);
-			createEntityStub.restore();
-		});
+      gameEngine.onTick();
+      assert.deepEqual([fakePlayer, fakeEntity], gameEngine.entities);
+      createEntityStub.restore();
+    });
 
-		test('Should update the stage', function() {
-			var fakeEntity = createFakeEntity(false, 'someType', 0);
-			var createEntityStub = sinon.stub(entityFactory, 'createEntity');
-			createEntityStub.returns(fakeEntity);
+    test('Should update the stage', function() {
+      var fakeEntity = createFakeEntity(false, 'someType', 0);
+      var createEntityStub = sinon.stub(entityFactory, 'createEntity');
+      createEntityStub.returns(fakeEntity);
 
-			var anotherFakeEntity = createFakeEntity(false, 'someTOtherype', 1);
-			gameEngine.entities = [anotherFakeEntity];
-			var spy = sinon.spy(stage, 'update');
+      var anotherFakeEntity = createFakeEntity(false, 'someTOtherype', 1);
+      gameEngine.entities = [anotherFakeEntity];
+      var spy = sinon.spy(stage, 'update');
 
-			gameEngine.onTick();
-			sinon.assert.calledOnce(spy);
-			stage.update.restore();
-		});
+      gameEngine.onTick();
+      sinon.assert.calledOnce(spy);
+      stage.update.restore();
+    });
 });

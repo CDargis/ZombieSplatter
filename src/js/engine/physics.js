@@ -1,13 +1,13 @@
 /*jslint bitwise: true */
 define(['include/box2d'],
-	function(box2d) {
-		var createPhysicsEngine = function() {
+  function(box2d) {
+    var createPhysicsEngine = function() {
 
       // TODO: UNIT TEST!!
-			var engine = {
-				world: {},
-				init: function() {
-					engine.world = new box2d.b2World(new box2d.b2Vec2(0, 0), true);
+      var engine = {
+        world: {},
+        init: function() {
+          engine.world = new box2d.b2World(new box2d.b2Vec2(0, 0), true);
 
           // Ground
           var groundPhysBodyDef = {
@@ -58,7 +58,7 @@ define(['include/box2d'],
           };
           engine.world.SetContactListener(listener);
 
-         	//setup debug draw
+          //setup debug draw
           var debugDraw = new box2d.b2DebugDraw();
           var debugCanvas = document.getElementById('debugCanvas');
           // Don't neeed debug for unit tests
@@ -72,7 +72,7 @@ define(['include/box2d'],
             /*jslint bitwise: false */
             engine.world.SetDebugDraw(debugDraw);
           }
-				},
+        },
         // TODO: UNIT TEST!!
         preSolve: function(contact) {
           var cancelCb = function() {
@@ -148,10 +148,10 @@ define(['include/box2d'],
           }
           return body;
         },
-				removeBody: function(body) {
-					engine.world.DestroyBody(body);
-				},
-				update: function(actions) {
+        removeBody: function(body) {
+          engine.world.DestroyBody(body);
+        },
+        update: function(actions) {
           var data = { actions: actions };
 
           // Step through the world
@@ -174,10 +174,10 @@ define(['include/box2d'],
               }
             }
           }
-				},
-			};
-			return engine;
-		};
-		return createPhysicsEngine();
-	}
+        },
+      };
+      return engine;
+    };
+    return createPhysicsEngine();
+  }
 );
