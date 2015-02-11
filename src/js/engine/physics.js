@@ -164,7 +164,7 @@ define(['include/box2d'],
           engine.world.DrawDebugData();
           engine.world.ClearForces();
 
-          // Update all the physics bodies
+          // Update all entities that have physics bodies
           for (var body = engine.world.GetBodyList(); body; body = body.GetNext()) {
             var userData = body.GetUserData();
             if(userData) {

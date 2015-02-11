@@ -107,11 +107,11 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
             var playerEntity = engine.entities[0];
             var direction = playerEntity.displayObject.direction;
             var bounds = playerEntity.displayObject.getTransformedBounds();
-            var speed = 25;
-            var x = playerEntity.displayObject.x + (bounds.width / 2) + 15;
+            var speed = 0.04;
+            var x = playerEntity.displayObject.x + (bounds.width / 2);
             if(direction !== 90) {
-              speed = -25;
-              x = playerEntity.displayObject.x - (bounds.width / 2) - 15;
+              speed = -0.04;
+              x = playerEntity.displayObject.x - (bounds.width / 2);
             }
             var pos = { x: x, y: playerEntity.displayObject.y + 5 };
             var bitmapDef = { direction: direction, pos: pos};

@@ -7,6 +7,9 @@ define(['include/createJS'], function() {
       },
       create: function() {
       	var bitmap = new createjs.Bitmap(bitmapCreator.img);
+        var bounds = bitmap.getBounds();
+        bitmap.regX = bounds.width / 2;
+        bitmap.regY = bounds.height / 2;
       	return bitmap;
       }
     };
