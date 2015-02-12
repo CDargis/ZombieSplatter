@@ -32,7 +32,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
           }
           var spriteDef =
             { direction: direction, scaleX: scaleX, scaleY: 1.7, pos: pos};
-          var entityDef = { entityType: zombieType, speed: .5, spriteDef: spriteDef};
+          var entityDef = { entityType: zombieType, speed: 0.5, spriteDef: spriteDef};
           return entityDef;
         };
 

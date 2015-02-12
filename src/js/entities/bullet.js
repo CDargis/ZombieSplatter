@@ -7,7 +7,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
           var bitmapDef = entityDef.bitmapDef;
           var bitmap = bulletBitmap.create();
           bitmap.x = bitmapDef.pos.x;
-          bitmap.y = bitmapDef.pos.y
+          bitmap.y = bitmapDef.pos.y;
           entity.displayObject = bitmap;
 
           var physBodyDef = {
@@ -30,7 +30,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
           body.ApplyImpulse(new box2d.b2Vec2(entity.speed, 0), center);
           entity.physBody = body;
 
-          entity.onTouchStart = function(otherBody, cancelCb) {
+          entity.onTouchStart = function(otherBody, contactPoints, cancelCb) {
             if(!otherBody) {
               return;
             }
@@ -44,7 +44,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS']
             }
           };
 
-          entity.update = function(data) {
+          entity.update = function() {
             bitmap.rotation = entity.physBody.GetAngle() * (180 / Math.PI);
             bitmap.x = (entity.physBody.GetWorldCenter().x * box2d.SCALE);
             bitmap.y = (entity.physBody.GetWorldCenter().y * box2d.SCALE);

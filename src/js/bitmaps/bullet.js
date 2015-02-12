@@ -13,7 +13,7 @@ define(['include/createJS'], function() {
         return bitmap;
       }
     };
-    return bitmapCreator
+    return bitmapCreator;
   };
   return createBitmapCreator();
 });

@@ -19,7 +19,7 @@ define(['spriteSheets/zombieOne',
           sprite.y = entity.computeY();
 
           // TODO: UNIT TEST!!
-          bounds = sprite.getTransformedBounds();
+          var bounds = sprite.getTransformedBounds();
           var physBodyDef = {
             density: 1.0,
             friction: 0,
@@ -39,7 +39,7 @@ define(['spriteSheets/zombieOne',
           entity.physBody = body;
 
           // TODO: UNIT TEST!!
-          entity.onTouchStart = function(otherBody, cancelCb) {
+          entity.onTouchStart = function(otherBody, contactPoints, cancelCb) {
             if(!otherBody) {
               return;
             }
@@ -58,15 +58,15 @@ define(['spriteSheets/zombieOne',
                 sprite.scaleX = Math.abs(sprite.scaleX);
               }
             }
-            else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die'
-                    && sprite.currentAnimation !== 'dead') {
-              sprite.gotoAndPlay('die');
+            else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die' &&
+              sprite.currentAnimation !== 'dead') {
+                sprite.gotoAndPlay('die');
             }
-            else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack'
-                    && sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {
-              sprite.gotoAndPlay('attack');
-              physOwner.entity.displayObject.gotoAndPlay('hurt');
-              cancelCb();
+            else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack' &&
+              sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {
+                sprite.gotoAndPlay('attack');
+                physOwner.entity.displayObject.gotoAndPlay('hurt');
+                cancelCb();
             }
           };
 

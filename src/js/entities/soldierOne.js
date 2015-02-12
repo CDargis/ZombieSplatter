@@ -40,7 +40,7 @@ define(['spriteSheets/soldierOne',
           var body = physicsEngine.addBody(physBodyDef);
           entity.physBody = body;
 
-           entity.onTouchStart = function(otherBody, cancelCb) {
+           entity.onTouchStart = function(otherBody, contactPoints, cancelCb) {
             if(!otherBody) {
               return;
             }
@@ -92,8 +92,8 @@ define(['spriteSheets/soldierOne',
               sprite.gotoAndPlay('exitCrouch');
             }
             else if (currentAnimation !== 'crouch' && currentAnimation !== 'exitCrouch' &&
-              currentAnimation !== 'crouched' && currentAnimation !== 'shoot'
-              && currentAnimation !== 'die' && currentAnimation !== 'dead' &&
+              currentAnimation !== 'crouched' && currentAnimation !== 'shoot' &&
+              currentAnimation !== 'die' && currentAnimation !== 'dead' &&
               currentAnimation !== 'hurt') {
               sprite.gotoAndPlay('idle');
             }
@@ -108,7 +108,6 @@ define(['spriteSheets/soldierOne',
               }
             }
             var bounds = sprite.getTransformedBounds();
-            var currentFrame = sprite.currentFrame;
             var y = entity.ground - (bounds.height / 2);
             sprite.y = y;
 

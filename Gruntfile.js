@@ -86,6 +86,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-text-replace');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-  grunt.registerTask('unit', ['connect', 'qunit']);
-  grunt.registerTask('default', ['unit', 'jshint', 'clean', 'copy', 'replace', 'requirejs']);
+  // grunt.registerTask('unit', ['connect', 'qunit']);
+  // grunt.registerTask('default', ['unit', 'jshint', 'clean', 'copy', 'replace', 'requirejs']);
+  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'replace', 'requirejs']);
 };
