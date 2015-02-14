@@ -75,9 +75,7 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory',
           if(index !== -1) {
             engine.entities.splice(index, 1);
           }
-          if(entity.physBody) {
-            physicsEngine.removeBody(entity.physBody); // TODO: UNIT TEST!!
-          }
+          physicsEngine.removeBody(entity.physBody); // TODO: UNIT TEST!!
           engine.stage.removeChild(entity.displayObject);
         };
 
