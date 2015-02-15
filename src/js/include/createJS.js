@@ -1,1 +1,1 @@
-require(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs'], function() {});
+require(['lib/easeljs', 'lib/preloadjs', 'lib/tweenjs', 'lib/soundjs'], function() {});
