@@ -108,7 +108,9 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory'],
               speed = -0.04;
               x = playerEntity.displayObject.x - (bounds.width / 2);
             }
-            var pos = { x: x, y: playerEntity.displayObject.y + 5 };
+            var rand = getRandomNumberBetween(1, 6);
+            var y = rand + playerEntity.displayObject.y + 2;
+            var pos = { x: x, y: y };
             var bitmapDef = { direction: direction, pos: pos};
             var entityDef = { entityType: 'bullet', speed: speed, bitmapDef: bitmapDef };
             var bullet = entityFactory.createEntity(entityDef);
