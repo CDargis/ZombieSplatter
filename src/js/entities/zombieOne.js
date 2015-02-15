@@ -60,8 +60,16 @@ define(['spriteSheets/zombieOne',
             }
             else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die' &&
               sprite.currentAnimation !== 'dead') {
-                sprite.gotoAndPlay('die');
-                //console.log(entity.physBody.GetLocalPoint(worldPoints[0]).x * box2d.SCALE);
+              var collisionPoint = entity.physBody.GetLocalPoint(worldPoints[0]);
+              if(collisionPoint.x < 0) { // Left side
+                sprite.direction = 90;
+                sprite.scaleX = Math.abs(sprite.scaleX);
+              }
+              else {
+                sprite.direction = -90;
+                sprite.scaleX = -Math.abs(sprite.scaleX);
+              }
+              sprite.gotoAndPlay('die');
             }
             else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack' &&
               sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {
