@@ -9,7 +9,8 @@ define([], function() {
       { 'src': 'assets/soldierOne.json', 'id': 'soldierOneMeta' },
       { 'src': 'assets/bullet.png', 'id': 'bullet' },
       { 'src': 'assets/machineGunLoop.wav', 'id': 'machineGunLoop' },
-      { 'src': 'assets/machineGunSingleShot.wav', 'id': 'machineGunSingleShot' }
+      { 'src': 'assets/machineGunSingleShot.wav', 'id': 'machineGunSingleShot' },
+      { 'src': 'assets/splatterOne.wav', 'id': 'splatterOne' }
     ]
   };
 });

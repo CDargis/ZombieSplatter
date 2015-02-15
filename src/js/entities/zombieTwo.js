@@ -69,6 +69,7 @@ define(['spriteSheets/zombieTwo',
                 sprite.direction = -90;
                 sprite.scaleX = -Math.abs(sprite.scaleX);
               }
+              createjs.Sound.play('splatterOne');
               sprite.gotoAndPlay('die');
             }
             else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack' &&
