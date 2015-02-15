@@ -1,5 +1,5 @@
 define(['spriteSheets/soldierOne',
-  'engine/physics', 'include/box2d', 'include/createJS'],
+  'engine/physics', 'include/box2d', 'lib/createjs'],
   function(soldierOneSpriteSheet, physicsEngine, box2d) {
 
     var createEntityDecorator = function() {
@@ -82,6 +82,7 @@ define(['spriteSheets/soldierOne',
               }
             }
             else if(actions.SHOOT && currentAnimation !== 'shoot') {
+              createjs.Sound.play('machineGunLoop');
               sprite.gotoAndPlay('shoot');
             }
             else if(actions.DOWN && currentAnimation !== 'crouch' &&

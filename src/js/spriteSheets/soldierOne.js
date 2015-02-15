@@ -1,4 +1,4 @@
-define(['include/createJS'], function() {
+define(['lib/createjs'], function() {
   var createSpriteSheetCreator = function() {
     var spriteSheetCreator = {
       img: {},

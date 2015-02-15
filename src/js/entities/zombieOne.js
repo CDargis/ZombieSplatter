@@ -1,5 +1,5 @@
 define(['spriteSheets/zombieOne',
-  'engine/physics', 'include/box2d', 'include/createJS'],
+  'engine/physics', 'include/box2d', 'lib/createjs'],
   function(zombieOneSpriteSheet, physicsEngine, box2d) {
     var createEntityDecorator = function() {
 

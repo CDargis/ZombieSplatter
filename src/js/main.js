@@ -1,4 +1,4 @@
-require(['entities/entityFactory', 'engine/game', 'lib/easeljs'], function(entityFactory, gameEngine) {
+require(['entities/entityFactory', 'engine/game', 'preload', 'lib/createjs'], function(entityFactory, gameEngine, preload) {
   
   var loadQueue;
   var onLoadComplete = function() {
@@ -9,6 +9,7 @@ require(['entities/entityFactory', 'engine/game', 'lib/easeljs'], function(entit
   // Load the assets
   var rootContext = document.body.getAttribute('data-root');
   loadQueue = new createjs.LoadQueue(true, rootContext);
+  loadQueue.installPlugin(createjs.Sound);
   loadQueue.addEventListener('complete', onLoadComplete);
-  loadQueue.loadManifest({src: 'assets/manifest.json', callback: 'loadAssets', type: 'manifest'}, true);
+  loadQueue.loadManifest(preload.manifest, true);
 });

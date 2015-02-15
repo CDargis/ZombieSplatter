@@ -1,4 +1,4 @@
-define(['include/createJS'], function() {
+define(['lib/createjs'], function() {
 
   var createSpriteSheetCreator = function() {
     var spriteSheetCreator = {
@@ -24,7 +24,7 @@ define(['include/createJS'], function() {
           images: [spriteSheetCreator.img],
           frames: spriteSheetCreator.frames,
           animations: {
-            attack: [0, 4, 'walk', 1/8],
+            attack: [0, 4, 'walk', 1/10],
             die: [5, 8, 'dead', 1/10],
             walk: [9, 12, 'walk', 1/15],
             dead: [8, 8, 'dead', 1]

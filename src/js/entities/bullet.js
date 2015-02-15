@@ -1,4 +1,4 @@
-define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'include/createJS'],
+define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'lib/createjs'],
   function(bulletBitmap, physicsEngine, box2d) {
     var createEntityDecorator = function() {
 
