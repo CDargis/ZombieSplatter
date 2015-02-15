@@ -1,4 +1,3 @@
-/*jslint bitwise: true */
 define(['include/box2d'],
   function(box2d) {
     var createPhysicsEngine = function() {
