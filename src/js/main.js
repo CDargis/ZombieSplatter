@@ -1,4 +1,5 @@
-require(['entities/entityFactory', 'engine/game', 'preload', 'lib/createjs'], function(entityFactory, gameEngine, preload) {
+require(['entities/entityFactory', 'engine/game', 'preload', 'lib/createjs'],
+  function(entityFactory, gameEngine, preload) {
   
   var loadQueue;
   var onLoadComplete = function() {
