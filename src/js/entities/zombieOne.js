@@ -39,7 +39,7 @@ define(['spriteSheets/zombieOne',
           entity.physBody = body;
 
           // TODO: UNIT TEST!!
-          entity.onTouchStart = function(otherBody, contactPoints, cancelCb) {
+          entity.onTouchStart = function(otherBody, worldPoints, cancelCb) {
             if(!otherBody) {
               return;
             }
@@ -61,6 +61,7 @@ define(['spriteSheets/zombieOne',
             else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die' &&
               sprite.currentAnimation !== 'dead') {
                 sprite.gotoAndPlay('die');
+                console.log(entity.physBody.GetLocalPoint(worldPoints[0]).x * box2d.SCALE);
             }
             else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack' &&
               sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {

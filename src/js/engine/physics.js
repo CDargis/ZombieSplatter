@@ -80,22 +80,25 @@ define(['include/box2d'],
           var bodyA = contact.GetFixtureA().GetBody();
           var bodyB = contact.GetFixtureB().GetBody();
 
+          var numPoints = contact.GetManifold().m_pointCount;
           /*jshint camelcase: false */
-          var points = contact.GetManifold().m_points;
+          var manifold = new box2d.b2WorldManifold();
+          contact.GetWorldManifold(manifold);
+          var worldPoints = manifold.m_points;
           /*jshint camelcase: true */
 
           var uA = bodyA ? bodyA.GetUserData() : null;
           var uB = bodyB ? bodyB.GetUserData() : null;
           if(uA !== null) {
             var entityA = uA.entity;
-            if(entityA !== null && entityA.onTouchStart) {
-              entityA.onTouchStart(bodyB, points, cancelCb);
+            if(entityA !== null && entityA.onTouchStart && numPoints > 0) {
+              entityA.onTouchStart(bodyB, worldPoints, cancelCb);
             }
           }
           if(uB !== null) {
             var entityB = uB.entity;
-            if(entityB !== null && entityB.onTouchStart) {
-              entityB.onTouchStart(bodyA, points, cancelCb);
+            if(entityB !== null && entityB.onTouchStart && numPoints > 0) {
+              entityB.onTouchStart(bodyA, worldPoints, cancelCb);
             }
           }
         },

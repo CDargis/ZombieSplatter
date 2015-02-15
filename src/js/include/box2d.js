@@ -8,6 +8,7 @@ define(['lib/box2dWeb'], function() {
       b2FixtureDef: Box2D.Dynamics.b2FixtureDef,
       b2FilterData: Box2D.Dynamics.b2FilterData,
       b2World: Box2D.Dynamics.b2World,
+      b2WorldManifold: Box2D.Collision.b2WorldManifold,
       b2PolygonShape: Box2D.Collision.Shapes.b2PolygonShape,
       b2DebugDraw: Box2D.Dynamics.b2DebugDraw,
       b2Listener: Box2D.Dynamics.b2ContactListener,
