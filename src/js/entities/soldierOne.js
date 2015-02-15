@@ -10,6 +10,7 @@ define(['spriteSheets/soldierOne',
           entity.ground = spriteDef.pos.ground;
           entity.onLeftWall = false;
           entity.onRightWall = false;
+          entity.firing = false;
 
           var spriteSheet = soldierOneSpriteSheet.create();
           var sprite = new createjs.Sprite(spriteSheet, 'idle');
@@ -82,7 +83,15 @@ define(['spriteSheets/soldierOne',
               }
             }
             else if(actions.SHOOT && currentAnimation !== 'shoot') {
-              createjs.Sound.play('machineGunLoop');
+              var onPlayComplete = function() {
+                entity.firing = false;
+              };
+              if(!entity.firing) {
+                var sound = createjs.Sound.play('machineGunLoop');
+                sound.addEventListener('complete', onPlayComplete);
+                createjs.Sound.play('machineGunLoop');
+                entity.firing = true;
+              }
               sprite.gotoAndPlay('shoot');
             }
             else if(actions.DOWN && currentAnimation !== 'crouch' &&
