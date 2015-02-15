@@ -61,7 +61,7 @@ define(['spriteSheets/zombieOne',
             else if(physOwner.id === 'bullet' && sprite.currentAnimation !== 'die' &&
               sprite.currentAnimation !== 'dead') {
                 sprite.gotoAndPlay('die');
-                console.log(entity.physBody.GetLocalPoint(worldPoints[0]).x * box2d.SCALE);
+                //console.log(entity.physBody.GetLocalPoint(worldPoints[0]).x * box2d.SCALE);
             }
             else if(physOwner.id === 'soldierOne' && sprite.currentAnimation !== 'attack' &&
               sprite.currentAnimation !== 'die' && sprite.currentAnimation !== 'dead') {
