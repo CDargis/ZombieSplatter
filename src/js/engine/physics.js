@@ -80,8 +80,8 @@ define(['include/box2d'],
           var bodyA = contact.GetFixtureA().GetBody();
           var bodyB = contact.GetFixtureB().GetBody();
 
-          var numPoints = contact.GetManifold().m_pointCount;
           /*jshint camelcase: false */
+          var numPoints = contact.GetManifold().m_pointCount;
           var manifold = new box2d.b2WorldManifold();
           contact.GetWorldManifold(manifold);
           var worldPoints = manifold.m_points;
