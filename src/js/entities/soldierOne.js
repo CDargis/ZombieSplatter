@@ -10,7 +10,7 @@ define(['spriteSheets/soldierOne',
           entity.ground = spriteDef.pos.ground;
           entity.onLeftWall = false;
           entity.onRightWall = false;
-          entity.firing = false;
+          entity.firingGunWav = false;
 
           var spriteSheet = soldierOneSpriteSheet.create();
           var sprite = new createjs.Sprite(spriteSheet, 'idle');
@@ -84,13 +84,13 @@ define(['spriteSheets/soldierOne',
             }
             else if(actions.SHOOT && currentAnimation !== 'shoot') {
               var onPlayComplete = function() {
-                entity.firing = false;
+                entity.firingGunWav = false;
               };
-              if(!entity.firing) {
+              if(!entity.firingGunWav) {
                 var sound = createjs.Sound.play('machineGunLoop');
                 sound.addEventListener('complete', onPlayComplete);
                 createjs.Sound.play('machineGunLoop');
-                entity.firing = true;
+                entity.firingGunWav = true;
               }
               sprite.gotoAndPlay('shoot');
             }
