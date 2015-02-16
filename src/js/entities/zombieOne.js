@@ -1,6 +1,5 @@
-define(['entities/zombie', 'spriteSheets/zombieOne',
-  'engine/physics', 'include/box2d', 'lib/createjs'],
-  function(zombie, zombieOneSpriteSheet, physicsEngine, box2d) {
+define(['entities/zombie', 'spriteSheets/zombieOne'],
+  function(zombie, zombieOneSpriteSheet) {
     var createEntityDecorator = function() {
 
       var entityDecorator = {
