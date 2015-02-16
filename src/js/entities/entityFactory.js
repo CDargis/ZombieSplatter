@@ -28,18 +28,18 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
           'bullet': bulletEntity
         },
 
+        createEntity: function(entityDef) {
+          var entity = baseEntity(entityDef.entityType);
+          factory.decorators[entityDef.entityType].decorate(entity, entityDef);
+          return entity;
+        },
+
         init: function(loadQueue) {
           for(var entityType in factory.decorators) {
             if(factory.decorators.hasOwnProperty(entityType)) {
               factory.decorators[entityType].init(loadQueue);
             }
           }
-        },
-
-        createEntity: function(entityDef) {
-          var entity = baseEntity(entityDef.entityType);
-          factory.decorators[entityDef.entityType].decorate(entity, entityDef);
-          return entity;
         },
       };
       return factory;
