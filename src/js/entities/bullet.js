@@ -27,7 +27,7 @@ define(['bitmaps/bullet', 'engine/physics', 'include/box2d', 'lib/createjs'],
           };
           var body = physicsEngine.addBody(physBodyDef);
           var center = body.GetWorldCenter();
-          body.ApplyImpulse(new box2d.b2Vec2(entity.speed, 0), center);
+          body.ApplyImpulse(new box2d.b2Vec2(entityDef.dirVec.x, entityDef.dirVec.y), center);
           entity.physBody = body;
 
           entity.onTouchStart = function(otherBody, contactPoints, cancelCb) {

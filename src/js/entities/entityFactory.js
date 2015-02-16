@@ -2,7 +2,7 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
   function(soldierOneEntity, zombieOneEntity, zombieTwoEntity, bulletEntity) {
 
     var createEntityFactory = function() {
-      var baseEntity = function(entityType, speed) {
+      var baseEntity = function(entityType) {
         var e = {
           computeY: function() {
             var transformedBounds = e.displayObject.getTransformedBounds();
@@ -15,7 +15,6 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
           ground: 0,
           onTouchStart: function() {},
           physBody: {},
-          speed: speed,
           update: function() {}
         };
         return e;
@@ -38,7 +37,7 @@ define(['entities/soldierOne', 'entities/zombieOne', 'entities/zombieTwo', 'enti
         },
 
         createEntity: function(entityDef) {
-          var entity = baseEntity(entityDef.entityType, entityDef.speed);
+          var entity = baseEntity(entityDef.entityType);
           factory.decorators[entityDef.entityType].decorate(entity, entityDef);
           return entity;
         },

@@ -102,17 +102,18 @@ define(['engine/input', 'engine/physics', 'entities/entityFactory'],
             var playerEntity = engine.entities[0];
             var direction = playerEntity.displayObject.direction;
             var bounds = playerEntity.displayObject.getTransformedBounds();
-            var speed = 0.04;
+            var dirVecX = 0.04;
             var x = playerEntity.displayObject.x + (bounds.width / 2);
             if(direction !== 90) {
-              speed = -0.04;
+              dirVecX = -0.04;
               x = playerEntity.displayObject.x - (bounds.width / 2);
             }
             var rand = getRandomNumberBetween(1, 6);
-            var y = rand + playerEntity.displayObject.y + 2;
+            var y = rand + playerEntity.displayObject.y + 1;
             var pos = { x: x, y: y };
+            var dirVec = { x: dirVecX, y: (Math.random() * 0.003) - 0.0015 };
             var bitmapDef = { direction: direction, pos: pos};
-            var entityDef = { entityType: 'bullet', speed: speed, bitmapDef: bitmapDef };
+            var entityDef = { bitmapDef: bitmapDef, dirVec: dirVec, entityType: 'bullet' };
             var bullet = entityFactory.createEntity(entityDef);
             engine.addEntity(bullet);
           }

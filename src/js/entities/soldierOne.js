@@ -8,6 +8,7 @@ define(['spriteSheets/soldierOne',
         decorate: function(entity, entityDef) {
           var spriteDef = entityDef.spriteDef;
           entity.ground = spriteDef.pos.ground;
+          entity.speed = entityDef.speed;
           entity.onLeftWall = false;
           entity.onRightWall = false;
           entity.firingGunWav = false;

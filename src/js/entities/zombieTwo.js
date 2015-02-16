@@ -8,6 +8,7 @@ define(['spriteSheets/zombieTwo',
         decorate: function(entity, entityDef) {
           var spriteDef = entityDef.spriteDef;
           entity.ground = spriteDef.pos.ground;
+          entity.speed = entityDef.speed;
           var spriteSheet = zombieTwoSpriteSheet.create();
           var sprite = new createjs.Sprite(spriteSheet, 'walk');
           sprite.direction = spriteDef.direction;
